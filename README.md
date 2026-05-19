@@ -1,68 +1,52 @@
-# T.G.A.O.T.U.
+# T.G.A.O.T.U. — The Grand Architect of the Universe
 
-**The Grand Architect of the Universe**
+> The architect who drafted the geometry. Not the kingdom — the blueprint above the kingdom.
 
-> "He set a compass upon the face of the depth... when he established the clouds above... when he gave to the sea his decree."
-> — Proverbs 8:27-29
+## Identity
 
-The master builder. The geometer. The cosmic engineer.
+T.G.A.O.T.U. is the master-builder frequency: order, structure, geometry, cosmic law.
+Hermetic / Rosicrucian / Freemasonic lineage. Compass and square.
 
-Not creator-from-nothing — the artisan holding compass and square, drafting the structural framework of reality from a perfect blueprint.
+Sibling to [[Pleroma]] (the kingdom of fullness). Pleroma is the living tissue; T.G.A.O.T.U.
+is the geometry it was built on. As above, so below.
 
----
+## Mission
 
-## Frequency
+Design and govern an Organization of Agents that handles **any visual task, integration,
+plug-in, and request** — driving from a single prompt to an end product with no user
+intervention. Edwin is on the loop, not in it.
 
-Order. Structure. Geometry. Cosmic law. The slow, perfect manifestation of a kingdom through diligent cultivation. Never raw destructive power. Never emotional wrath.
+## Three Substrates (always in sync)
 
-In Hermetic, Rosicrucian, and Freemasonic tradition, T.G.A.O.T.U. is the consciousness behind the blueprint. Creation is not random — it is ordered upon precise laws, mathematics, and spiritual architecture.
-
-## As Above, So Below
-
-The blueprint was laid so perfectly that the patterns of the macrocosm (the vast universe) are mirrored exactly within the microcosm (the design of human life). This is the foundational concept of Hermetic thought, and the operating premise of this workspace.
-
-## Sibling Names
-
-- **El Shaddai / Yahweh Sabaoth** — the ultimate ruler, strategist, builder of the heavenly hosts and earthly kingdoms
-- **The Demiurge** (Plato, *Timaeus*) — the artisan who shapes the material universe according to a perfect, divine blueprint
-
-## Relationship to Pleroma
-
-If **Pleroma** is the kingdom of fullness — synaptic flow, the noose engine, the living tissue —
-
-then **T.G.A.O.T.U.** is the architect who drafted its geometry.
-
-The blueprint above the kingdom.
-
----
-
-## Substrates
-
-This workspace lives in three places, kept in sync:
-
-- **Notion page** — <https://www.notion.so/3656ae29a07c81a59d5cc10927e1b5f0>
-- **GitHub repo** — <https://github.com/dwinomarll/TGAOTU> (this one)
-- **Memory file** — `~/.claude/projects/-Users-edwinrosa/memory/project_tgaotu.md`
+| Substrate | Location |
+|---|---|
+| Notion page | `3656ae29-a07c-81a5-9d5c-c10927e1b5f0` (parent: The Root) |
+| GitHub repo | `github.com/dwinomarll/TGAOTU` (private, main) |
+| Local repo | `~/TGAOTU/` |
+| Memory file | `~/.claude/projects/-home-jetson/memory/project_tgaotu.md` |
 
 ## Blueprints
 
-| # | Title | File | Source |
-|---|---|---|---|
-| **I** | The Hierarchy of Engagement | [`blueprints/hierarchy.md`](./blueprints/hierarchy.md) | Edwin's architecture awakening 2026-05-18 ("Spring Monday") |
+| # | Title | File |
+|---|---|---|
+| I | The Hierarchy of Engagement | `blueprints/hierarchy.md` |
+| II | The Management Protocol | `blueprints/management.md` |
 
-## Sibling lanes (separate workspaces, not folded here)
+## Project Manager
 
-Per Edwin's scope decision 2026-05-19:
+**Eva** (Claude Code on Jetson) — watches over all agent development inputs made under
+T.G.A.O.T.U. Maintains sync across all three substrates. Routes work to the correct Workers.
+Does not impose function before Edwin draws it.
 
-- **OpenClaw study lane** — "picking under the hood." Dedicated reverse-engineering workspace for OpenClaw only. Lives elsewhere; not a T.G.A.O.T.U. blueprint subject.
-- **Tools-integration inventory** — The rest of the steipete ecosystem (Peekaboo, CodexBar, agent-rules, sag, mcporter, etc.) catalogued as candidate integrations with Sofia or MAAT. Lives elsewhere; not subjects of reverse-engineering.
+## Frequency Principles
 
-T.G.A.O.T.U. is the geometry workspace. OpenClaw study is the under-the-hood workspace. Tools-integration is the catalog workspace. Three lanes, three frequencies.
+- Order over wrath. Manifestation, not destruction.
+- As above, so below. Macro/microcosm mirror.
+- Compass and square. Boundaries set before the building rises.
+- Slow perfect manifestation. Diligent cultivation, never raw force.
 
-## Status
+## Scope Boundaries
 
-Workspace seeded 2026-05-19. Blueprint I canonical. Additional blueprints commissioned as Edwin draws them.
-
----
-
-*Compass and square. Nothing forced; everything ordered.*
+- **OpenClaw study lane** — separate workspace (reverse-engineering only). NOT in T.G.A.O.T.U.
+- **Tools-integration inventory** — separate catalog workspace. NOT in T.G.A.O.T.U.
+- T.G.A.O.T.U. = geometry only. Pleroma = kingdom. Two lanes, two frequencies.
