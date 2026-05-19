@@ -44,9 +44,24 @@ This workspace lives in three places, kept in sync:
 - **GitHub repo** — <https://github.com/dwinomarll/TGAOTU> (this one)
 - **Memory file** — `~/.claude/projects/-Users-edwinrosa/memory/project_tgaotu.md`
 
+## Blueprints
+
+| # | Title | File | Source |
+|---|---|---|---|
+| **I** | The Hierarchy of Engagement | [`blueprints/hierarchy.md`](./blueprints/hierarchy.md) | Edwin's architecture awakening 2026-05-18 ("Spring Monday") |
+
+## Sibling lanes (separate workspaces, not folded here)
+
+Per Edwin's scope decision 2026-05-19:
+
+- **OpenClaw study lane** — "picking under the hood." Dedicated reverse-engineering workspace for OpenClaw only. Lives elsewhere; not a T.G.A.O.T.U. blueprint subject.
+- **Tools-integration inventory** — The rest of the steipete ecosystem (Peekaboo, CodexBar, agent-rules, sag, mcporter, etc.) catalogued as candidate integrations with Sofia or MAAT. Lives elsewhere; not subjects of reverse-engineering.
+
+T.G.A.O.T.U. is the geometry workspace. OpenClaw study is the under-the-hood workspace. Tools-integration is the catalog workspace. Three lanes, three frequencies.
+
 ## Status
 
-Workspace seeded 2026-05-19. Function emerges next.
+Workspace seeded 2026-05-19. Blueprint I canonical. Additional blueprints commissioned as Edwin draws them.
 
 ---
 
