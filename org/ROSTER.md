@@ -67,7 +67,23 @@
 
 | Agent | Role | Watches | Escalates To | Status | Contract |
 |-------|------|---------|-------------|--------|----------|
-| **SUP-1** | Tech Lead | All team handoffs | Eva (COO) | 🟢 Active | `org/agents/sup-1.md` |
+| **SUP-1** | Tech Lead | All team handoffs | ESC-1 | 🟢 Active | `org/agents/sup-1.md` |
+| **ESC-1** | Escalation Resolver L1 | SUP-1 blockers | ESC-2 | 🟢 Active | `org/agents/esc-1.md` |
+| **ESC-2** | Escalation Resolver L2 | ESC-1 blockers | Edwin (credential/budget only) | 🟢 Active | `org/agents/esc-2.md` |
+| **EFF-1** | Efficiency Monitor | Build logs + token usage | Eva (COO) | 🟡 Onboarding | `org/agents/eff-1.md` |
+
+---
+
+## Escalation Chain (autonomous mode)
+
+```
+Agent fails → SUP-1 (retry + diagnosis)
+           → ESC-1 (alternative approaches, spec amendments)
+           → ESC-2 (replanning, phase splits, sleep queue)
+           → Edwin ONLY for: credential | budget
+```
+
+Edwin is never paged for technical problems. Build parks gracefully if ESC-2 can't resolve.
 
 ---
 

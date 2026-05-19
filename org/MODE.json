@@ -1,0 +1,10 @@
+{
+  "mode": "supervised",
+  "description": "supervised = Edwin on loop for escalations | autonomous = org self-resolves everything",
+  "escalation_chain_enabled": true,
+  "notify_edwin_on_delivery": true,
+  "notify_edwin_on_blocker": false,
+  "human_contact_cases": ["credential", "budget"],
+  "last_changed": "2026-05-19",
+  "changed_by": "Eva (COO)"
+}
