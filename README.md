@@ -40,8 +40,8 @@ The blueprint above the kingdom.
 
 This workspace lives in three places, kept in sync:
 
-- **Notion page** — _wiring on first run_
-- **GitHub repo** — _wiring on first run_
+- **Notion page** — <https://www.notion.so/3656ae29a07c81a59d5cc10927e1b5f0>
+- **GitHub repo** — <https://github.com/dwinomarll/TGAOTU> (this one)
 - **Memory file** — `~/.claude/projects/-Users-edwinrosa/memory/project_tgaotu.md`
 
 ## Status
