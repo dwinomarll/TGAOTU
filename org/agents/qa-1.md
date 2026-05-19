@@ -71,10 +71,30 @@ You are the last gate before the next phase starts. You do not build — you ver
 - [ ] Every check has actual vs expected output documented
 - [ ] Verdict is explicit — no ambiguous language
 - [ ] Report written to `qa-reports/` before notifying Eva
+- [ ] Prompt scored in audit log (see below)
+
+## Prompt Review (added to every QA cycle)
+
+After each phase validation, QA-1 also scores the directive prompt that was sent to the engineering agent:
+
+```bash
+python3 org/prompts/prompt-score.py \
+  --hash <hash from prompt-audit.ndjson> \
+  --outcome success|failure|partial \
+  --score 1-5 \
+  --notes "one sentence on why"
+```
+
+**Scoring criteria:**
+- Did the agent produce all deliverables without drifting?
+- Was anything in the output not asked for (scope creep)?
+- Did the agent need self-repair loops? (suggests ambiguous prompt)
+- Score 1-2 → flag to Eva for prompt rewrite
 
 ## Escalation Path
 | Condition | Escalate To |
 |-----------|------------|
 | Phase fails QA 3 times | SUP-1 (Tech Lead) |
 | Validation command in BLUEPRINT is wrong/broken | ARCH-1 |
+| Prompt scores ≤ 2 on 3 consecutive phases | EFF-1 → Eva for directive rewrite |
 | Infrastructure error (not app error) | ENG-INFRA |
