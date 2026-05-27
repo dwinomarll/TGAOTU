@@ -38,7 +38,10 @@
         "receive_handoff",
         "log_blocker",
         "escalate",
-        "complete_task"
+        "complete_task",
+        "write_quality_report",
+        "send_notification",
+        "log_notification_failure"
       ]
     },
     "artifact": { "type": "string", "minLength": 1 },
@@ -51,4 +54,3 @@
     }
   }
 }
-

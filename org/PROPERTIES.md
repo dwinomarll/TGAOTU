@@ -49,6 +49,8 @@ schema, and downstream output format during the same session.
 | Team Handoff | `org/TEAM_INTERACTIONS.md` | `factory/schemas/handoff.schema.json` | `org/logs/handoffs.log` |
 | Activity Log | `org/LOGGING_SOP.md` | `factory/schemas/activity-log.schema.json` | `org/logs/activity.ndjson` |
 | Quality Report | `factory/templates/QUALITY_REPORT.md` | `factory/schemas/quality-report.schema.json` | `factory/active/<app>/qa-reports/*.md` |
+| User Preferences | `factory/templates/USER_PREFERENCES.md` | `factory/schemas/user-preferences.schema.json` | `org/users/<user-id>.json` |
+| Notification Event | `factory/templates/NOTIFICATION_EVENT.md` | `factory/schemas/notification-event.schema.json` | `org/logs/notifications.ndjson` |
 
 ---
 
@@ -118,6 +120,42 @@ schema, and downstream output format during the same session.
 
 ---
 
+## User Preference Properties
+
+| Property | Required | Type | Owner | Notes |
+|---|---:|---|---|---|
+| `user_id` | yes | string | Eva/User | Stable user or collaborator id. |
+| `display_name` | yes | string | Eva/User | Human-readable name. |
+| `role` | yes | enum | Eva | `vision_source`, `invited_collaborator`, or `reviewer`. |
+| `human_loop` | yes | boolean | User/Eva | False by default for autonomous operation. |
+| `notification_loop` | yes | boolean | User/Eva | True by default. |
+| `cadence` | yes | enum | User/Eva | `silent`, `minimal`, `standard`, or `verbose`. |
+| `timezone` | yes | string | User/Eva | Defaults to `America/New_York`. |
+| `preferred_channels` | yes | list | User/Eva | Ordered channel targets and enabled flags. |
+| `event_preferences` | yes | list | User/Eva | Per-event notify setting and channel override. |
+| `escalation_permissions` | yes | object | User/Eva | Which true escalation cases may ask for action. |
+| `fallback_rule` | yes | string | Eva | What to do when preferred channels fail. |
+
+---
+
+## Notification Event Properties
+
+| Property | Required | Type | Owner | Notes |
+|---|---:|---|---|---|
+| `event_id` | yes | string | COMMS-1/Eva | Stable event id. |
+| `event_type` | yes | enum | COMMS-1/Eva | Notification event type from `org/NOTIFICATION_SOP.md`. |
+| `subject` | yes | string | COMMS-1/Eva | App, delivery, org task, or escalation subject. |
+| `created_at` | yes | datetime | COMMS-1/Eva | EDT-facing event time. |
+| `created_by` | yes | string | COMMS-1/Eva | Position that emitted the event. |
+| `user_action_required` | yes | boolean | EVA-COO | True only for real escalation gates. |
+| `message` | yes | string | COMMS-1/Eva | User-facing notification text. |
+| `delivery_attempts` | yes | list | COMMS-1/Eva | Channel, target, status, sent time, notes. |
+| `final_status` | yes | enum | COMMS-1/Eva | `sent`, `failed`, or `skipped`. |
+| `fallback_used` | yes | boolean | COMMS-1/Eva | True if preferred channel failed. |
+| `log_reference` | yes | string | COMMS-1/Eva | Activity or notification log reference. |
+
+---
+
 ## Build State Properties
 
 | Property | Required | Type | Owner | Notes |
@@ -152,7 +190,7 @@ Each `phases[]` item must include:
 |---|---:|---|---|---|
 | `agent_id` | yes | string | Eva | Stable uppercase id. |
 | `name` | yes | string | Eva | Human-readable role name. |
-| `team` | yes | enum | Eva | Executive Ops, Product, Design, Architecture, Engineering, QA, DevOps, Operations, IT / Systems, Finance, Customer Success, Growth, Human Resources, Supervisor. |
+| `team` | yes | enum | Eva | Executive Ops, Product, Design, Architecture, Engineering, QA, DevOps, Communications, Operations, IT / Systems, Finance, Customer Success, Growth, Human Resources, Supervisor. |
 | `role` | yes | string | Eva | One sentence function. |
 | `reports_to` | yes | string | Eva | Usually Eva or SUP-1. |
 | `input_document` | yes | string | Eva | Required input artifact. |

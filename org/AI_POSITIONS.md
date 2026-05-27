@@ -47,6 +47,7 @@ flowchart TB
     COO --> FIN["Finance"]
     COO --> OPS["Operations"]
     COO --> CS["Customer Success"]
+    COO --> COMMS["Communications"]
     COO --> GROWTH["Growth"]
     COO --> HR["Human Resources"]
     COO --> IT["IT / Systems"]
@@ -67,6 +68,7 @@ flowchart TB
     OPS --> EFF1["EFF-1"]
     FIN --> CFO1["CFO-1 planned"]
     CS --> CS1["CS-1 planned"]
+    COMMS --> COMMS1["COMMS-1"]
     GROWTH --> MKT1["MKT-1 planned"]
     GROWTH --> SALES1["SALES-1 planned"]
     HR --> HR1["HR-1 planned"]
@@ -89,6 +91,7 @@ flowchart TB
 | ENG-WEB | Engineering | Web Engineer | SUP-1 | Build web phases | HTML/JS/CSS or Next.js | parked |
 | QA-1 | Quality Assurance | QA Engineer | Eva | Validate every phase | PASS/FAIL report | active |
 | DEVOPS-1 | DevOps | Deploy Engineer | Eva | Deploy built artifact | Live service + confirmation | active |
+| COMMS-1 | Communications | User Notification Manager | Eva | Notify users through preferred channels | Notification event + delivery evidence | active |
 | OPS-1 | Operations | Operations Manager | Eva | Queue health, capacity, process flow | Ops status / process fixes | active |
 | SUP-1 | Operations | Tech Lead / Supervisor | OPS-1 | Diagnose failed handoffs | Retry plan or escalation | active |
 | ESC-1 | Operations | Escalation Resolver L1 | SUP-1 | Resolve blockers with alternate tactics | Resolution plan | active |
@@ -194,6 +197,13 @@ or gates fail. QA-1 does not repair unless a repair manifest is assigned.
 DEVOPS-1 deploys only validated artifacts. DEVOPS-1 owns runtime confirmation,
 deployment evidence, rollback note, and delivery-location handoff to Eva.
 
+### COMMS-1 - User Notification Manager
+
+COMMS-1 keeps users informed without placing them inside the execution loop.
+COMMS-1 reads user preferences, formats notification events, sends through the
+preferred channel, applies fallback rules, and logs delivery status. COMMS-1
+does not ask for user action unless EVA-COO marks the event as a true escalation.
+
 ### OPS-1 - Operations Manager
 
 OPS-1 owns the movement of work through the organization. OPS-1 watches queue
@@ -231,6 +241,8 @@ These departments are support systems for autonomy:
 - Finance protects budget and token/cost discipline.
 - HR manages AI lifecycle and role quality.
 - IT protects credentials, access, infrastructure, and security.
+- Communications informs users through preferred channels without making them
+  operators.
 - Customer Success confirms delivered value remains useful.
 - Growth translates shipped capability into outward signal or proposals.
 
@@ -253,6 +265,8 @@ These departments are support systems for autonomy:
 11. Any process improvement belongs in the log for OPS-1/EFF-1; workers do not
     silently rewrite SOPs.
 12. No phase advances without the required quality gates passing.
+13. User notification is not human escalation; routine updates must not require
+    user action.
 
 ---
 
@@ -264,4 +278,4 @@ These departments are support systems for autonomy:
 | Parallel build | Independent phase slices | Eva assigns different workers with separate manifests |
 | Supervisor repair | Validation failure | Worker -> SUP-1 -> ESC-1 -> ESC-2 |
 | Collaboration gate | Invited human input | Eva opens gate -> participant comments -> Eva closes gate |
-| Delivery closeout | All phases pass | DevOps -> QA -> Eva -> Edwin |
+| Delivery closeout | All phases pass | DevOps -> QA -> Eva -> COMMS-1 -> user notification |

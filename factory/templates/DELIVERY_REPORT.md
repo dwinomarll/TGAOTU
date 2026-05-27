@@ -18,6 +18,13 @@
 - **Quality Report:** [path to QUALITY_REPORT.md]
 - **Open S0-S2 Defects:** none | [list]
 
+## User Notification
+
+- **Required:** yes | no
+- **Event ID:** [notification event id]
+- **Channel:** telegram | email | workplace | canvas | dashboard | webhook | none
+- **Status:** sent | failed | skipped
+
 ## Key Beats
 
 1. [phase/result]

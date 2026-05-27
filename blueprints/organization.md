@@ -16,8 +16,9 @@ autonomous software factory:
 2. The organization decomposes the intent.
 3. Specialized agents execute atomic work.
 4. Supervisors resolve blockers.
-5. Delivery returns to Edwin only when there is a result, a credential need, a
-   budget decision, or an invited collaboration moment.
+5. Delivery returns to Edwin as a notification unless there is a credential
+   need, budget decision, taste decision, vision gap, or invited collaboration
+   moment that truly requires action.
 
 The user is the origin of vision, not the operator of the workflow.
 
@@ -28,6 +29,7 @@ The user is the origin of vision, not the operator of the workflow.
 Default state:
 
 - No human is required in the loop.
+- Notification is required unless the user chooses silent mode.
 - Edwin is the User / Founder / Vision Source.
 - Eva is the COO / Chief of Staff / Org Manager.
 - Other humans may be invited only as collaborators on a workplace, canvas, or
@@ -36,6 +38,24 @@ Default state:
 Invited collaborators provide additional input, critique, approval, domain
 knowledge, or co-creation. They do not become required operators unless Edwin
 explicitly assigns them that authority.
+
+## Notification Policy
+
+The organization distinguishes notification from escalation:
+
+- Notification means the system informs the user through their preferred
+  channel and continues operating.
+- Escalation means the system needs a user decision before it can responsibly
+  proceed.
+
+Default channels are Telegram and email, with future support for workplace,
+canvas, dashboard, webhook, or any user-selected delivery surface.
+
+Routine progress, internal blockers, self-recovery, and quality failures do not
+make the user part of the loop. They are handled inside the organization and
+reported according to the user's cadence preference.
+
+See `org/NOTIFICATION_SOP.md`.
 
 ---
 
@@ -92,6 +112,9 @@ QA + supervisor loop
         |
         v
 Delivery report + substrate sync
+        |
+        v
+User notification through preferred channel
 ```
 
 Human collaboration enters only through the workplace/canvas layer:
@@ -125,4 +148,3 @@ represented in the property model. The organization is not real until its roles
 and state are inspectable.
 
 See `org/PROPERTIES.md`.
-

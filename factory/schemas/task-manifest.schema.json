@@ -27,7 +27,7 @@
     "phase": { "type": "integer", "minimum": 0 },
     "task_type": {
       "type": "string",
-      "enum": ["Product", "Design", "Architecture", "Engineering", "QA", "DevOps", "Supervisor"]
+      "enum": ["Product", "Design", "Architecture", "Engineering", "QA", "DevOps", "Communications", "Operations", "IT", "Supervisor"]
     },
     "assigned_agent": { "type": "string", "minLength": 1 },
     "input_artifacts": {
@@ -67,7 +67,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["structural", "credential", "budget", "blocked-after-3-retries"]
+            "enum": ["structural", "credential", "budget", "taste", "invited-collaboration", "notification-failed", "blocked-after-3-retries"]
           }
         }
       }

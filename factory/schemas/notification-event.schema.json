@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/notification-event.schema.json",
+  "title": "TGAOTU Notification Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "event_type",
+    "subject",
+    "created_at",
+    "created_by",
+    "user_action_required",
+    "message",
+    "delivery_attempts",
+    "final_status",
+    "fallback_used",
+    "log_reference"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "intake_received",
+        "work_started",
+        "milestone_passed",
+        "quality_failed",
+        "self_recovered",
+        "blocked_internal",
+        "escalation_required",
+        "delivery_ready",
+        "delivery_failed",
+        "daily_digest",
+        "weekly_digest"
+      ]
+    },
+    "subject": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": "string", "minLength": 1 },
+    "user_action_required": { "type": "boolean" },
+    "message": { "type": "string", "minLength": 1 },
+    "delivery_attempts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attempt", "channel", "target", "status", "sent_at", "notes"],
+        "properties": {
+          "attempt": { "type": "integer", "minimum": 1 },
+          "channel": {
+            "type": "string",
+            "enum": ["telegram", "email", "workplace", "canvas", "dashboard", "webhook", "none"]
+          },
+          "target": { "type": "string" },
+          "status": { "type": "string", "enum": ["queued", "sent", "failed", "skipped"] },
+          "sent_at": { "type": "string" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "final_status": { "type": "string", "enum": ["sent", "failed", "skipped"] },
+    "fallback_used": { "type": "boolean" },
+    "log_reference": { "type": "string", "minLength": 1 }
+  }
+}

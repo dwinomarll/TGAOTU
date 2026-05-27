@@ -64,6 +64,14 @@
 
 ---
 
+## Communications Team
+
+| Agent | Role | Input | Output | Status | Contract |
+|-------|------|-------|--------|--------|----------|
+| **COMMS-1** | User Notification Manager | User preferences + event | Notification event + delivery evidence | Active | `org/agents/comms-1.md` |
+
+---
+
 ## Operations Team
 
 | Agent | Role | Watches | Reports To | Status | Contract |
@@ -91,11 +99,12 @@ Agent fails -> OPS-1 (queue + handoff classification)
             -> SUP-1 (retry + diagnosis)
             -> ESC-1 (alternative approaches, spec amendments)
             -> ESC-2 (replanning, phase splits, sleep queue)
-            -> Edwin ONLY for: vision | credential | budget | invited collaboration
+            -> Edwin ONLY for: vision | credential | budget | taste | invited collaboration
 ```
 
 Edwin is never paged for technical problems. Build parks gracefully if ESC-2
-cannot resolve.
+cannot resolve. COMMS-1 sends user notifications through the configured
+preferred channel without making Edwin part of the internal loop.
 
 ---
 
@@ -107,4 +116,4 @@ cannot resolve.
 4. Eva reviews contract for `RULES.md` compliance.
 5. Status moves from `Onboarding` to `Active` after first successful assigned task.
 
-*Total active agents: 14 | Onboarding: 1 | Parked: 1 | Planned: CFO-1, CS-1, MKT-1, SALES-1, HR-1*
+*Total active agents: 15 | Onboarding: 1 | Parked: 1 | Planned: CFO-1, CS-1, MKT-1, SALES-1, HR-1*

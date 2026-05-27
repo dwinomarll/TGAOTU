@@ -87,3 +87,15 @@ IT-1, or EVA-COO depending on cause.
 
 **Violation:** Worker advances work without quality evidence -> Manager halts,
 logs the violation, and re-routes to QA-1/OPS-1 for acceptance.
+
+## R12 - Notify, Do Not Depend
+
+The system keeps users informed through their preferred notification channels
+without making them operators in the workflow.
+
+Routine progress, internal blockers, recovery, QA failures, and delivery status
+are notifications. Vision, credential, budget, taste, and invited collaboration
+authority are escalations.
+
+**Violation:** Worker asks the user for action on a routine internal event ->
+Manager reroutes to COMMS-1/OPS-1 and logs the contact as a process violation.

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/user-preferences.schema.json",
+  "title": "TGAOTU User Preferences",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "user_id",
+    "display_name",
+    "role",
+    "human_loop",
+    "notification_loop",
+    "cadence",
+    "timezone",
+    "preferred_channels",
+    "event_preferences",
+    "escalation_permissions",
+    "fallback_rule"
+  ],
+  "properties": {
+    "user_id": { "type": "string", "minLength": 1 },
+    "display_name": { "type": "string", "minLength": 1 },
+    "role": {
+      "type": "string",
+      "enum": ["vision_source", "invited_collaborator", "reviewer"]
+    },
+    "human_loop": { "type": "boolean" },
+    "notification_loop": { "type": "boolean" },
+    "cadence": {
+      "type": "string",
+      "enum": ["silent", "minimal", "standard", "verbose"]
+    },
+    "timezone": { "type": "string", "minLength": 1 },
+    "preferred_channels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["priority", "channel", "target", "enabled"],
+        "properties": {
+          "priority": { "type": "integer", "minimum": 1 },
+          "channel": {
+            "type": "string",
+            "enum": ["telegram", "email", "workplace", "canvas", "dashboard", "webhook", "none"]
+          },
+          "target": { "type": "string" },
+          "enabled": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "event_preferences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["event_type", "notify", "channel_override"],
+        "properties": {
+          "event_type": {
+            "type": "string",
+            "enum": [
+              "intake_received",
+              "work_started",
+              "milestone_passed",
+              "quality_failed",
+              "self_recovered",
+              "blocked_internal",
+              "escalation_required",
+              "delivery_ready",
+              "delivery_failed",
+              "daily_digest",
+              "weekly_digest"
+            ]
+          },
+          "notify": {
+            "type": "string",
+            "enum": ["yes", "no", "optional"]
+          },
+          "channel_override": { "type": "string" }
+        }
+      }
+    },
+    "escalation_permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vision", "credential", "budget", "taste", "invited_collaboration"],
+      "properties": {
+        "vision": { "type": "boolean" },
+        "credential": { "type": "boolean" },
+        "budget": { "type": "boolean" },
+        "taste": { "type": "boolean" },
+        "invited_collaboration": { "type": "boolean" }
+      }
+    },
+    "fallback_rule": { "type": "string", "minLength": 1 }
+  }
+}

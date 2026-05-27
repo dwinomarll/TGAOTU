@@ -26,6 +26,7 @@ Logs are not decoration. They are operational memory.
 | `factory/active/<app>/BUILD_STATE.md` | Markdown | Human-readable phase state. |
 | `factory/active/<app>/qa-reports/*.md` | Markdown | Quality and validation evidence. |
 | `org/reports/quality/*.md` | Markdown | Quality reports for organization-structure changes. |
+| `org/logs/notifications.ndjson` | NDJSON | User notification events and delivery attempts. |
 
 ---
 
@@ -78,6 +79,8 @@ Allowed `action` values:
 - `escalate`
 - `complete_task`
 - `write_quality_report`
+- `send_notification`
+- `log_notification_failure`
 
 ---
 
@@ -151,6 +154,7 @@ Use `org/logs/supervisor.log` when validation fails or a handoff is blocked:
 | Engineering | files changed, validation results, implementation notes |
 | QA | test results, failure classification, acceptance status |
 | DevOps | deployment target, runtime status, verification evidence |
+| Communications | notification event, channel attempt, fallback, delivery status |
 | Finance | budget estimates, cost gates, spend warnings |
 | Operations | queue health, blockers, handoff quality |
 | HR | agent lifecycle events |

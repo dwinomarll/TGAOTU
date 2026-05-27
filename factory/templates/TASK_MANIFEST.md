@@ -9,7 +9,7 @@
 - **Manifest ID:** [app-name-phase-n-agent]
 - **App Name:** [app-name]
 - **Phase:** [n]
-- **Task Type:** Product | Design | Architecture | Engineering | QA | DevOps | Supervisor
+- **Task Type:** Product | Design | Architecture | Engineering | QA | DevOps | Communications | Operations | IT | Supervisor
 - **Assigned Agent:** [agent-id]
 - **Priority:** P0 | P1 | P2
 - **Status:** queued
@@ -45,7 +45,9 @@ Allowed escalation reasons:
 - structural
 - credential
 - budget
+- taste
 - invited-collaboration
+- notification-failed
 - blocked-after-3-retries
 
 Escalate to: [SUP-1 | Eva | ESC-1 | ESC-2]

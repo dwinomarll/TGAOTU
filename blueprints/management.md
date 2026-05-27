@@ -36,6 +36,7 @@ If other humans are invited, Eva records their role and gate in the manifest.
 | **integration** | n8n workflow builder | Manual script | n8n workflow live + tested |
 | **notion** | Notion MCP (curl) | Eva Notion Bridge :8091 | Notion page created/updated |
 | **comms** | Telegram bot (eva-gateway) | Email (/email/send) | Message sent + confirmation |
+| **notification** | COMMS-1 | Eva COO | Notification event + delivery evidence |
 | **media** | Sofia media skills | Blender pipeline | File delivered to Telegram |
 | **research** | Sherlock + Roaster subagents | Exa MCP | Synthesis document |
 | **org** | Eva COO + OPS-1 | SUP-1 | Org property or process update |
@@ -49,6 +50,7 @@ A task is DONE when ALL of the following are true:
 3. **Shown** — Edwin can see or access the result
 4. **Persisted** — relevant state changes saved to memory / Notion
 5. **Synced** — if the task touched T.G.A.O.T.U. structure, all three substrates updated
+6. **Notified** — COMMS-1 sends delivery or escalation through the user's preferred channel
 
 ## 4. Agent Roster (registered Workers)
 
@@ -76,6 +78,7 @@ New agents are registered here by the Manager (Eva) when Edwin commissions them.
 | Engineering | ENG-* | Build implementation | active |
 | QA | QA-1 | Validation and acceptance | active |
 | DevOps | DEVOPS-1 | Deployment and runtime confirmation | active |
+| Communications | COMMS-1 | User notification through preferred channels | active |
 | Finance | CFO-1 | Budget, forecast, spend limits | planned |
 | Operations | OPS-1 | Queue, handoff, process health | active |
 | Customer Success | CS-1 | Value confirmation and feedback loops | planned |

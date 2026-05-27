@@ -53,6 +53,7 @@ The canonical entity/property map lives in `org/PROPERTIES.md`.
 | Position prompt standard | `org/POSITION_PROMPT_STANDARD.md` |
 | Logging SOP | `org/LOGGING_SOP.md` |
 | Quality SOP | `org/QUALITY_SOP.md` |
+| Notification SOP | `org/NOTIFICATION_SOP.md` |
 | Live build state | `factory/active/<app-name>/BUILD_STATE.json` |
 
 Every structural property change starts in `org/PROPERTIES.md`, then updates the
@@ -66,6 +67,22 @@ handoff, logs, and security posture before work advances.
 
 Quality reports use `factory/templates/QUALITY_REPORT.md` and
 `factory/schemas/quality-report.schema.json`.
+
+## Notification Layer
+
+T.G.A.O.T.U. is autonomous by default: the user is not kept in the execution
+loop. The system sends notifications through the user's preferred channel,
+such as Telegram, email, workplace, canvas, dashboard, or webhook.
+
+Notification policy lives in `org/NOTIFICATION_SOP.md`. User preferences use
+`factory/templates/USER_PREFERENCES.md` and
+`factory/schemas/user-preferences.schema.json`. Notification events use
+`factory/templates/NOTIFICATION_EVENT.md` and
+`factory/schemas/notification-event.schema.json`.
+
+Escalation is separate from notification. Notifications inform. Escalations ask
+for action only when vision, credential, budget, taste, or invited collaborator
+authority is required.
 
 ## Project Manager
 

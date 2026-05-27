@@ -1,0 +1,90 @@
+{
+  "user_id": "edwin",
+  "display_name": "Edwin",
+  "role": "vision_source",
+  "human_loop": false,
+  "notification_loop": true,
+  "cadence": "minimal",
+  "timezone": "America/New_York",
+  "preferred_channels": [
+    {
+      "priority": 1,
+      "channel": "telegram",
+      "target": "configured_runtime_target",
+      "enabled": true,
+      "notes": "Fast delivery and mobile status. Runtime stores actual target outside repo."
+    },
+    {
+      "priority": 2,
+      "channel": "email",
+      "target": "configured_runtime_target",
+      "enabled": true,
+      "notes": "Fallback and longer summaries. Runtime stores actual address outside repo."
+    }
+  ],
+  "event_preferences": [
+    {
+      "event_type": "intake_received",
+      "notify": "no",
+      "channel_override": "none"
+    },
+    {
+      "event_type": "work_started",
+      "notify": "no",
+      "channel_override": "none"
+    },
+    {
+      "event_type": "milestone_passed",
+      "notify": "optional",
+      "channel_override": "none"
+    },
+    {
+      "event_type": "quality_failed",
+      "notify": "optional",
+      "channel_override": "none"
+    },
+    {
+      "event_type": "self_recovered",
+      "notify": "optional",
+      "channel_override": "none"
+    },
+    {
+      "event_type": "blocked_internal",
+      "notify": "no",
+      "channel_override": "none"
+    },
+    {
+      "event_type": "escalation_required",
+      "notify": "yes",
+      "channel_override": "highest_available"
+    },
+    {
+      "event_type": "delivery_ready",
+      "notify": "yes",
+      "channel_override": "highest_available"
+    },
+    {
+      "event_type": "delivery_failed",
+      "notify": "yes",
+      "channel_override": "highest_available"
+    },
+    {
+      "event_type": "daily_digest",
+      "notify": "optional",
+      "channel_override": "email"
+    },
+    {
+      "event_type": "weekly_digest",
+      "notify": "optional",
+      "channel_override": "email"
+    }
+  ],
+  "escalation_permissions": {
+    "vision": true,
+    "credential": true,
+    "budget": true,
+    "taste": true,
+    "invited_collaboration": true
+  },
+  "fallback_rule": "Use Telegram first, email second. If all channels fail, log the failure and continue unless delivery confirmation is impossible."
+}

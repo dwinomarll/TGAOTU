@@ -39,6 +39,13 @@
 | `factory/templates/QUALITY_REPORT.md` | DONE - human quality report shape |
 | `factory/schemas/quality-report.schema.json` | DONE - machine-readable quality report schema |
 | `org/agents/qa-1.md` | DONE - QA contract upgraded to enforce quality gates |
+| `org/NOTIFICATION_SOP.md` | DONE - user notification protocol without human-in-loop dependency |
+| `factory/templates/USER_PREFERENCES.md` | DONE - user channel and cadence preference shape |
+| `factory/templates/NOTIFICATION_EVENT.md` | DONE - notification event shape |
+| `factory/schemas/user-preferences.schema.json` | DONE - machine-readable user preference schema |
+| `factory/schemas/notification-event.schema.json` | DONE - machine-readable notification event schema |
+| `org/agents/comms-1.md` | DONE - user notification manager contract |
+| `org/users/edwin.json` | DONE - repo-safe default notification preferences |
 
 ---
 
@@ -83,8 +90,9 @@
 4. **Keep the build order visible.**
    This PLAN.md is updated after each phase completes.
 
-5. **Report to Edwin in one sentence per completed phase.**
-   No walls of text. One result, one confirmation, one next step.
+5. **Notify Edwin through preference-based channels.**
+   Use COMMS-1 and `org/NOTIFICATION_SOP.md`; do not make Edwin part of the
+   execution loop unless a true escalation gate is reached.
 
 ---
 

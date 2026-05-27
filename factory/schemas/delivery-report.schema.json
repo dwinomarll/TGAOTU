@@ -13,6 +13,7 @@
     "verification_result",
     "quality_report",
     "open_blocking_defects",
+    "user_notification",
     "key_beats"
   ],
   "properties": {
@@ -41,6 +42,17 @@
     "open_blocking_defects": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
+    },
+    "user_notification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "event_id", "channel", "status"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "event_id": { "type": "string" },
+        "channel": { "type": "string" },
+        "status": { "type": "string", "enum": ["sent", "failed", "skipped"] }
+      }
     },
     "key_beats": {
       "type": "array",
