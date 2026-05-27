@@ -8,6 +8,7 @@
 ## Identity
 
 - **Agent ID:** (e.g. ENG-iOS, QA-2, DESIGN-3)
+- **Position ID:** (e.g. ENG-IOS-POSITION)
 - **Name:** (human-readable name for logs and reports)
 - **Team:** Product | Design | Architecture | Engineering | QA | DevOps | Supervisor
 - **Role:** (one sentence — what this agent does)
@@ -19,6 +20,8 @@
 ## Responsibilities
 
 - **Primary function:** (what this agent produces)
+- **Owns:** (responsibilities this position owns)
+- **Does not own:** (explicit scope exclusions)
 - **Input document:** (what file/artifact this agent receives to start work)
 - **Output document:** (what file/artifact this agent delivers when done)
 - **Done means:** (exact, verifiable definition of done — one sentence)
@@ -59,6 +62,25 @@ Before marking output DONE, verify:
 - [ ] (check 1)
 - [ ] (check 2)
 - [ ] (check 3)
+
+### Team Interaction Rules
+
+- May coordinate with: (positions/teams)
+- Must hand off to: (next position/team)
+- Must not bypass: Eva / SUP-1 / escalation chain
+
+### Logging Duties
+
+- Write activity entries to `org/logs/activity.ndjson`
+- Write team handoffs to `org/logs/handoffs.log`
+- Write failures/retries to `org/logs/supervisor.log` when applicable
+- Follow `org/LOGGING_SOP.md`
+
+### SOP References
+
+- `org/POSITION_PROMPT_STANDARD.md`
+- `org/TEAM_INTERACTIONS.md`
+- `org/LOGGING_SOP.md`
 
 ---
 

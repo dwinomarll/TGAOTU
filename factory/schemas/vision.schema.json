@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/vision.schema.json",
+  "title": "TGAOTU Vision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "purpose",
+    "platform",
+    "reference",
+    "must_haves",
+    "must_nots",
+    "success_signal"
+  ],
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "platform": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["iOS", "macOS", "Web", "API/backend", "CLI", "Mixed"]
+      }
+    },
+    "reference": { "type": "string", "minLength": 1 },
+    "must_haves": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 7,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "must_nots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "success_signal": { "type": "string", "minLength": 1 }
+  }
+}
+

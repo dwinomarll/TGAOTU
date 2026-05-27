@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/activity-log.schema.json",
+  "title": "TGAOTU Activity Log Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ts",
+    "position_id",
+    "department",
+    "app_name",
+    "phase",
+    "action",
+    "artifact",
+    "summary",
+    "status"
+  ],
+  "properties": {
+    "ts": { "type": "string", "format": "date-time" },
+    "position_id": { "type": "string", "minLength": 1 },
+    "department": { "type": "string", "minLength": 1 },
+    "app_name": { "type": "string", "minLength": 1 },
+    "phase": {
+      "oneOf": [
+        { "type": "integer", "minimum": 0 },
+        { "type": "string", "enum": ["prebuild", "delivery", "org"] }
+      ]
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "start_task",
+        "read_artifact",
+        "write_artifact",
+        "make_decision",
+        "run_validation",
+        "create_handoff",
+        "receive_handoff",
+        "log_blocker",
+        "escalate",
+        "complete_task"
+      ]
+    },
+    "artifact": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "decision": { "type": ["string", "null"] },
+    "next_position": { "type": ["string", "null"] },
+    "status": {
+      "type": "string",
+      "enum": ["started", "complete", "blocked", "failed"]
+    }
+  }
+}
+

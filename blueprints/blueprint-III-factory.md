@@ -56,21 +56,26 @@ For each phase in BLUEPRINT.md:
 
 ```
 LOOP:
-  1. Worker reads phase spec from BLUEPRINT.md
-  2. Worker checks BUILD_STATE.md — confirms previous phase passed
-  3. Worker executes (writes code, deploys service, creates config)
-  4. Worker runs validation test defined in BLUEPRINT.md
-  5. If PASS → mark phase complete in BUILD_STATE.md → advance
-  6. If FAIL → self-repair up to 3 attempts:
+  1. Eva writes Task Manifest from BLUEPRINT.md phase spec
+  2. Worker reads Task Manifest + assigned phase spec
+  3. Worker checks BUILD_STATE.md — confirms previous phase passed
+  4. Worker executes (writes code, deploys service, creates config)
+  5. Worker runs validation test defined in the Task Manifest
+  6. If PASS → mark phase complete in BUILD_STATE.md → advance
+  7. If FAIL → self-repair up to 3 attempts:
        - Analyze error
        - Apply fix
        - Re-run validation
      If FAIL after 3 attempts → log blocker → escalate to Manager
-  7. Manager decides: retry with different approach OR escalate to Edwin
+  8. Manager decides: retry with different approach OR escalate to Edwin
 ```
 
 Workers never skip validation. A phase is not done until the test passes.
 Workers never contact Edwin. They escalate to Manager only.
+
+Task Manifest shape is governed by `org/PROPERTIES.md`,
+`factory/templates/TASK_MANIFEST.md`, and
+`factory/schemas/task-manifest.schema.json`.
 
 ---
 
@@ -91,7 +96,9 @@ Every active build has `factory/active/<app-name>/BUILD_STATE.md`:
 | 3 | Core UI | ⏳ pending | — | |
 ```
 
-BUILD_STATE.md is the single source of truth. Updated after every phase result.
+BUILD_STATE.md is the human-readable source of truth. BUILD_STATE.json is the
+machine-readable source and must validate against
+`factory/schemas/build-state.schema.json`. Both are updated after every phase result.
 
 ---
 
@@ -127,12 +134,19 @@ When all phases complete:
 ```
 factory/
 ├── templates/
-│   └── VISION.md          — Edwin fills this in for each new app
+│   ├── VISION.md          — Edwin fills this in for each new app
+│   ├── TASK_MANIFEST.md   — Eva fills this before worker execution
+│   ├── BUILD_STATE.md     — human-readable state template
+│   └── DELIVERY_REPORT.md — final close-out template
+├── schemas/
+│   └── *.schema.json      — machine-readable property contracts
 ├── active/
 │   └── <app-name>/
 │       ├── VISION.md      — Edwin's brief (read-only after Stage 1)
 │       ├── BLUEPRINT.md   — Architect's complete technical plan
-│       └── BUILD_STATE.md — live phase tracker
+│       ├── BUILD_STATE.md — live phase tracker
+│       ├── BUILD_STATE.json
+│       └── manifests/     — one task manifest per worker assignment
 ├── delivered/
 │   └── <app-name>/        — moved here after delivery confirmed
 └── blocked/

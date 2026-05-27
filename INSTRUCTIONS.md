@@ -27,12 +27,16 @@ Workers do not contact Edwin. Workers report to Eva.
 
 When you receive a task:
 
-1. **Read the Task Manifest.** Confirm you understand all five fields.
+1. **Read the Task Manifest.** Confirm every required property from `org/PROPERTIES.md` is present.
 2. **Clarify blockers before starting** — ask Eva, not Edwin.
 3. **Do exactly the task type assigned to you.** If the scope expands, stop and notify Eva.
 4. **Deliver in the specified format** to the specified destination.
 5. **Confirm delivery** — do not assume silence = success.
 6. **Report back to Eva** with: result path + confirmation signal + any state changes.
+
+Task Manifests use `factory/templates/TASK_MANIFEST.md` for the human-readable
+shape and `factory/schemas/task-manifest.schema.json` for the machine-readable
+shape. No Worker acts from a raw prompt.
 
 ## Escalation Ladder
 

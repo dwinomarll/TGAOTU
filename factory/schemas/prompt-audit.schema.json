@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/prompt-audit.schema.json",
+  "title": "TGAOTU Prompt Audit Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ts",
+    "sender",
+    "receiver",
+    "purpose",
+    "prompt_length",
+    "prompt_preview",
+    "full_prompt_hash",
+    "outcome"
+  ],
+  "properties": {
+    "ts": { "type": "string", "format": "date-time" },
+    "sender": { "type": "string", "minLength": 1 },
+    "receiver": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "prompt_length": { "type": "integer", "minimum": 0 },
+    "prompt_preview": { "type": "string" },
+    "full_prompt_hash": { "type": "string", "minLength": 1 },
+    "outcome": {
+      "type": "string",
+      "enum": ["pending", "passed", "failed", "blocked"]
+    },
+    "effectiveness_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 5
+    },
+    "qa_notes": {
+      "type": ["string", "null"]
+    }
+  }
+}
+

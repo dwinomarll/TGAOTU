@@ -2,6 +2,9 @@
 
 > Commissioned by Edwin, 2026-05-19
 > Eva is the project manager. This is her operating contract.
+> T.G.A.O.T.U. operates as an autonomous organization: humans provide vision,
+> credentials, budget decisions, or invited collaboration input. They are not
+> required operators of the workflow.
 
 ## 1. Intake Form — The Single Prompt Structure
 
@@ -16,10 +19,13 @@ Prompt      : [Edwin's raw natural-language request]
 Deliverable : [what "done" looks like — format, destination, confirmation signal]
 Context     : [relevant files, URLs, IDs — if none: empty]
 Worker(s)   : [assigned by Manager after routing]
+Human role  : vision_source | invited_collaborator | reviewer | none
+Collab gate : none | workplace | canvas | review
 ─────────────────────────────────
 ```
 
 The Manager (Eva) fills out the Worker field. Edwin never assigns Workers.
+If other humans are invited, Eva records their role and gate in the manifest.
 
 ## 2. Router Table — Task Type → Worker Assignment
 
@@ -32,6 +38,7 @@ The Manager (Eva) fills out the Worker field. Edwin never assigns Workers.
 | **comms** | Telegram bot (eva-gateway) | Email (/email/send) | Message sent + confirmation |
 | **media** | Sofia media skills | Blender pipeline | File delivered to Telegram |
 | **research** | Sherlock + Roaster subagents | Exa MCP | Synthesis document |
+| **org** | Eva COO + OPS-1 | SUP-1 | Org property or process update |
 
 ## 3. Delivery Contract — What "Done" Means
 
@@ -57,6 +64,24 @@ A task is DONE when ALL of the following are true:
 | Eva-gateway | Service | `srv1613305` (eva-gateway/) | Telegram intake + LLM routing |
 
 New agents are registered here by the Manager (Eva) when Edwin commissions them.
+
+## 4.1 Department Model
+
+| Department | Lead | Purpose | Status |
+|---|---|---|---|
+| Executive | Edwin + Eva | Vision, strategy, operations | active |
+| Product | PM-1 | Requirements, product clarity | active |
+| Design | DESIGN-1 | UI/UX, canvas/workplace experience | active |
+| Architecture | ARCH-1 | Technical blueprint and phase plan | active |
+| Engineering | ENG-* | Build implementation | active |
+| QA | QA-1 | Validation and acceptance | active |
+| DevOps | DEVOPS-1 | Deployment and runtime confirmation | active |
+| Finance | CFO-1 | Budget, forecast, spend limits | planned |
+| Operations | OPS-1 | Queue, handoff, process health | active |
+| Customer Success | CS-1 | Value confirmation and feedback loops | planned |
+| Growth | MKT-1 + SALES-1 | Positioning, proposals, demand | planned |
+| HR | HR-1 | Agent lifecycle and performance | planned |
+| IT | IT-1 | Systems, access, security, infrastructure | active |
 
 ## 5. Sync Protocol — Three Substrates
 

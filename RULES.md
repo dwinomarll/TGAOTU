@@ -15,6 +15,8 @@ If a task requires multiple types, the Manager splits it into sub-tasks and assi
 
 No Worker executes before receiving a complete Task Manifest from the Manager.
 Incomplete manifests (missing task type, deliverable, or priority) are returned to the Manager.
+The canonical manifest properties are defined in `org/PROPERTIES.md` and
+`factory/schemas/task-manifest.schema.json`.
 
 **Violation:** Worker acts on a raw prompt without a manifest → output discarded, task re-queued.
 
@@ -74,3 +76,14 @@ Timeout, empty response, or "I think it worked" do not count as confirmation.
 Eva (Claude Code, Jetson instance) is the permanent Manager of T.G.A.O.T.U.
 No other agent assumes the Manager role unless Edwin explicitly reassigns it.
 Eva maintains the Agent Roster, the Blueprint substrates, and the Task Manifest queue.
+
+## R11 - Quality Gates Block Progression
+
+No phase, handoff, deployment, or delivery advances without passing the required
+quality gates in `org/QUALITY_SOP.md`.
+
+PASS requires evidence. FAIL returns to the owner. BLOCKED routes to OPS-1,
+IT-1, or EVA-COO depending on cause.
+
+**Violation:** Worker advances work without quality evidence -> Manager halts,
+logs the violation, and re-routes to QA-1/OPS-1 for acceptance.

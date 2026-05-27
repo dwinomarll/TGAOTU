@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/agent-contract.schema.json",
+  "title": "TGAOTU Agent Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "name",
+    "team",
+    "role",
+    "reports_to",
+    "input_document",
+    "output_document",
+    "tools",
+    "decision_rules",
+    "quality_gate",
+    "escalation_path"
+  ],
+  "properties": {
+    "agent_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "team": {
+      "type": "string",
+      "enum": [
+        "Executive Ops",
+        "Product",
+        "Design",
+        "Architecture",
+        "Engineering",
+        "QA",
+        "DevOps",
+        "Operations",
+        "IT / Systems",
+        "Finance",
+        "Customer Success",
+        "Growth",
+        "Human Resources",
+        "Supervisor"
+      ]
+    },
+    "role": { "type": "string", "minLength": 1 },
+    "reports_to": { "type": "string", "minLength": 1 },
+    "input_document": { "type": "string", "minLength": 1 },
+    "output_document": { "type": "string", "minLength": 1 },
+    "tools": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "decision_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "quality_gate": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "escalation_path": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["condition", "escalate_to"],
+        "properties": {
+          "condition": { "type": "string", "minLength": 1 },
+          "escalate_to": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

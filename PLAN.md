@@ -26,6 +26,19 @@
 |---|---|
 | `blueprints/blueprint-III-factory.md` | DONE — App Factory protocol: 6 stages, escalation gate, build loop |
 | `factory/templates/VISION.md` | DONE — Edwin's one-time brief template |
+| `org/PROPERTIES.md` | DONE - canonical entity/property map for repo, Notion, GitHub, and memory |
+| `factory/templates/TASK_MANIFEST.md` | DONE - worker assignment shape |
+| `factory/templates/BUILD_STATE.md` | DONE - human build-state shape |
+| `factory/templates/DELIVERY_REPORT.md` | DONE - delivery close-out shape |
+| `factory/schemas/*.schema.json` | DONE - machine-readable schemas for factory entities |
+| `org/AI_POSITIONS.md` | DONE - professional AI department structure and role definitions |
+| `org/agents/eva-coo.md` | DONE - executive operations contract |
+| `org/agents/ops-1.md` | DONE - operations manager contract |
+| `org/agents/it-1.md` | DONE - systems administrator contract |
+| `org/QUALITY_SOP.md` | DONE - quality gates, defect severity, and acceptance rules |
+| `factory/templates/QUALITY_REPORT.md` | DONE - human quality report shape |
+| `factory/schemas/quality-report.schema.json` | DONE - machine-readable quality report schema |
+| `org/agents/qa-1.md` | DONE - QA contract upgraded to enforce quality gates |
 
 ---
 
@@ -34,8 +47,8 @@
 | Phase | Goal | Status |
 |---|---|---|
 | **F1** | Blueprint III — App Factory Protocol | ✅ DONE |
-| **F2** | Architect Agent — reads VISION.md, produces BLUEPRINT.md autonomously | next |
-| **F3** | Build Loop Engine — phase execution + self-repair + validation | after F2 |
+| **F2** | Architect Agent — reads VISION.md, produces BLUEPRINT.md autonomously | in progress: BUILD_STATE shape aligned |
+| **F3** | Build Loop Engine — phase execution + self-repair + validation | after F2; must emit Task Manifests |
 | **F4** | Escalation Gate — 3-case only Edwin contact protocol | after F3 |
 | **F5** | First live run — Edwin drops one VISION.md, Factory ships an app | after F4 |
 | **P1** | Telegram intake receptor (eva-gateway) — Factory receives commissions from phone | parallel |

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/department.schema.json",
+  "title": "TGAOTU Department",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "department_id",
+    "name",
+    "lead_agent",
+    "mission",
+    "status",
+    "roles",
+    "inputs",
+    "outputs"
+  ],
+  "properties": {
+    "department_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "lead_agent": { "type": "string", "minLength": 1 },
+    "mission": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["active", "planned", "parked", "retired"]
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "inputs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "outputs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
+

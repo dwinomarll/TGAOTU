@@ -1,10 +1,13 @@
 {
-  "mode": "supervised",
-  "description": "supervised = Edwin on loop for escalations | autonomous = org self-resolves everything",
+  "mode": "autonomous_org",
+  "description": "autonomous_org = system self-runs from vision to delivery; humans are vision source or invited collaborators, not required operators",
   "escalation_chain_enabled": true,
   "notify_edwin_on_delivery": true,
   "notify_edwin_on_blocker": false,
-  "human_contact_cases": ["credential", "budget"],
-  "last_changed": "2026-05-19",
+  "human_contact_cases": ["vision", "credential", "budget", "invited_collaboration"],
+  "human_default_role": "vision_source",
+  "invited_collaborators_allowed": true,
+  "collaboration_surfaces": ["workplace", "canvas", "review"],
+  "last_changed": "2026-05-21",
   "changed_by": "Eva (COO)"
 }

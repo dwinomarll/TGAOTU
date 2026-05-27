@@ -13,8 +13,14 @@ import argparse
 import os
 import sys
 import json
-from datetime import datetime, timezone
+import re
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+try:
+    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+except ImportError:  # pragma: no cover - Python < 3.9 fallback
+    ZoneInfo = None
+    ZoneInfoNotFoundError = Exception
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
@@ -27,19 +33,23 @@ MODEL_OLLAMA = "qwen3:8b"
 MAC_OLLAMA = "http://100.118.38.42:11434"  # Mac via Tailscale — heavy reasoning
 JETSON_OLLAMA = "http://localhost:11434"    # Jetson fallback — smaller model
 MAX_TOKENS = 8192
+try:
+    EDT = ZoneInfo("America/New_York") if ZoneInfo else timezone(timedelta(hours=-4), "EDT")
+except ZoneInfoNotFoundError:
+    EDT = timezone(timedelta(hours=-4), "EDT")
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def load_architect_prompt() -> str:
     if not PROMPT_FILE.exists():
         sys.exit(f"ERROR: Architect prompt not found at {PROMPT_FILE}")
-    return PROMPT_FILE.read_text()
+    return PROMPT_FILE.read_text(encoding="utf-8")
 
 
 def load_vision(vision_path: Path) -> str:
     if not vision_path.exists():
         sys.exit(f"ERROR: VISION.md not found at {vision_path}")
-    content = vision_path.read_text().strip()
+    content = vision_path.read_text(encoding="utf-8").strip()
     if "[App Name Here]" in content or content.count("\n") < 5:
         sys.exit("ERROR: VISION.md appears to be unfilled template. Complete it first.")
     return content
@@ -59,6 +69,39 @@ def extract_app_name(vision_content: str, fallback: str) -> str:
                     if candidate and not candidate.startswith("["):
                         return candidate.lower().replace(" ", "-")
     return fallback
+
+
+def now_edt_iso() -> str:
+    return datetime.now(EDT).isoformat()
+
+
+def now_edt_display() -> str:
+    return datetime.now(EDT).strftime("%Y-%m-%d %H:%M EDT")
+
+
+def extract_phase_specs(blueprint_content: str) -> list[dict]:
+    """Extract phase title, worker, and validation command from BLUEPRINT.md."""
+    headers = list(re.finditer(r"^### Phase (\d+)\s+\S+\s*(.+)$", blueprint_content, re.MULTILINE))
+    phases = []
+
+    for index, header in enumerate(headers):
+        number = int(header.group(1))
+        title = header.group(2).strip()
+        start = header.end()
+        end = headers[index + 1].start() if index + 1 < len(headers) else len(blueprint_content)
+        block = blueprint_content[start:end]
+
+        worker_match = re.search(r"^- Worker:\s*(.+)$", block, re.MULTILINE)
+        command_match = re.search(r"Command:\s*`(.+?)`", block)
+
+        phases.append({
+            "number": number,
+            "title": title,
+            "worker": worker_match.group(1).strip() if worker_match else "(see BLUEPRINT.md)",
+            "validation_command": command_match.group(1).strip() if command_match else "echo validate manually"
+        })
+
+    return phases
 
 
 def call_llm(system_prompt: str, user_message: str) -> str:
@@ -115,29 +158,42 @@ def call_llm(system_prompt: str, user_message: str) -> str:
 
 
 def init_build_state(app_dir: Path, app_name: str, blueprint_content: str) -> None:
-    # Extract phase count from blueprint
-    phase_count = blueprint_content.count("### Phase ")
+    phase_specs = extract_phase_specs(blueprint_content)
+    if not phase_specs:
+        phase_specs = [
+            {
+                "number": i,
+                "title": "(see BLUEPRINT.md)",
+                "worker": "(see BLUEPRINT.md)",
+                "validation_command": "echo validate manually"
+            }
+            for i in range(1, blueprint_content.count("### Phase ") + 1)
+        ]
+
     phases = []
-    for i in range(1, phase_count + 1):
+    for phase in phase_specs:
         phases.append({
-            "number": i,
-            "status": "pending" if i > 1 else "ready",
+            "number": phase["number"],
+            "title": phase["title"],
+            "worker": phase["worker"],
+            "status": "pending" if phase["number"] > 1 else "ready",
             "validated": False,
+            "validation_command": phase["validation_command"],
             "notes": ""
         })
 
     state = {
         "app_name": app_name,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": now_edt_iso(),
+        "last_updated": now_edt_iso(),
         "current_phase": 1,
         "overall_status": "ready",
         "phases": phases,
-        "escalations": [],
-        "last_updated": datetime.now(timezone.utc).isoformat()
+        "escalations": []
     }
 
     state_path = app_dir / "BUILD_STATE.json"
-    state_path.write_text(json.dumps(state, indent=2))
+    state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
     # Also write human-readable BUILD_STATE.md
     md_lines = [
@@ -145,19 +201,29 @@ def init_build_state(app_dir: Path, app_name: str, blueprint_content: str) -> No
         "",
         f"## Current Phase: 1",
         f"## Overall Status: ready",
-        f"## Created: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
+        f"## Created: {now_edt_display()}",
+        f"## Last Updated: {now_edt_display()}",
         "",
-        "| Phase | Title | Status | Validated | Notes |",
-        "|-------|-------|--------|-----------|-------|",
+        "| Phase | Title | Worker | Status | Validated | Validation | Notes |",
+        "|-------|-------|--------|--------|-----------|------------|-------|",
     ]
     for p in phases:
         status_emoji = "⏳" if p["status"] == "pending" else "🟢"
         md_lines.append(
-            f"| {p['number']} | (see BLUEPRINT.md) | {status_emoji} {p['status']} | {'✅' if p['validated'] else '—'} | |"
+            f"| {p['number']} | {p['title']} | {p['worker']} | {status_emoji} {p['status']} | {'yes' if p['validated'] else 'no'} | `{p['validation_command']}` | |"
         )
-    md_lines += ["", "---", "*Updated by T.G.A.O.T.U. Build Loop*"]
+    md_lines += [
+        "",
+        "## Escalations",
+        "",
+        "| Time | Phase | Reason | Owner | Status | Resolution |",
+        "|---|---:|---|---|---|---|",
+        "",
+        "---",
+        "*Updated by T.G.A.O.T.U. Build Loop*"
+    ]
 
-    (app_dir / "BUILD_STATE.md").write_text("\n".join(md_lines))
+    (app_dir / "BUILD_STATE.md").write_text("\n".join(md_lines), encoding="utf-8")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -212,11 +278,11 @@ Make all decisions. Do not ask questions. Output only the BLUEPRINT.md content."
     if args.vision_file:
         vision_dest = app_dir / "VISION.md"
         if not vision_dest.exists():
-            vision_dest.write_text(vision_content)
+            vision_dest.write_text(vision_content, encoding="utf-8")
 
     # Write BLUEPRINT.md
     blueprint_path = app_dir / "BLUEPRINT.md"
-    blueprint_path.write_text(blueprint)
+    blueprint_path.write_text(blueprint, encoding="utf-8")
     print(f"[Architect] BLUEPRINT.md written → {blueprint_path}")
 
     # Initialize BUILD_STATE

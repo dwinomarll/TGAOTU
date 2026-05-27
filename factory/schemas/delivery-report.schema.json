@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/delivery-report.schema.json",
+  "title": "TGAOTU Delivery Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "app_name",
+    "delivered_at",
+    "summary",
+    "locations",
+    "success_signal",
+    "verification_result",
+    "quality_report",
+    "open_blocking_defects",
+    "key_beats"
+  ],
+  "properties": {
+    "app_name": { "type": "string", "minLength": 1 },
+    "delivered_at": { "type": "string", "format": "date-time" },
+    "summary": { "type": "string", "minLength": 1 },
+    "locations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1 },
+          "value": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "success_signal": { "type": "string", "minLength": 1 },
+    "verification_result": {
+      "type": "string",
+      "enum": ["passed", "failed"]
+    },
+    "quality_report": { "type": "string", "minLength": 1 },
+    "open_blocking_defects": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "key_beats": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "next_commission": { "type": "string" }
+  }
+}

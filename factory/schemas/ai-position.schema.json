@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/ai-position.schema.json",
+  "title": "TGAOTU AI Position",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "position_id",
+    "department",
+    "title",
+    "reports_to",
+    "coordinates_with",
+    "authority_level",
+    "owns",
+    "does_not_own",
+    "input_artifacts",
+    "output_artifacts",
+    "done_means",
+    "instructions",
+    "escalation_conditions",
+    "logging_duties",
+    "sop_references",
+    "status"
+  ],
+  "properties": {
+    "position_id": { "type": "string", "minLength": 1 },
+    "department": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "reports_to": { "type": "string", "minLength": 1 },
+    "coordinates_with": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "authority_level": {
+      "type": "string",
+      "enum": ["decide", "recommend", "execute", "validate", "escalate"]
+    },
+    "owns": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "does_not_own": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "input_artifacts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "output_artifacts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "done_means": { "type": "string", "minLength": 1 },
+    "instructions": { "type": "string", "minLength": 1 },
+    "escalation_conditions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "logging_duties": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "sop_references": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "onboarding", "planned", "parked", "retired"]
+    }
+  }
+}

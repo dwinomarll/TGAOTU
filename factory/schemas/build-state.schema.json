@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/build-state.schema.json",
+  "title": "TGAOTU Build State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "app_name",
+    "created_at",
+    "last_updated",
+    "overall_status",
+    "current_phase",
+    "phases",
+    "escalations"
+  ],
+  "properties": {
+    "app_name": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "last_updated": { "type": "string", "format": "date-time" },
+    "overall_status": {
+      "type": "string",
+      "enum": ["ready", "in_progress", "blocked", "complete", "delivered"]
+    },
+    "current_phase": { "type": "integer", "minimum": 0 },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "number",
+          "title",
+          "worker",
+          "status",
+          "validated",
+          "validation_command"
+        ],
+        "properties": {
+          "number": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "worker": { "type": "string", "minLength": 1 },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "ready", "in_progress", "blocked", "complete"]
+          },
+          "validated": { "type": "boolean" },
+          "validation_command": { "type": "string", "minLength": 1 },
+          "validation_result": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "escalations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
+

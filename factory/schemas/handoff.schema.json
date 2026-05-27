@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/handoff.schema.json",
+  "title": "TGAOTU Team Handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "handoff_id",
+    "from_position",
+    "to_position",
+    "app_name",
+    "phase",
+    "input_artifacts",
+    "output_expected",
+    "validation",
+    "assumptions",
+    "evidence",
+    "next_action",
+    "open_questions",
+    "status"
+  ],
+  "properties": {
+    "handoff_id": { "type": "string", "minLength": 1 },
+    "from_position": { "type": "string", "minLength": 1 },
+    "to_position": { "type": "string", "minLength": 1 },
+    "app_name": { "type": "string", "minLength": 1 },
+    "phase": {
+      "oneOf": [
+        { "type": "integer", "minimum": 0 },
+        { "type": "string", "enum": ["prebuild", "delivery"] }
+      ]
+    },
+    "input_artifacts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "output_expected": { "type": "string", "minLength": 1 },
+    "validation": { "type": "string", "minLength": 1 },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "next_action": { "type": "string", "minLength": 1 },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["queued", "accepted", "blocked", "complete"]
+    }
+  }
+}

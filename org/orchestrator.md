@@ -69,6 +69,32 @@ For everything else: Eva resolves internally using SUP-1.
 
 ---
 
+## Autonomous Organization Mode
+
+T.G.A.O.T.U. now runs as `autonomous_org`:
+
+- Edwin is the vision source, not the operator of the workflow.
+- Eva turns vision or canvas input into Task Manifests and routes work.
+- Invited collaborators may enter through workplace, canvas, or review gates.
+- Collaboration gates are optional unless Edwin explicitly makes them required.
+- The org only contacts humans for vision changes, credentials, budget, delivery,
+  or invited collaboration gates.
+
+This means the production pipeline does not depend on a human being present in
+the middle. The organization decomposes, assigns, executes, validates, and
+delivers on its own.
+
+AI positions and team coordination are governed by:
+
+- `org/AI_POSITIONS.md`
+- `org/TEAM_INTERACTIONS.md`
+- `org/POSITION_PROMPT_STANDARD.md`
+- `org/LOGGING_SOP.md`
+- `factory/schemas/ai-position.schema.json`
+- `factory/schemas/handoff.schema.json`
+
+---
+
 ## Daily Org Status (Eva produces this on request)
 
 ```

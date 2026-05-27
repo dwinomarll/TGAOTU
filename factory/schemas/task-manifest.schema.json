@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/task-manifest.schema.json",
+  "title": "TGAOTU Task Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_id",
+    "app_name",
+    "phase",
+    "task_type",
+    "assigned_agent",
+    "input_artifacts",
+    "output_artifacts",
+    "allowed_paths",
+    "validation_command",
+    "pass_condition",
+    "priority",
+    "status",
+    "escalation_policy",
+    "human_role",
+    "collaboration_gate"
+  ],
+  "properties": {
+    "manifest_id": { "type": "string", "minLength": 1 },
+    "app_name": { "type": "string", "minLength": 1 },
+    "phase": { "type": "integer", "minimum": 0 },
+    "task_type": {
+      "type": "string",
+      "enum": ["Product", "Design", "Architecture", "Engineering", "QA", "DevOps", "Supervisor"]
+    },
+    "assigned_agent": { "type": "string", "minLength": 1 },
+    "input_artifacts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "output_artifacts": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "allowed_paths": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "validation_command": { "type": "string", "minLength": 1 },
+    "pass_condition": { "type": "string", "minLength": 1 },
+    "priority": { "type": "string", "enum": ["P0", "P1", "P2"] },
+    "status": {
+      "type": "string",
+      "enum": ["queued", "in_progress", "blocked", "passed", "failed"]
+    },
+    "human_role": {
+      "type": "string",
+      "enum": ["vision_source", "invited_collaborator", "reviewer", "none"]
+    },
+    "collaboration_gate": {
+      "type": "string",
+      "enum": ["none", "workplace", "canvas", "review"]
+    },
+    "escalation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["escalate_to", "allowed_reasons"],
+      "properties": {
+        "escalate_to": { "type": "string", "minLength": 1 },
+        "allowed_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["structural", "credential", "budget", "blocked-after-3-retries"]
+          }
+        }
+      }
+    }
+  }
+}

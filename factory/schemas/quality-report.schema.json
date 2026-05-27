@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/quality-report.schema.json",
+  "title": "TGAOTU Quality Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_id",
+    "subject",
+    "verdict",
+    "scope_gate",
+    "artifact_gate",
+    "validation_gate",
+    "defects",
+    "handoff_gate",
+    "log_gate",
+    "security_gate",
+    "accepted_by",
+    "accepted_at",
+    "next_action"
+  ],
+  "properties": {
+    "report_id": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string", "minLength": 1 },
+    "app_name": { "type": "string" },
+    "phase": { "type": ["integer", "string"] },
+    "verdict": {
+      "type": "string",
+      "enum": ["pass", "fail", "blocked"]
+    },
+    "scope_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_output", "actual_output", "scope_drift_found"],
+      "properties": {
+        "expected_output": { "type": "string", "minLength": 1 },
+        "actual_output": { "type": "string", "minLength": 1 },
+        "scope_drift_found": { "type": "boolean" }
+      }
+    },
+    "artifact_gate": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact", "expected", "found", "notes"],
+        "properties": {
+          "artifact": { "type": "string", "minLength": 1 },
+          "expected": { "type": "boolean" },
+          "found": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "validation_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "result", "evidence"],
+      "properties": {
+        "method": { "type": "string", "minLength": 1 },
+        "result": { "type": "string", "enum": ["passed", "failed", "blocked"] },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "defects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "severity", "owner", "status", "summary"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "severity": { "type": "string", "enum": ["S0", "S1", "S2", "S3", "S4"] },
+          "owner": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["open", "closed", "accepted"] },
+          "summary": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "handoff_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["handoff_written", "evidence_included", "assumptions_included", "open_questions_included", "next_action_included"],
+      "properties": {
+        "handoff_written": { "type": "boolean" },
+        "evidence_included": { "type": "boolean" },
+        "assumptions_included": { "type": "boolean" },
+        "open_questions_included": { "type": "boolean" },
+        "next_action_included": { "type": "boolean" }
+      }
+    },
+    "log_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["activity_log_ref", "handoff_log_ref"],
+      "properties": {
+        "activity_log_ref": { "type": "string", "minLength": 1 },
+        "handoff_log_ref": { "type": "string", "minLength": 1 },
+        "supervisor_log_ref": { "type": "string" }
+      }
+    },
+    "security_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewed_by", "notes"],
+      "properties": {
+        "status": { "type": "string", "enum": ["clear", "issue", "not_applicable"] },
+        "reviewed_by": { "type": "string", "minLength": 1 },
+        "notes": { "type": "string" }
+      }
+    },
+    "accepted_by": { "type": "string", "minLength": 1 },
+    "accepted_at": { "type": "string", "format": "date-time" },
+    "next_action": { "type": "string", "minLength": 1 }
+  }
+}

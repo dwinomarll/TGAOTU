@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/collaboration-gate.schema.json",
+  "title": "TGAOTU Collaboration Gate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gate_id",
+    "app_name",
+    "surface",
+    "participants",
+    "authority",
+    "opens_when",
+    "closes_when",
+    "required_for_delivery"
+  ],
+  "properties": {
+    "gate_id": { "type": "string", "minLength": 1 },
+    "app_name": { "type": "string", "minLength": 1 },
+    "surface": {
+      "type": "string",
+      "enum": ["workplace", "canvas", "review"]
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "authority": {
+      "type": "string",
+      "enum": ["input", "review", "approval", "co_creation"]
+    },
+    "opens_when": { "type": "string", "minLength": 1 },
+    "closes_when": { "type": "string", "minLength": 1 },
+    "required_for_delivery": { "type": "boolean" }
+  }
+}
+
