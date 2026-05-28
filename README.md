@@ -38,6 +38,7 @@ depend on them to operate.
 | II | The Management Protocol | `blueprints/management.md` |
 | III | The App Factory Protocol | `blueprints/blueprint-III-factory.md` |
 | IV | The Autonomous Organization | `blueprints/organization.md` |
+| V | The Worker Reference Schema | `blueprints/worker-schema.md` |
 
 ## Property Layer
 
