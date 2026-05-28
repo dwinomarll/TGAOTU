@@ -23,12 +23,13 @@ depend on them to operate.
 
 ## Three Substrates (always in sync)
 
-| Substrate | Location |
-|---|---|
-| Notion page | `3656ae29-a07c-81a5-9d5c-c10927e1b5f0` (parent: The Root) |
-| GitHub repo | `github.com/dwinomarll/TGAOTU` (private, main) |
-| Local repo | `~/TGAOTU/` |
-| Memory file | `~/.claude/projects/-home-jetson/memory/project_tgaotu.md` |
+| Substrate | Role | Location |
+|---|---|---|
+| **The Stela** | where the kingdom is **seen** — the published surface where the geometry is displayed to be read | Notion page `3656ae29-a07c-81a5-9d5c-c10927e1b5f0` (parent: The Root) — Notion is the engine; **The Stela** is the name |
+| **GitHub** | where the kingdom is **built** — the canon | `github.com/dwinomarll/TGAOTU` (private, main) · local `~/TGAOTU/` |
+| **Memory** | where the kingdom **remembers** — continuity across nodes | `~/.claude/projects/-home-jetson/memory/project_tgaotu.md` |
+
+> **Naming:** the witness surface is **The Stela** (the inscribed slab where the record is read — Rosetta-Stone function: it makes the build *legible*). "Notion" is only the tool currently hosting it; per the *clone-don't-integrate* doctrine, The Stela is eventually cloned natively into The Cosmos. See `MAAT/docs/LEXICON.md`.
 
 ## Blueprints
 
