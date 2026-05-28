@@ -8,8 +8,10 @@ LLM Worker to write the app's single source file, validates against the VISION's
 success signal, self-repairs up to 3 times, escalates if it can't, updates
 BUILD_STATE, and writes a Delivery Report. No human in the loop.
 
-v1 scope: single-file CLI builds (one Worker, one file). Multi-file / per-phase
-multi-worker orchestration is v2.
+Worker routing (Blueprint II router): code-extension targets are dispatched to
+Claude Code (`--print --permission-mode bypassPermissions`); other tasks use the
+local LLM. Scope: single-file builds (one Worker, one file). Multi-file / per-phase
+orchestration is future.
 
 Usage:
     python3 factory/build-loop.py factory/active/<app>/
@@ -18,6 +20,7 @@ Usage:
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -29,6 +32,7 @@ from architect import call_llm, now_edt_iso, now_edt_display  # reuse the proven
 MAX_REPAIRS = 3
 FIXTURE_NAME = "sample.txt"
 FIXTURE_TEXT = "hello world\nthe quick brown fox\n"  # 2 lines, 6 words, 31 chars
+CODE_EXTS = (".py", ".js", ".ts", ".sh", ".go", ".rb", ".swift", ".rs", ".java")
 
 
 # ── Worker ──────────────────────────────────────────────────────────────────
@@ -46,6 +50,28 @@ def detect_target_file(app_name: str, blueprint: str) -> str:
     return m.group(1) if m else f"{app_name}.py"
 
 
+def dispatch_via_claude_code(system: str, user: str) -> str | None:
+    """Route a code Worker to Claude Code — Blueprint II router (code -> Claude Code / Codex)
+    + Blueprint III agent-assignments (`--print --permission-mode bypassPermissions`).
+    Returns the file content, or None to fall back to the local LLM."""
+    if not shutil.which("claude"):
+        return None
+    prompt = (system + "\n\n" + user +
+              "\n\nDo NOT use any tools or write files. Respond with ONLY the raw file content.")
+    try:
+        proc = subprocess.run(
+            ["claude", "--print", "--permission-mode", "bypassPermissions", prompt],
+            capture_output=True, text=True, timeout=300,
+        )
+        if proc.returncode == 0 and proc.stdout.strip():
+            print("[Build Loop] Worker backend: Claude Code (code task)")
+            return proc.stdout
+        print(f"[Build Loop] Claude Code returned nothing (exit {proc.returncode}); falling back")
+    except Exception as exc:  # noqa: BLE001
+        print(f"[Build Loop] Claude Code worker error ({exc}); falling back")
+    return None
+
+
 def dispatch_worker(vision: str, blueprint: str, target: str,
                     prior_code: str | None, error_feedback: str | None) -> str:
     system = (
@@ -60,6 +86,12 @@ def dispatch_worker(vision: str, blueprint: str, target: str,
     if error_feedback:
         msg += (f"\nThe previous version FAILED validation:\n{error_feedback}\n"
                 f"Fix the cause and output the FULL corrected `{target}`.")
+    # Route by task type (Blueprint II router): code phases → a capable coder
+    # (Claude Code), everything else → the local LLM. Repair feedback flows to either.
+    if target.endswith(CODE_EXTS):
+        out = dispatch_via_claude_code(system, msg)
+        if out is not None:
+            return strip_to_code(out)
     return strip_to_code(call_llm(system, msg))
 
 
