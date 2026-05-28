@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Federation Protocol — pre-commit enforcement. See org/FEDERATION_SOP.md.
+#   F3: a contributing instance must not commit to the protected branch.
+#   F2: nudge (not block) if no work is claimed in the registry.
+set -uo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+. "$DIR/federation-lib.sh"
+
+[ "${FEDERATION_OVERRIDE:-0}" = "1" ] && exit 0
+
+branch="$(fed_current_branch)"
+protected="$(fed_protected_branch)"
+
+# --- F3 (hard block): contributing instance committing to the protected branch ---
+if [ "$branch" = "$protected" ] && ! fed_is_manager; then
+  fed_red "✗ FEDERATION F3: this is a contributing instance ($(fed_hostname)) — do not commit to '$protected'."
+  fed_red "  Branch + PR instead:  git checkout -b <feature>  →  push  →  open PR for the Manager of record."
+  fed_red "  Only the Manager of record writes '$protected'. See org/FEDERATION_SOP.md (F1, F3)."
+  fed_red "  Override (Edwin / emergency):  FEDERATION_OVERRIDE=1 git commit …   or   git commit --no-verify"
+  exit 1
+fi
+
+# --- F2 (soft nudge): no active claim in the registry ---
+fed_active_claim_state
+case $? in
+  1) fed_yellow "⚠ FEDERATION F2: no active claim in the work registry. Did you 'work_check.py claim' before building? (not blocking)" ;;
+  *) : ;;  # 0 = a claim exists; 2 = registry unreadable → stay silent, never block on infra
+esac
+
+exit 0
