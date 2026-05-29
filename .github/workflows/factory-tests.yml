@@ -14,5 +14,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Run factory build-loop test suite
-        run: python3 factory/test_build_loop.py
+      - name: Run all factory test suites
+        run: |
+          rc=0
+          for t in factory/test_*.py; do
+            echo "== $t =="
+            python3 "$t" || rc=1
+          done
+          exit $rc
