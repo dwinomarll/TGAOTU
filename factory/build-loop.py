@@ -48,7 +48,7 @@ def strip_to_code(text: str) -> str:
 
 
 def detect_target_files(app_name: str, blueprint: str) -> list[str]:
-    """All source files from the blueprint's File Tree (leaf names, flat, order-preserved).
+    """All source files from the blueprint's File Tree (relative paths, order-preserved).
     Falls back to a single <app>.py if no File Tree is found."""
     # Grab the "File Tree"/"File Structure" section up to the next heading — robust to
     # whether the LLM fenced it or wrote it as plain text.
@@ -57,9 +57,9 @@ def detect_target_files(app_name: str, blueprint: str) -> list[str]:
     block = m.group(1) if m else ""
     files: list[str] = []
     for fm in re.finditer(r"([A-Za-z0-9_./\-]+\.(?:py|js|ts|sh|go|rb|swift|rs|java))", block):
-        leaf = fm.group(1).split("/")[-1]
-        if leaf not in files:
-            files.append(leaf)
+        rel = fm.group(1)  # keep the relative path so subdirectory layouts survive
+        if rel not in files:
+            files.append(rel)
     return files or [f"{app_name}.py"]
 
 
@@ -174,7 +174,9 @@ def validate_from_plan(app_dir: Path, plan: dict) -> tuple[bool, str]:
     Commands come from Edwin's own VISION in a sandboxed app dir (trusted context)."""
     for name, content in (plan.get("fixtures") or {}).items():
         try:
-            (app_dir / str(name)).write_text(content if isinstance(content, str) else str(content), encoding="utf-8")
+            dest = app_dir / str(name)
+            dest.parent.mkdir(parents=True, exist_ok=True)  # support subdir fixtures (e.g. sample_notes/x.md)
+            dest.write_text(content if isinstance(content, str) else str(content), encoding="utf-8")
         except Exception:  # noqa: BLE001
             pass
     log: list[str] = []
@@ -227,10 +229,10 @@ def validate(app_dir: Path, entrypoint: str, plan: dict | None) -> tuple[bool, s
 def parse_phases(blueprint: str) -> list[dict]:
     """Parse the BLUEPRINT's `### Phase N — Title` blocks into ordered phase dicts.
 
-    Each phase dict: {number:int, title:str, deliverables:[leaf filenames],
-    command:str|None, pass_condition:str|None}. Deliverables are reduced to their
-    leaf filename (e.g. "src/main.py" -> "main.py") to match how detect_target_files
-    and the build write files at the app-dir root. Returns [] if nothing parses."""
+    Each phase dict: {number:int, title:str, deliverables:[relative paths],
+    command:str|None, pass_condition:str|None}. Deliverables keep their
+    File-Tree-relative path (e.g. "sample_notes/alpha.md"); the build creates any
+    parent directories as needed. Returns [] if nothing parses."""
     # Split into per-phase blocks: each starts at "### Phase N — Title" and runs
     # until the next "### " heading or any "## " heading (end of the Phases section).
     phases: list[dict] = []
@@ -261,9 +263,9 @@ def parse_phases(blueprint: str) -> list[dict]:
                 fm = re.search(r"([A-Za-z0-9_./\-]+\.[A-Za-z0-9]+)", item)
                 if not fm:
                     continue
-                leaf = fm.group(1).split("/")[-1]
-                if leaf not in deliverables:
-                    deliverables.append(leaf)
+                rel = fm.group(1)  # keep the File-Tree-relative path (may include subdirs)
+                if rel not in deliverables:
+                    deliverables.append(rel)
 
         # Validation command inside backticks after "Command:".
         cm = re.search(r"Command\s*:\s*`([^`]+)`", body, re.IGNORECASE)
@@ -292,8 +294,8 @@ def validate_phase(app_dir: Path, command: str | None, pass_condition: str | Non
     used as a gate. A phase that needs output assertions should encode them in the
     command itself (e.g. `... | grep -q 5`). command=None → validated-by-build.
 
-    NOTE: the command runs in the (flat) app dir, so it must reference files by the
-    leaf names the build writes, not File-Tree subpaths."""
+    NOTE: the command runs in the app dir; reference files by their File-Tree-relative
+    paths — the build preserves subdirectories."""
     if not command:
         return True, "[PASS] (no command — validated by build)"
     rc, out = run(["bash", "-c", command], app_dir)
@@ -417,7 +419,9 @@ def _run_single_pass(app_dir: Path, vision: str, blueprint: str, state: dict,
             print(f"[Build Loop]   Worker → `{tgt}`")
             siblings = {n: c for n, c in built.items() if n != tgt}
             code = dispatch_worker(vision, blueprint, tgt, siblings, built.get(tgt), error)
-            (app_dir / tgt).write_text(code + ("" if code.endswith("\n") else "\n"), encoding="utf-8")
+            dest = app_dir / tgt
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(code + ("" if code.endswith("\n") else "\n"), encoding="utf-8")
             built[tgt] = code
 
         ok, val_log = validate(app_dir, entrypoint, plan)
@@ -498,7 +502,9 @@ def _run_sequential(app_dir: Path, app_name: str, vision: str, blueprint: str, s
                 print(f"[Build Loop]     Worker → `{tgt}`")
                 siblings = {n: c for n, c in built.items() if n != tgt}
                 code = dispatch_worker(vision, blueprint, tgt, siblings, built.get(tgt), error)
-                (app_dir / tgt).write_text(code + ("" if code.endswith("\n") else "\n"), encoding="utf-8")
+                dest = app_dir / tgt
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_text(code + ("" if code.endswith("\n") else "\n"), encoding="utf-8")
                 built[tgt] = code
 
             ok, phase_log = validate_phase(app_dir, ph["command"], ph["pass_condition"])
