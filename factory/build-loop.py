@@ -9,8 +9,8 @@ signal, self-repairs up to 3 times, escalates if it can't, updates BUILD_STATE,
 and writes a Delivery Report. No human in the loop.
 
 Worker routing (Blueprint II router): code-extension targets are dispatched to
-Claude Code (`--print --permission-mode bypassPermissions`); other tasks use the
-local LLM.
+Claude Code (`--print`, all tools denied, default gated permission mode); other
+tasks use the local LLM.
 
 v3: multi-file builds. All source files in the blueprint's File Tree are built
 (flat, one Worker each, with sibling files as read-only context). Single-file
@@ -47,6 +47,16 @@ def strip_to_code(text: str) -> str:
     return fence.group(1) if fence else text
 
 
+def _safe_rel(rel: str) -> bool:
+    """A build target / fixture path must stay inside the app dir — reject absolute
+    paths and '..' escapes. Blueprint File-Trees and check-plan fixtures are
+    LLM-generated, so a hallucinated path must never write outside the sandbox."""
+    if not rel or not rel.strip():
+        return False
+    p = Path(rel)
+    return not p.is_absolute() and ".." not in p.parts
+
+
 def detect_target_files(app_name: str, blueprint: str) -> list[str]:
     """All source files from the blueprint's File Tree (relative paths, order-preserved).
     Falls back to a single <app>.py if no File Tree is found."""
@@ -58,6 +68,9 @@ def detect_target_files(app_name: str, blueprint: str) -> list[str]:
     files: list[str] = []
     for fm in re.finditer(r"([A-Za-z0-9_./\-]+\.(?:py|js|ts|sh|go|rb|swift|rs|java))", block):
         rel = fm.group(1)  # keep the relative path so subdirectory layouts survive
+        if not _safe_rel(rel):
+            print(f"[Build Loop] skipping unsafe File-Tree path: {rel!r}")
+            continue
         if rel not in files:
             files.append(rel)
     return files or [f"{app_name}.py"]
@@ -78,15 +91,21 @@ def detect_entrypoint(vision: str, targets: list[str]) -> str:
 
 def dispatch_via_claude_code(system: str, user: str) -> str | None:
     """Route a code Worker to Claude Code — Blueprint II router (code -> Claude Code / Codex)
-    + Blueprint III agent-assignments (`--print --permission-mode bypassPermissions`).
+    + Blueprint III agent-assignments (`--print`, tools denied, default permission mode).
     Returns the file content, or None to fall back to the local LLM."""
     if not shutil.which("claude"):
         return None
     prompt = (system + "\n\n" + user +
               "\n\nDo NOT use any tools or write files. Respond with ONLY the raw file content.")
     try:
+        # Code generation is text-only — the factory writes the files itself, so this
+        # subprocess must never use tools. Deny side-effect tools and use the default
+        # gated permission mode instead of bypassing permissions (VISION/BLUEPRINT
+        # content is semi-trusted and could carry a prompt injection).
         proc = subprocess.run(
-            ["claude", "--print", "--permission-mode", "bypassPermissions", prompt],
+            ["claude", "--print",
+             "--disallowedTools", "Bash,Edit,Write,Read,NotebookEdit,WebFetch,WebSearch",
+             "--permission-mode", "default", prompt],
             capture_output=True, text=True, timeout=300,
         )
         if proc.returncode == 0 and proc.stdout.strip():
@@ -173,6 +192,8 @@ def validate_from_plan(app_dir: Path, plan: dict) -> tuple[bool, str]:
     """Run a VISION-derived check plan: write fixtures, run each check, assert exit + contains.
     Commands come from Edwin's own VISION in a sandboxed app dir (trusted context)."""
     for name, content in (plan.get("fixtures") or {}).items():
+        if not _safe_rel(str(name)):
+            continue  # reject absolute / '..' fixture paths from the LLM check plan
         try:
             dest = app_dir / str(name)
             dest.parent.mkdir(parents=True, exist_ok=True)  # support subdir fixtures (e.g. sample_notes/x.md)
@@ -264,6 +285,8 @@ def parse_phases(blueprint: str) -> list[dict]:
                 if not fm:
                     continue
                 rel = fm.group(1)  # keep the File-Tree-relative path (may include subdirs)
+                if not _safe_rel(rel):
+                    continue
                 if rel not in deliverables:
                     deliverables.append(rel)
 

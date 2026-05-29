@@ -236,6 +236,29 @@ def test_parse_phases_empty_when_no_phase_blocks():
     assert bl.parse_phases("# BLUEPRINT\n## File Tree\nmain.py\n## Notes\nnothing here") == []
 
 
+# ── path-traversal safety (LLM-supplied paths must stay in the app dir) ────────
+
+def test_detect_target_files_rejects_unsafe_paths():
+    bp = "# File Tree\n```\nok.py\n../escape.py\n/abs/evil.py\nsub/fine.py\n```\n# Next"
+    assert bl.detect_target_files("a", bp) == ["ok.py", "sub/fine.py"]
+
+def test_parse_phases_rejects_unsafe_deliverables():
+    bp = ("### Phase 1 — X\n- Deliverables:\n  - ../evil.py\n  - good.py\n"
+          "- Validation:\n  - Command: `echo ok`\n  - Pass condition: ok\n## End\n")
+    phases = bl.parse_phases(bp)
+    assert phases and phases[0]["deliverables"] == ["good.py"], phases
+
+def test_validate_from_plan_skips_unsafe_fixture():
+    with tempfile.TemporaryDirectory() as d:
+        app = Path(d) / "app"
+        app.mkdir()
+        plan = {"fixtures": {"../escape.txt": "x", "ok.txt": "y"},
+                "checks": [{"command": "cat ok.txt", "expect_exit": "0", "expect_contains": ["y"]}]}
+        bl.validate_from_plan(app, plan)
+        assert not (Path(d) / "escape.txt").exists()   # parent-escape fixture not written
+        assert (app / "ok.txt").exists()
+
+
 # ── validate_phase ────────────────────────────────────────────────────────────
 
 def test_validate_phase_pass_on_zero_exit():
