@@ -133,21 +133,78 @@ def run(cmd: list[str], cwd: Path) -> tuple[int, str]:
         return 1, f"runner error: {e}"
 
 
-def validate(app_dir: Path, entrypoint: str) -> tuple[bool, str]:
-    """Success-signal check for a file-arg CLI: real file → exit 0 + numeric output;
-    missing file → non-zero exit. Sets up the fixture (R4: workplace pre-built)."""
+def extract_check_plan(vision: str) -> dict | None:
+    """Turn the VISION's Success Signal (prose) into a structured, runnable check plan.
+    Uses Claude Code (reliable JSON) with a local-LLM fallback. Returns:
+        {"fixtures": {name: content}, "checks": [{command, expect_exit, expect_contains}]}
+    or None if nothing usable could be extracted (→ caller falls back to the CLI check)."""
+    system = (
+        "You convert a software VISION's success criteria into a runnable test plan. "
+        "Output ONLY a JSON object — no prose, no code fences — with keys:\n"
+        '  "fixtures": object mapping filename -> file content for any input files the '
+        "commands need (e.g. a sample text file); {} if none.\n"
+        '  "checks": array of {"command": <shell string, run in the app directory>, '
+        '"expect_exit": "0" for success or "nonzero" for an expected error/failure, '
+        '"expect_contains": [LOOSE substrings the output should contain — labels or obvious '
+        "words, NEVER exact computed numbers]}.\n"
+        "Derive the commands from the VISION Success Signal. Cover the happy path AND any "
+        "error path it describes."
+    )
+    raw = dispatch_via_claude_code(system, f"VISION:\n{vision}") or call_llm(system, f"VISION:\n{vision}")
+    m = re.search(r"\{.*\}", strip_to_code(raw or ""), re.DOTALL)
+    if not m:
+        return None
+    try:
+        plan = json.loads(m.group(0))
+    except Exception:  # noqa: BLE001
+        return None
+    return plan if isinstance(plan, dict) and plan.get("checks") else None
+
+
+def validate_from_plan(app_dir: Path, plan: dict) -> tuple[bool, str]:
+    """Run a VISION-derived check plan: write fixtures, run each check, assert exit + contains.
+    Commands come from Edwin's own VISION in a sandboxed app dir (trusted context)."""
+    for name, content in (plan.get("fixtures") or {}).items():
+        try:
+            (app_dir / str(name)).write_text(content if isinstance(content, str) else str(content), encoding="utf-8")
+        except Exception:  # noqa: BLE001
+            pass
+    log: list[str] = []
+    all_ok = True
+    for chk in plan.get("checks", []):
+        cmd = (chk.get("command") or "").strip()
+        if not cmd:
+            continue
+        want_nonzero = str(chk.get("expect_exit", "0")).lower() in ("nonzero", "non-zero", "!=0", "1")
+        rc, out = run(["bash", "-c", cmd], app_dir)
+        exit_ok = (rc != 0) if want_nonzero else (rc == 0)
+        contains = [s for s in (chk.get("expect_contains") or []) if isinstance(s, str)]
+        missing = [s for s in contains if s.lower() not in out.lower()]
+        ok = exit_ok and not missing
+        all_ok = all_ok and ok
+        want = "nonzero" if want_nonzero else "0"
+        extra = "" if not missing else f" (missing {missing})"
+        log.append(f"[{'PASS' if ok else 'FAIL'}] `{cmd}` -> exit {rc} (want {want}){extra}\n  {out[:300]}")
+    return (all_ok and bool(log)), "\n".join(log)
+
+
+def validate_cli_fallback(app_dir: Path, entrypoint: str) -> tuple[bool, str]:
+    """Fallback when no check plan can be extracted: assume a file-arg CLI.
+    real file → exit 0 + numeric output; missing file → non-zero exit."""
     (app_dir / FIXTURE_NAME).write_text(FIXTURE_TEXT, encoding="utf-8")
     log = []
-
     rc1, out1 = run(["python3", entrypoint, FIXTURE_NAME], app_dir)
     ok1 = rc1 == 0 and any(c.isdigit() for c in out1)
     log.append(f"[{'PASS' if ok1 else 'FAIL'}] `python3 {entrypoint} {FIXTURE_NAME}` -> exit {rc1}\n  {out1[:300]}")
-
     rc2, out2 = run(["python3", entrypoint, "__does_not_exist__.txt"], app_dir)
     ok2 = rc2 != 0
     log.append(f"[{'PASS' if ok2 else 'FAIL'}] `python3 {entrypoint} __does_not_exist__.txt` -> exit {rc2} (want non-zero)\n  {out2[:300]}")
-
     return (ok1 and ok2), "\n".join(log)
+
+
+def validate(app_dir: Path, entrypoint: str, plan: dict | None) -> tuple[bool, str]:
+    """Validate against the VISION-derived check plan; fall back to the file-arg CLI check."""
+    return validate_from_plan(app_dir, plan) if plan else validate_cli_fallback(app_dir, entrypoint)
 
 
 # ── State + reporting ─────────────────────────────────────────────────────────
@@ -202,6 +259,13 @@ def main() -> None:
     entrypoint = detect_entrypoint(vision, targets)
     print(f"[Build Loop] {app_name}: {len(targets)} file(s) {targets}; entrypoint `{entrypoint}`")
 
+    plan = extract_check_plan(vision)
+    if plan:
+        print(f"[Build Loop] Check plan: {len(plan.get('checks', []))} check(s), "
+              f"{len(plan.get('fixtures') or {})} fixture(s) — from the VISION success signal")
+    else:
+        print("[Build Loop] No check plan extracted — using file-arg CLI fallback.")
+
     state["overall_status"] = "in_progress"
     write_state(app_dir, state)
 
@@ -222,7 +286,7 @@ def main() -> None:
             (app_dir / tgt).write_text(code + ("" if code.endswith("\n") else "\n"), encoding="utf-8")
             built[tgt] = code
 
-        ok, val_log = validate(app_dir, entrypoint)
+        ok, val_log = validate(app_dir, entrypoint, plan)
         print(val_log)
         if ok:
             shipped = True
