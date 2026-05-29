@@ -116,6 +116,7 @@ Expected: `[exact expected output]`
 5. Tech stack must come from the approved list above. No new tools.
 6. If the reference app is MAAT or an existing Edwin project, study its patterns and follow them.
 7. The success signal validation must match what Edwin wrote in VISION.md exactly.
+8. Validation commands and any tests must run with the Python **standard library ONLY** — the build/validate environment has no pip or third-party packages. Use `unittest` (e.g. `python3 -m unittest`), NEVER `pytest`. A phase whose validation needs an uninstalled package will block the build.
 
 ---
 
