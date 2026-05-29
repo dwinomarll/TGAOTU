@@ -141,8 +141,13 @@ def call_llm(system_prompt: str, user_message: str) -> str:
         prompt = (f"{system_prompt}\n\n{user_message}\n\n"
                   "Do NOT use any tools or write files. Respond with ONLY the requested content.")
         try:
+            # Text-only generation: deny all side-effect tools and use the default
+            # (gated) permission mode rather than bypassing permissions. A VISION can
+            # carry a prompt injection, and this subprocess must never run tools.
             proc = subprocess.run(
-                ["claude", "--print", "--permission-mode", "bypassPermissions", prompt],
+                ["claude", "--print",
+                 "--disallowedTools", "Bash,Edit,Write,Read,NotebookEdit,WebFetch,WebSearch",
+                 "--permission-mode", "default", prompt],
                 capture_output=True, text=True, timeout=300,
             )
             if proc.returncode == 0 and proc.stdout.strip():
