@@ -222,6 +222,87 @@ def validate(app_dir: Path, entrypoint: str, plan: dict | None) -> tuple[bool, s
     return validate_from_plan(app_dir, plan) if plan else validate_cli_fallback(app_dir, entrypoint)
 
 
+# ── Per-phase decomposition (the Architect's ordered plan) ────────────────────
+
+def parse_phases(blueprint: str) -> list[dict]:
+    """Parse the BLUEPRINT's `### Phase N — Title` blocks into ordered phase dicts.
+
+    Each phase dict: {number:int, title:str, deliverables:[leaf filenames],
+    command:str|None, pass_condition:str|None}. Deliverables are reduced to their
+    leaf filename (e.g. "src/main.py" -> "main.py") to match how detect_target_files
+    and the build write files at the app-dir root. Returns [] if nothing parses."""
+    # Split into per-phase blocks: each starts at "### Phase N — Title" and runs
+    # until the next "### " heading or any "## " heading (end of the Phases section).
+    phases: list[dict] = []
+    pat = re.compile(
+        r"#{3,}\s*Phase\s+(\d+)\s*[—\-:]\s*([^\n]*)\n(.*?)(?=\n#{2,}\s|\Z)",
+        re.DOTALL,
+    )
+    for m in pat.finditer(blueprint):
+        number = int(m.group(1))
+        title = m.group(2).strip()
+        body = m.group(3)
+
+        # Deliverables: bullets under a "Deliverables:" line, up to the next
+        # non-deliverable section bullet (Goal/Worker/Validation/Command/etc.).
+        deliverables: list[str] = []
+        dm = re.search(
+            r"Deliverables\s*:\s*\n(.*?)(?=\n\s*-\s*(?:Goal|Worker|Validation|Command|Pass condition)\b"
+            r"|\n\s*Command\s*:|\n\s*Pass condition\s*:|\Z)",
+            body, re.DOTALL | re.IGNORECASE,
+        )
+        if dm:
+            for line in dm.group(1).splitlines():
+                bm = re.match(r"\s*-\s*(.+?)\s*$", line)
+                if not bm:
+                    continue
+                item = bm.group(1).strip().strip("`").strip()
+                # Only treat file-like entries (with an extension) as deliverables.
+                fm = re.search(r"([A-Za-z0-9_./\-]+\.[A-Za-z0-9]+)", item)
+                if not fm:
+                    continue
+                leaf = fm.group(1).split("/")[-1]
+                if leaf not in deliverables:
+                    deliverables.append(leaf)
+
+        # Validation command inside backticks after "Command:".
+        cm = re.search(r"Command\s*:\s*`([^`]+)`", body, re.IGNORECASE)
+        command = cm.group(1).strip() if cm else None
+
+        # Pass condition: the text after "Pass condition:" up to end of that line.
+        pm = re.search(r"Pass condition\s*:\s*([^\n]*)", body, re.IGNORECASE)
+        pass_condition = pm.group(1).strip() if pm and pm.group(1).strip() else None
+
+        phases.append({
+            "number": number,
+            "title": title,
+            "deliverables": deliverables,
+            "command": command,
+            "pass_condition": pass_condition,
+        })
+    return phases
+
+
+def validate_phase(app_dir: Path, command: str | None, pass_condition: str | None) -> tuple[bool, str]:
+    """Validate a single phase by running its validation command. Gate on EXIT CODE.
+
+    A BLUEPRINT's `pass_condition` is a human-readable description of intent
+    ("prints a word count") — NOT a literal output substring. Matching it against
+    program output produces false negatives, so it is logged for context but never
+    used as a gate. A phase that needs output assertions should encode them in the
+    command itself (e.g. `... | grep -q 5`). command=None → validated-by-build.
+
+    NOTE: the command runs in the (flat) app dir, so it must reference files by the
+    leaf names the build writes, not File-Tree subpaths."""
+    if not command:
+        return True, "[PASS] (no command — validated by build)"
+    rc, out = run(["bash", "-c", command], app_dir)
+    ok = rc == 0
+    note = f" — expected: {pass_condition}" if pass_condition else ""
+    log = f"[{'PASS' if ok else 'FAIL'}] `{command}` -> exit {rc} (want 0){note}\n  {out[:300]}"
+    return ok, log
+
+
 # ── State + reporting ─────────────────────────────────────────────────────────
 
 def write_state(app_dir: Path, state: dict) -> None:
@@ -230,7 +311,7 @@ def write_state(app_dir: Path, state: dict) -> None:
 
 
 def delivery_report(app_dir: Path, app_name: str, targets: list[str], entrypoint: str,
-                    attempts: int, val_log: str, shipped: bool) -> None:
+                    attempts: int, val_log: str, shipped: bool, phase_log: str | None = None) -> None:
     status = "DELIVERED" if shipped else "BLOCKED — escalated to Manager"
     files_md = "\n".join(f"- `{(app_dir / t)}`" for t in targets)
     lines = [
@@ -243,6 +324,16 @@ def delivery_report(app_dir: Path, app_name: str, targets: list[str], entrypoint
         f"**Entrypoint:** `{entrypoint}`",
         f"**Worker attempts:** {attempts} (max {MAX_REPAIRS + 1})",
         "",
+    ]
+    if phase_log:
+        lines += [
+            "## Phase validation (Architect's ordered plan)",
+            "```",
+            phase_log,
+            "```",
+            "",
+        ]
+    lines += [
         "## Validation (VISION success signal)",
         "```",
         val_log,
@@ -284,6 +375,34 @@ def main() -> None:
     state["overall_status"] = "in_progress"
     write_state(app_dir, state)
 
+    # Choose the path: honor the Architect's ordered phases when they decompose into
+    # files; otherwise fall back to the proven single-pass build.
+    phases = parse_phases(blueprint)
+    sequential = bool(phases) and any(ph["deliverables"] for ph in phases)
+
+    if sequential:
+        shipped, attempt, val_log, phase_log = _run_sequential(
+            app_dir, app_name, vision, blueprint, state, phases, entrypoint, plan)
+        delivery_report(app_dir, app_name, targets, entrypoint, attempt, val_log, shipped, phase_log)
+    else:
+        shipped, attempt, val_log = _run_single_pass(
+            app_dir, vision, blueprint, state, targets, entrypoint, plan)
+        delivery_report(app_dir, app_name, targets, entrypoint, attempt, val_log, shipped)
+
+    if shipped:
+        print(f"\n[Build Loop] DELIVERED ({len(targets)} file(s)) → {app_dir}")
+        print(f"[Build Loop] Report → {app_dir / 'DELIVERY_REPORT.md'}")
+        sys.exit(0)
+    print(f"\n[Build Loop] BLOCKED after {MAX_REPAIRS} repairs — escalated to Manager. See DELIVERY_REPORT.md")
+    sys.exit(2)
+
+
+def _run_single_pass(app_dir: Path, vision: str, blueprint: str, state: dict,
+                     targets: list[str], entrypoint: str,
+                     plan: dict | None) -> tuple[bool, int, str]:
+    """The original single-pass build: build all targets, validate once against the
+    whole VISION, self-repair up to MAX_REPAIRS. Used when the blueprint has no
+    parseable phases-with-deliverables."""
     built: dict[str, str] = {}
     error = None
     shipped = False
@@ -323,14 +442,129 @@ def main() -> None:
             "status": "open",
         })
     write_state(app_dir, state)
-    delivery_report(app_dir, app_name, targets, entrypoint, attempt, val_log, shipped)
+    return shipped, attempt, val_log
 
-    if shipped:
-        print(f"\n[Build Loop] DELIVERED ({len(targets)} file(s)) → {app_dir}")
-        print(f"[Build Loop] Report → {app_dir / 'DELIVERY_REPORT.md'}")
-        sys.exit(0)
-    print(f"\n[Build Loop] BLOCKED after {MAX_REPAIRS} repairs — escalated to Manager. See DELIVERY_REPORT.md")
-    sys.exit(2)
+
+def _state_phase_entry(state: dict, number: int) -> dict | None:
+    """Find the BUILD_STATE phase entry that corresponds to phase `number`, if any.
+    State phases may carry a `number`/`phase`/`id` field or just be positional."""
+    entries = state.get("phases")
+    if not isinstance(entries, list):
+        return None
+    for e in entries:
+        if isinstance(e, dict):
+            for key in ("number", "phase", "id"):
+                if str(e.get(key)) == str(number):
+                    return e
+    # Positional fallback: phase N is the Nth entry (1-indexed).
+    idx = number - 1
+    if 0 <= idx < len(entries) and isinstance(entries[idx], dict):
+        return entries[idx]
+    return None
+
+
+def _run_sequential(app_dir: Path, app_name: str, vision: str, blueprint: str, state: dict,
+                    phases: list[dict], entrypoint: str,
+                    plan: dict | None) -> tuple[bool, int, str, str]:
+    """Honor the Architect's ordered phases: build each phase's deliverables in order,
+    validate that phase, gate later phases on it, then run the overall VISION check as a
+    final gate. `built` accumulates across phases so later phases see earlier files."""
+    ordered = sorted(phases, key=lambda p: p["number"])
+    built: dict[str, str] = {}
+    phase_logs: list[str] = []
+    total_attempts = 0
+    blocked_phase: dict | None = None
+
+    for ph in ordered:
+        number, title = ph["number"], ph["title"]
+        deliverables = ph["deliverables"]
+        print(f"[Build Loop] ── Phase {number} — {title}: {deliverables}")
+
+        entry = _state_phase_entry(state, number)
+        if entry is not None:
+            entry["status"] = "in_progress"
+        write_state(app_dir, state)
+
+        error = None
+        ok = False
+        phase_log = ""
+        attempt = 0
+        while attempt <= MAX_REPAIRS:
+            attempt += 1
+            total_attempts += 1
+            label = "build" if attempt == 1 else f"self-repair {attempt - 1}/{MAX_REPAIRS}"
+            print(f"[Build Loop]   Phase {number} attempt {attempt} ({label})")
+            for tgt in deliverables:
+                print(f"[Build Loop]     Worker → `{tgt}`")
+                siblings = {n: c for n, c in built.items() if n != tgt}
+                code = dispatch_worker(vision, blueprint, tgt, siblings, built.get(tgt), error)
+                (app_dir / tgt).write_text(code + ("" if code.endswith("\n") else "\n"), encoding="utf-8")
+                built[tgt] = code
+
+            ok, phase_log = validate_phase(app_dir, ph["command"], ph["pass_condition"])
+            print(phase_log)
+            if ok:
+                print(f"[Build Loop]   ✅ Phase {number} validated on attempt {attempt}.")
+                break
+            error = phase_log
+            print(f"[Build Loop]   ✗ Phase {number} failed; "
+                  f"{'blocking' if attempt > MAX_REPAIRS else 'repairing'}.")
+
+        phase_logs.append(f"Phase {number} — {title}\n{phase_log}")
+
+        if entry is not None:
+            entry["status"] = "complete" if ok else "blocked"
+            entry["validated"] = ok
+        write_state(app_dir, state)
+
+        if not ok:
+            blocked_phase = ph
+            print(f"[Build Loop] ✗ Phase {number} blocked — halting; later phases skipped.")
+            break
+
+    all_phases_ok = blocked_phase is None
+    shipped = all_phases_ok
+    val_log = ""
+
+    # Final gate: when a VISION-level check plan exists, run it once as an overall
+    # end-to-end check after all phases pass. When there is no plan, the per-phase
+    # validations ARE the validation — ship on all-phases-complete (do not impose a
+    # file-arg CLI fallback, which would misfire on non-CLI multi-phase apps).
+    if all_phases_ok and plan:
+        print("[Build Loop] All phases passed — running overall VISION check.")
+        ok, val_log = validate(app_dir, entrypoint, plan)
+        print(val_log)
+        shipped = ok
+        if not ok:
+            print("[Build Loop] ✗ Overall VISION check failed — blocking.")
+
+    # Mark any phase entries that were never reached (later than the blocked one) as blocked.
+    if not all_phases_ok and blocked_phase is not None:
+        for ph in ordered:
+            if ph["number"] > blocked_phase["number"]:
+                entry = _state_phase_entry(state, ph["number"])
+                if entry is not None:
+                    entry["status"] = "blocked"
+                    entry["validated"] = False
+
+    state["overall_status"] = "complete" if shipped else "blocked"
+    state["files"] = list(built.keys())
+    if not shipped:
+        if blocked_phase is not None:
+            reason = (f"Phase {blocked_phase['number']} — {blocked_phase['title']} "
+                      f"failed validation after {MAX_REPAIRS} self-repairs")
+        else:
+            reason = f"Overall VISION check failed after all phases passed"
+        state.setdefault("escalations", []).append({
+            "time": now_edt_iso(),
+            "reason": reason,
+            "owner": "Manager (Eva)",
+            "status": "open",
+        })
+    write_state(app_dir, state)
+
+    phase_log_text = "\n\n".join(phase_logs)
+    return shipped, total_attempts, val_log, phase_log_text
 
 
 if __name__ == "__main__":

@@ -187,6 +187,220 @@ def test_delivery_report_blocked_contents():
         assert "BLOCKED" in body
 
 
+# ── parse_phases ──────────────────────────────────────────────────────────────
+
+_TWO_PHASE_BP = """# BLUEPRINT — demo
+
+## File Tree
+```
+a.py
+b.py
+```
+
+## Phases
+
+### Phase 1 — Build the core
+- Goal: make a.py
+- Worker: Python
+- Deliverables:
+  - src/a.py
+- Validation:
+  - Command: `echo ok`
+  - Pass condition: prints ok
+
+### Phase 2 — Add the wrapper
+- Goal: make b.py
+- Worker: Python
+- Deliverables:
+  - src/b.py
+- Validation:
+  - Command: `echo ok`
+  - Pass condition: prints ok
+
+## Dependency Graph
+Phase 1 → Phase 2
+"""
+
+
+def test_parse_phases_extracts_deliverables_and_command():
+    phases = bl.parse_phases(_TWO_PHASE_BP)
+    assert len(phases) == 2, phases
+    assert phases[0]["number"] == 1 and phases[1]["number"] == 2
+    assert phases[0]["deliverables"] == ["a.py"]   # leaf only
+    assert phases[1]["deliverables"] == ["b.py"]
+    assert phases[0]["command"] == "echo ok"
+    assert phases[0]["pass_condition"] and "ok" in phases[0]["pass_condition"].lower()
+
+
+def test_parse_phases_empty_when_no_phase_blocks():
+    assert bl.parse_phases("# BLUEPRINT\n## File Tree\nmain.py\n## Notes\nnothing here") == []
+
+
+# ── validate_phase ────────────────────────────────────────────────────────────
+
+def test_validate_phase_pass_on_zero_exit():
+    with tempfile.TemporaryDirectory() as d:
+        ok, log = bl.validate_phase(Path(d), "echo wordcount-7", "prints a wordcount")
+        assert ok, log
+
+def test_validate_phase_passes_when_output_lacks_pass_condition_words():
+    # regression: pass_condition is advisory, NOT a substring gate. exit 0 must pass
+    # even when the condition's words never appear in output (no brittle token match).
+    with tempfile.TemporaryDirectory() as d:
+        ok, _ = bl.validate_phase(Path(d), "echo 7", "prints a wordcount")
+        assert ok
+
+def test_validate_phase_fail_on_nonzero_exit():
+    with tempfile.TemporaryDirectory() as d:
+        ok, log = bl.validate_phase(Path(d), "exit 1", "anything")
+        assert not ok and "FAIL" in log
+
+def test_validate_phase_no_command_is_build_validated():
+    with tempfile.TemporaryDirectory() as d:
+        ok, log = bl.validate_phase(Path(d), None, None)
+        assert ok and "build" in log.lower()
+
+
+# ── _seq_fixture: write VISION/BLUEPRINT/BUILD_STATE for a sequential run ──────
+
+def _write_app(d, blueprint, vision="run `python3 a.py file`\nSuccess: prints a count"):
+    p = Path(d)
+    (p / "VISION.md").write_text(vision, encoding="utf-8")
+    (p / "BLUEPRINT.md").write_text(blueprint, encoding="utf-8")
+    import json
+    (p / "BUILD_STATE.json").write_text(
+        json.dumps({"app_name": "demo",
+                    "phases": [{"number": 1, "status": "pending"},
+                               {"number": 2, "status": "pending"}]}),
+        encoding="utf-8")
+    return p
+
+
+def _run_main(app_dir):
+    """Invoke bl.main() against app_dir, capturing the sys.exit code. Returns the code."""
+    import json
+    orig_argv = sys.argv
+    sys.argv = ["build-loop.py", str(app_dir)]
+    try:
+        bl.main()
+        code = 0
+    except SystemExit as e:
+        code = e.code if isinstance(e.code, int) else 1
+    finally:
+        sys.argv = orig_argv
+    state = json.loads((Path(app_dir) / "BUILD_STATE.json").read_text())
+    return code, state
+
+
+# ── SEQUENTIAL: phases built in order, both validated ─────────────────────────
+
+def test_sequential_builds_phases_in_order_and_validates():
+    bp = _TWO_PHASE_BP
+    calls = []
+
+    def fake_dispatch(vision, blueprint, target, siblings, prior, error):
+        calls.append(target)
+        return f"# {target}\nprint('ok')\n"
+
+    orig_dispatch = bl.dispatch_worker
+    orig_plan = bl.extract_check_plan
+    bl.dispatch_worker = fake_dispatch
+    bl.extract_check_plan = lambda v: None   # skip the final VISION gate / LLM call
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            app = _write_app(d, bp)
+            code, state = _run_main(app)
+    finally:
+        bl.dispatch_worker = orig_dispatch
+        bl.extract_check_plan = orig_plan
+
+    assert calls == ["a.py", "b.py"], calls            # phase 1 file before phase 2 file
+    assert code == 0, state
+    assert state["overall_status"] == "complete"
+    assert all(p["status"] == "complete" and p["validated"] for p in state["phases"])
+
+
+# ── SEQUENTIAL GATING: phase 1 fails → phase 2 never built, escalation names phase 1 ──
+
+def test_sequential_gates_later_phases_when_phase1_fails():
+    bp = _TWO_PHASE_BP.replace("- Command: `echo ok`\n  - Pass condition: prints ok",
+                               "- Command: `exit 1`\n  - Pass condition: prints ok", 1)
+    calls = []
+
+    def fake_dispatch(vision, blueprint, target, siblings, prior, error):
+        calls.append(target)
+        return f"# {target}\nprint('ok')\n"
+
+    orig_dispatch = bl.dispatch_worker
+    orig_plan = bl.extract_check_plan
+    bl.dispatch_worker = fake_dispatch
+    bl.extract_check_plan = lambda v: None
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            app = _write_app(d, bp)
+            code, state = _run_main(app)
+    finally:
+        bl.dispatch_worker = orig_dispatch
+        bl.extract_check_plan = orig_plan
+
+    assert "b.py" not in calls, calls                  # phase 2 worker never called
+    assert "a.py" in calls
+    assert code == 2, state
+    assert state["overall_status"] == "blocked"
+    escs = state.get("escalations", [])
+    assert escs and "Phase 1" in escs[-1]["reason"], escs
+
+
+# ── FALLBACK: File Tree present but phases lack Deliverables → single-pass path ─
+
+def test_fallback_single_pass_when_phases_have_no_deliverables():
+    bp = """# BLUEPRINT — demo
+
+## File Tree
+```
+a.py
+```
+
+## Phases
+
+### Phase 1 — Core
+- Goal: do the thing
+- Worker: Python
+- Validation:
+  - Command: `echo ok`
+  - Pass condition: prints ok
+
+## Dependency Graph
+Phase 1
+"""
+    # parse_phases yields a phase with NO deliverables → sequential=False → single pass
+    assert bl.parse_phases(bp) and not any(p["deliverables"] for p in bl.parse_phases(bp))
+
+    calls = []
+
+    def fake_dispatch(vision, blueprint, target, siblings, prior, error):
+        # single-pass builds the detect_target_files targets (a.py), validates whole VISION
+        calls.append(target)
+        return "import sys\np=sys.argv[1]\nopen(p).read()\nprint(len(open(p).read().split()))\n"
+
+    orig_dispatch = bl.dispatch_worker
+    orig_plan = bl.extract_check_plan
+    bl.dispatch_worker = fake_dispatch
+    bl.extract_check_plan = lambda v: None   # force CLI fallback validation
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            app = _write_app(d, bp)
+            code, state = _run_main(app)
+    finally:
+        bl.dispatch_worker = orig_dispatch
+        bl.extract_check_plan = orig_plan
+
+    # single-pass behavior: target from File Tree (a.py) was built, app shipped via CLI fallback
+    assert calls and calls[0] == "a.py", calls
+    assert code == 0, state
+    assert state["overall_status"] == "complete"
+
+
 if __name__ == "__main__":
     fails = 0
     tests = sorted((n, f) for n, f in globals().items() if n.startswith("test_") and callable(f))
