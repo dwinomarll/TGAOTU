@@ -22,7 +22,9 @@ from pathlib import Path
 # ── Config ────────────────────────────────────────────────────────────────────
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "1583595373")  # Edwin's chat ID
+# Required from runtime config — NO hardcoded fallback. A baked-in chat id would
+# let any environment with a bot token silently leak blockers to one person.
+TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "")
 
 # Keywords that classify a blocker into one of the 3 escalation cases
 _CREDENTIAL_SIGNALS = [
@@ -88,9 +90,11 @@ def _build_message(app_name: str, phase_num: int, phase_title: str,
 # ── Telegram Send ─────────────────────────────────────────────────────────────
 
 def _send_telegram(message: str) -> bool:
-    """Send message to Edwin via Telegram. Returns True on success."""
-    if not TELEGRAM_BOT_TOKEN:
-        print("[Escalation] TELEGRAM_BOT_TOKEN not set — logging to file only.")
+    """Send message to Edwin via Telegram. Returns True only on confirmed delivery."""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        # Fail closed: without BOTH a token and an explicitly configured recipient
+        # we do not guess where to send — the escalation file is the record instead.
+        print("[Escalation] TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID not both set — logging to file only.")
         return False
 
     try:
@@ -120,19 +124,39 @@ def fire(app_name: str, phase_num: int, phase_title: str,
     Classify the blocker. If it's one of the 3 Edwin cases, send Telegram.
     Always write the ESCALATION file.
 
-    Returns: {"case": str, "notified_edwin": bool, "escalation_path": str}
+    Returns: {"case": str, "escalation_required": bool, "notified_edwin": bool,
+             "escalation_path": str}
+    `escalation_required` is whether this blocker should reach Edwin;
+    `notified_edwin` is whether Telegram actually confirmed delivery. A caller
+    that pauses for Edwin's decision must key off `notified_edwin`, not intent.
     """
     case = classify_blocker(reason)
-    notify_edwin = (case != "manager_only")
+    escalation_required = (case != "manager_only")
 
-    # Write escalation file regardless
+    # Attempt delivery first so the escalation file records what actually happened.
+    delivered = False
+    if escalation_required:
+        message = _build_message(app_name, phase_num, phase_title, reason, case)
+        delivered = _send_telegram(message)
+        status = "delivered" if delivered else "FAILED — file only, Edwin NOT reached"
+        print(f"[Escalation] Case: {case} | Telegram: {status}")
+    else:
+        print("[Escalation] Case: manager_only — Eva handles, Edwin not pinged")
+
+    if not escalation_required:
+        notified_line = "no — Manager handles"
+    elif delivered:
+        notified_line = "yes — delivered via Telegram"
+    else:
+        notified_line = "NO — delivery failed, awaiting manual relay"
+
     escalation_path = app_dir / f"ESCALATION_P{phase_num}.md"
     escalation_path.write_text(
         f"# ESCALATION — Phase {phase_num}: {phase_title}\n\n"
         f"**App:** {app_name}\n"
         f"**Case:** {case}\n"
         f"**Time:** {datetime.now(timezone.utc).isoformat()}\n"
-        f"**Edwin notified:** {'yes' if notify_edwin else 'no — Manager handles'}\n\n"
+        f"**Edwin notified:** {notified_line}\n\n"
         f"## Reason\n{reason}\n\n"
         f"## Resolution\n_Pending Edwin's decision._\n\n"
         f"---\n"
@@ -140,18 +164,11 @@ def fire(app_name: str, phase_num: int, phase_title: str,
         f"*All other blockers → Manager (Eva) resolves without Edwin.*\n"
     )
 
-    if notify_edwin:
-        message = _build_message(app_name, phase_num, phase_title, reason, case)
-        sent = _send_telegram(message)
-        status = "sent" if sent else "failed — check bot token"
-        print(f"[Escalation] Case: {case} | Telegram: {status}")
-    else:
-        print(f"[Escalation] Case: manager_only — Eva handles, Edwin not pinged")
-
     return {
         "case": case,
-        "notified_edwin": notify_edwin,
-        "escalation_path": str(escalation_path)
+        "escalation_required": escalation_required,
+        "notified_edwin": delivered,
+        "escalation_path": str(escalation_path),
     }
 
 
