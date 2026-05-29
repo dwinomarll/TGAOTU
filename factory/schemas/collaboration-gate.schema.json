@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/collaboration-gate.schema.json",
-  "title": "TGAOTU Collaboration Gate",
+  "title": "Ptah Collaboration Gate",
   "type": "object",
   "additionalProperties": false,
   "required": [

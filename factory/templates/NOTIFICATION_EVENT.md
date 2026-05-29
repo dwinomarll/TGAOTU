@@ -11,7 +11,7 @@
 
 ## Message
 
-[TGAOTU] [event_type]: [one sentence summary]
+[Ptah] [event_type]: [one sentence summary]
 Action needed: yes/no
 Location: [path/url or none]
 Next: [system next action]

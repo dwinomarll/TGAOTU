@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/agent-contract.schema.json",
-  "title": "TGAOTU Agent Contract",
+  "title": "Ptah Agent Contract",
   "type": "object",
   "additionalProperties": false,
   "required": [

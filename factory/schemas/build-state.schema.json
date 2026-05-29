@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/build-state.schema.json",
-  "title": "TGAOTU Build State",
+  "title": "Ptah Build State",
   "type": "object",
   "additionalProperties": false,
   "required": [

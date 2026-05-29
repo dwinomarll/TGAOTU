@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-T.G.A.O.T.U. Escalation Gate
+Ptah Escalation Gate
 3-case-only Edwin contact protocol. Called by build-loop.py when a phase
 fails all repair attempts.
 
@@ -78,7 +78,7 @@ def _build_message(app_name: str, phase_num: int, phase_title: str,
     label = case_labels.get(case, "🚨 BUILD BLOCKED")
 
     return (
-        f"📐 *T.G.A.O.T.U. Factory*\n"
+        f"📐 *Ptah Factory*\n"
         f"{label}\n\n"
         f"*App:* `{app_name}`\n"
         f"*Phase {phase_num}:* {phase_title}\n\n"

@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. — Hard Rules
+# Ptah — Hard Rules
 
 > These rules are binding. They derive from Blueprint I's 5 operating laws.
 > They cannot be overridden by any Worker. Only Edwin can amend them.
@@ -45,7 +45,7 @@ If Edwin cannot express the task in one sentence, the task is too large and must
 
 ## R6 — Three Substrates Always in Sync
 
-Every structural change to T.G.A.O.T.U. propagates to all four persistence layers within the same session.
+Every structural change to Ptah propagates to all four persistence layers within the same session.
 No "I'll sync it later."
 
 **Violation:** Structural change saved to one substrate only → Manager flags and completes sync before session ends.
@@ -73,7 +73,7 @@ Timeout, empty response, or "I think it worked" do not count as confirmation.
 
 ## R10 — Eva Is the Manager
 
-Eva (Claude Code, Jetson instance) is the permanent Manager of T.G.A.O.T.U.
+Eva (Claude Code, Jetson instance) is the permanent Manager of Ptah
 No other agent assumes the Manager role unless Edwin explicitly reassigns it.
 Eva maintains the Agent Roster, the Blueprint substrates, and the Task Manifest queue.
 

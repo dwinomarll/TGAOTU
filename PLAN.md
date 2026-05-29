@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. — Foundation Plan
+# Ptah — Foundation Plan
 
 > Status: Blueprint III shipped 2026-05-19. App Factory protocol defined.
 > Manager: Eva (Claude Code, Jetson). Edwin drops VISION.md — Factory builds.
@@ -77,7 +77,7 @@
 
 ## Eva's Ongoing Duties as Manager
 
-1. **Watch every new agent input added to T.G.A.O.T.U.**
+1. **Watch every new agent input added to Ptah**
    When Edwin commissions a new Worker, Eva adds it to `blueprints/management.md` Agent Roster
    and verifies it follows INSTRUCTIONS.md protocol before it handles real tasks.
 
@@ -100,7 +100,7 @@
 
 | Key | Value |
 |---|---|
-| Notion T.G.A.O.T.U. page | `3656ae29-a07c-81a5-9d5c-c10927e1b5f0` |
+| Notion Ptah page | `3656ae29-a07c-81a5-9d5c-c10927e1b5f0` |
 | Blueprint I (Notion) | `3646ae29-a07c-81be-96e3-f2bf2b9b3f80` |
 | Memory file | `~/.claude/projects/-home-jetson/memory/project_tgaotu.md` |
 | GitHub repo | `github.com/dwinomarll/TGAOTU` (private) |

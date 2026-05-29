@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/user-preferences.schema.json",
-  "title": "TGAOTU User Preferences",
+  "title": "Ptah User Preferences",
   "type": "object",
   "additionalProperties": false,
   "required": [

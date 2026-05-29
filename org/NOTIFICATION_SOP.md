@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. Notification SOP
+# Ptah Notification SOP
 
 > The organization operates autonomously. The user is informed, not burdened.
 
@@ -6,7 +6,7 @@
 
 ## Purpose
 
-T.G.A.O.T.U. must sustain itself without keeping a human in the loop. A human
+Ptah must sustain itself without keeping a human in the loop. A human
 should not be required to monitor internal execution, resolve ordinary blockers,
 or approve routine handoffs.
 
@@ -117,7 +117,7 @@ Every notification must answer:
 Template:
 
 ```text
-[TGAOTU] [event_type]: [one sentence summary]
+[Ptah] [event_type]: [one sentence summary]
 Action needed: yes/no
 Location: [path/url or none]
 Next: [system next action]
@@ -126,7 +126,7 @@ Next: [system next action]
 Escalations must start with:
 
 ```text
-[TGAOTU ESCALATION REQUIRED]
+[Ptah ESCALATION REQUIRED]
 ```
 
 ---

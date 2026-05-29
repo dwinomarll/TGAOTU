@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. Property Model
+# Ptah Property Model
 
 > Canonical shape layer for the factory. If a worker, script, Notion page, or
 > build artifact needs to know "what fields exist," it starts here.
@@ -7,7 +7,7 @@
 
 ## Purpose
 
-T.G.A.O.T.U. is an organization, not just a folder. The repo needs stable
+Ptah is an organization, not just a folder. The repo needs stable
 properties so every substrate can mirror the same structure:
 
 - Repo files hold the executable truth.

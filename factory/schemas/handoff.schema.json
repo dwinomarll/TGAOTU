@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/handoff.schema.json",
-  "title": "TGAOTU Team Handoff",
+  "title": "Ptah Team Handoff",
   "type": "object",
   "additionalProperties": false,
   "required": [

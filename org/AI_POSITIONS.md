@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. AI Positions
+# Ptah AI Positions
 
 > Functional organizational structure for autonomous AI workers.
 > Every AI has a position, task boundary, description, instructions, reporting
