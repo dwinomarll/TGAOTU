@@ -64,7 +64,7 @@ Use eva-service `/email/send` endpoint on Jetson:
 ```bash
 curl -X POST http://localhost:8000/email/send \
   -H "Content-Type: application/json" \
-  -d '{"to": "dwinomarll@gmail.com", "subject": "TGAOTU Efficiency Report", "body": "<report>"}'
+  -d '{"to": "dwinomarll@gmail.com", "subject": "Ptah Efficiency Report", "body": "<report>"}'
 ```
 
 ### Decision Rules

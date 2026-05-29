@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-T.G.A.O.T.U. Architect Agent
+Ptah Architect Agent
 Reads VISION.md → produces BLUEPRINT.md + BUILD_STATE.md
 No human in the loop.
 
@@ -246,7 +246,7 @@ def init_build_state(app_dir: Path, app_name: str, blueprint_content: str) -> No
         "|---|---:|---|---|---|---|",
         "",
         "---",
-        "*Updated by T.G.A.O.T.U. Build Loop*"
+        "*Updated by Ptah Build Loop*"
     ]
 
     (app_dir / "BUILD_STATE.md").write_text("\n".join(md_lines), encoding="utf-8")
@@ -255,7 +255,7 @@ def init_build_state(app_dir: Path, app_name: str, blueprint_content: str) -> No
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="T.G.A.O.T.U. Architect Agent")
+    parser = argparse.ArgumentParser(description="Ptah Architect Agent")
     parser.add_argument("vision_file", nargs="?", help="Path to VISION.md")
     parser.add_argument("--vision", help="Raw vision text (alternative to file)")
     parser.add_argument("--name", help="App name (used as directory name)")

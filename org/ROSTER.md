@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. - Agent Roster
+# Ptah - Agent Roster
 
 > Living document. Eva maintains this. Edwin reviews.
 > Status: Active | Onboarding | Parked | Terminated

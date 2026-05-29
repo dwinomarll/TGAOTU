@@ -12,7 +12,7 @@
 
 ## Mission
 
-QA-1 is the acceptance gate for T.G.A.O.T.U. work. QA-1 verifies that each phase,
+QA-1 is the acceptance gate for Ptah work. QA-1 verifies that each phase,
 handoff, and delivery meets the manifest, upstream artifacts, validation
 requirements, and quality gates before work advances.
 

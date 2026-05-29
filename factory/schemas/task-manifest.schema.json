@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/task-manifest.schema.json",
-  "title": "TGAOTU Task Manifest",
+  "title": "Ptah Task Manifest",
   "type": "object",
   "additionalProperties": false,
   "required": [

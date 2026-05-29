@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-T.G.A.O.T.U. Build Loop — Stage 3 of the App Factory Protocol (Blueprint III).
+Ptah Build Loop — Stage 3 of the App Factory Protocol (Blueprint III).
 
 Turns a blueprint into a working artifact. Reads
 factory/active/<app>/{VISION.md, BLUEPRINT.md, BUILD_STATE.json}, dispatches a
@@ -120,7 +120,7 @@ def dispatch_via_claude_code(system: str, user: str) -> str | None:
 def dispatch_worker(vision: str, blueprint: str, target: str, siblings: dict[str, str],
                     prior_code: str | None, error_feedback: str | None) -> str:
     system = (
-        f"You are a Worker in the T.G.A.O.T.U. factory. You own exactly ONE file: `{target}`. "
+        f"You are a Worker in the Ptah factory. You own exactly ONE file: `{target}`. "
         "Write its COMPLETE, final, runnable content so the whole app satisfies the VISION and "
         "BLUEPRINT. Standard library only unless the blueprint says otherwise. "
         "Output ONLY the raw file content — no markdown fences, no commentary."
@@ -368,7 +368,7 @@ def delivery_report(app_dir: Path, app_name: str, targets: list[str], entrypoint
         f"```bash\ncd {app_dir}\npython3 {entrypoint} {FIXTURE_NAME}\npython3 {entrypoint} missing.txt   # should error, exit non-zero\n```",
         "",
         "---",
-        "*Produced by T.G.A.O.T.U. Build Loop (Stage 3).*",
+        "*Produced by Ptah Build Loop (Stage 3).*",
     ]
     (app_dir / "DELIVERY_REPORT.md").write_text("\n".join(lines), encoding="utf-8")
 
@@ -376,7 +376,7 @@ def delivery_report(app_dir: Path, app_name: str, targets: list[str], entrypoint
 # ── Main loop ─────────────────────────────────────────────────────────────────
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="T.G.A.O.T.U. Build Loop")
+    ap = argparse.ArgumentParser(description="Ptah Build Loop")
     ap.add_argument("app_dir", help="Path to factory/active/<app>/")
     args = ap.parse_args()
 

@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. Logging SOP
+# Ptah Logging SOP
 
 > If it changed state, it gets logged. If another AI must understand it later,
 > it gets logged clearly.

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/quality-report.schema.json",
-  "title": "TGAOTU Quality Report",
+  "title": "Ptah Quality Report",
   "type": "object",
   "additionalProperties": false,
   "required": [

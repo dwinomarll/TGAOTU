@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. Team Interaction Protocol
+# Ptah Team Interaction Protocol
 
 > How AI departments coordinate without turning the user into the coordinator.
 

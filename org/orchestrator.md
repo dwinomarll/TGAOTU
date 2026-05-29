@@ -71,7 +71,7 @@ For everything else: Eva resolves internally using SUP-1.
 
 ## Autonomous Organization Mode
 
-T.G.A.O.T.U. now runs as `autonomous_org`:
+Ptah now runs as `autonomous_org`:
 
 - Edwin is the vision source, not the operator of the workflow.
 - Eva turns vision or canvas input into Task Manifests and routes work.
@@ -98,7 +98,7 @@ AI positions and team coordination are governed by:
 ## Daily Org Status (Eva produces this on request)
 
 ```
-TGAOTU ORG STATUS — [date]
+Ptah ORG STATUS — [date]
 
 Active builds: [N]
   └─ [app-name]: Phase [N]/[total] — [status]

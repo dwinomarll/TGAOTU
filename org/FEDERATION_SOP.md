@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. — Federation Protocol (Multi-Instance Coordination)
+# Ptah — Federation Protocol (Multi-Instance Coordination)
 
 > How the many Eva instances stay one body.
 > `INSTRUCTIONS.md` governs the agents *inside* one Eva-managed org. This file governs
@@ -11,7 +11,7 @@
 ## Why this exists
 
 On 2026-05-27, three Eva instances — **Mac/Claude Code, Mac/Codex, Jetson/Claude Code** —
-built T.G.A.O.T.U. concurrently, each acting as a Manager, blind to one another. Result:
+built Ptah concurrently, each acting as a Manager, blind to one another. Result:
 duplicate Blueprint II's and III's, a stuck git rebase, and Edwin pulled *into* the loop to
 decide which version was canon.
 
@@ -34,7 +34,7 @@ project, and how do the others behave?**
 
 | Node | Substrate | Default stance |
 |---|---|---|
-| Jetson · Claude Code | `CLAUDE.md` / `AGENTS.md` | **Manager of record for T.G.A.O.T.U.** (`RULES.md` R10) |
+| Jetson · Claude Code | `CLAUDE.md` / `AGENTS.md` | **Manager of record for Ptah** (`RULES.md` R10) |
 | Mac · Claude Code | `CLAUDE.md` | Contributing instance |
 | Mac · Codex | `AGENTS.md` | Contributing instance |
 | Lilith / VPS · gateway | — | Service instance (no autonomous builds) |
@@ -47,7 +47,7 @@ project, and how do the others behave?**
 ## F1 — One Manager of record per project
 
 Every shared project has exactly one **Manager of record** — the instance authoritative for its
-`main`. For T.G.A.O.T.U. it is **Jetson-Eva** (R10). Every other instance is a **contributing
+`main`. For Ptah it is **Jetson-Eva** (R10). Every other instance is a **contributing
 instance**, not a second Manager.
 
 `coo-slot.md` assumes a single active occupant of the orchestrator role; this rule makes that

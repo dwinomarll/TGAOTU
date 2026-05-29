@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-T.G.A.O.T.U. — Hire a New Agent
+Ptah — Hire a New Agent
 Generates agent contract from TEMPLATE.md, adds to ROSTER.md.
 No human steps. Pure agentic onboarding.
 
@@ -133,7 +133,7 @@ def add_to_roster(agent_id: str, role: str, team: str,
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Hire a new T.G.A.O.T.U. agent")
+    parser = argparse.ArgumentParser(description="Hire a new Ptah agent")
     parser.add_argument("--role", required=True, help="Agent role title")
     parser.add_argument("--team", required=True, choices=TEAMS, help="Team to assign")
     parser.add_argument("--input", required=True, dest="input_doc", help="Input document")

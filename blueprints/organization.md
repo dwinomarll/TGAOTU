@@ -1,6 +1,6 @@
 # Blueprint IV - Autonomous Organization
 
-> T.G.A.O.T.U. is an organization first and a toolchain second.
+> Ptah is an organization first and a toolchain second.
 > The system exists to convert vision into delivered work without requiring a
 > human to operate the middle.
 
@@ -9,7 +9,7 @@
 ## Core Thesis
 
 An organization is a structured system of roles, processes, and authority lanes
-designed to achieve specific goals. T.G.A.O.T.U. applies that shape to an
+designed to achieve specific goals. Ptah applies that shape to an
 autonomous software factory:
 
 1. Edwin supplies intent.
@@ -63,7 +63,7 @@ See `org/NOTIFICATION_SOP.md`.
 
 ### 1. Executive and Leadership
 
-| Role | T.G.A.O.T.U. mapping | Function |
+| Role | Ptah mapping | Function |
 |---|---|---|
 | CEO | Edwin | Owns the vision, mission, final taste, and strategic direction. |
 | COO | Eva | Runs daily operations, routing, delivery, sync, and enforcement. |
@@ -71,7 +71,7 @@ See `org/NOTIFICATION_SOP.md`.
 
 ### 2. Core Operations and Service Delivery
 
-| Role | T.G.A.O.T.U. mapping | Function |
+| Role | Ptah mapping | Function |
 |---|---|---|
 | Product Manager | PM-1 | Turns vision into requirements. |
 | Operations Manager | OPS-1 | Owns process flow, queues, handoffs, and capacity. |
@@ -79,14 +79,14 @@ See `org/NOTIFICATION_SOP.md`.
 
 ### 3. Growth, Intake, and Demand
 
-| Role | T.G.A.O.T.U. mapping | Function |
+| Role | Ptah mapping | Function |
 |---|---|---|
 | Marketing Manager | MKT-1 | Turns shipped work into positioning, docs, examples, and outward signal. |
 | Sales Manager | SALES-1 | Converts opportunities into commissions, scopes, and proposals when needed. |
 
 ### 4. Support and Infrastructure
 
-| Role | T.G.A.O.T.U. mapping | Function |
+| Role | Ptah mapping | Function |
 |---|---|---|
 | HR Manager | HR-1 | Agent lifecycle: hiring, onboarding, performance, retirement, culture. |
 | IT/Systems Administrator | IT-1 | Tooling, credentials, infrastructure health, security posture, access. |

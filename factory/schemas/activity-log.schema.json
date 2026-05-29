@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/activity-log.schema.json",
-  "title": "TGAOTU Activity Log Entry",
+  "title": "Ptah Activity Log Entry",
   "type": "object",
   "additionalProperties": false,
   "required": [

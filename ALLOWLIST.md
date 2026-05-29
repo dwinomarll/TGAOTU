@@ -1,6 +1,6 @@
-# T.G.A.O.T.U. — Approved Surfaces, Tools, Skills & MCPs
+# Ptah — Approved Surfaces, Tools, Skills & MCPs
 
-> Agents operating under T.G.A.O.T.U. may ONLY use surfaces listed here.
+> Agents operating under Ptah may ONLY use surfaces listed here.
 > New surfaces require Edwin's commission before being added to this list.
 
 ---

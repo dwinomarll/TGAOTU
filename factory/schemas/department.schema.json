@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://tgaotu.local/schemas/department.schema.json",
-  "title": "TGAOTU Department",
+  "title": "Ptah Department",
   "type": "object",
   "additionalProperties": false,
   "required": [

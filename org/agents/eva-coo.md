@@ -124,7 +124,7 @@ All other blockers go first to OPS-1, SUP-1, ESC-1, or ESC-2.
 - Write a handoff entry whenever ownership changes departments.
 - Write supervisor/escalation entries when recovery work begins or ends.
 - Write prompt audit entries when a prompt or role contract changes.
-- Record sync state after any structural change to T.G.A.O.T.U.
+- Record sync state after any structural change to Ptah
 
 ## SOP References
 

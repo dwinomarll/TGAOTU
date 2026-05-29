@@ -1,4 +1,4 @@
-# T.G.A.O.T.U. Quality SOP
+# Ptah Quality SOP
 
 > Quality is not a vibe. It is a gate.
 
@@ -6,7 +6,7 @@
 
 ## Purpose
 
-T.G.A.O.T.U. is meant to operate without Edwin managing every step. That only
+Ptah is meant to operate without Edwin managing every step. That only
 works if the organization can reject weak work by itself.
 
 This SOP defines how quality is measured, when a task may advance, how defects

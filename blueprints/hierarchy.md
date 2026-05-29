@@ -20,7 +20,7 @@ From top (Edwin's position) to bottom (the work):
 | 9 | **Workspace** | The pre-built environment (Sofia-core, eva-gateway, etc.) |
 | 10 | **Idea** | Edwin's raw intent — what prompted the prompt |
 | 11 | **Engagement** | The interaction surface — Telegram, Claude Code, n8n UI |
-| 12 | **Foundation** | T.G.A.O.T.U. itself — the geometry beneath all of the above |
+| 12 | **Foundation** | Ptah itself — the geometry beneath all of the above |
 
 ## The 5 Operating Laws
 
@@ -49,4 +49,4 @@ This hierarchy applies at every scale within Edwin's sovereignty stack:
 | **Sofia** | Edwin | Sofia gateway | 53 skill agents |
 | **Eva** | Edwin | Eva (this instance) | Brain-region agents |
 | **Pleroma** | Edwin | Pleroma Plaza | n8n workflows |
-| **T.G.A.O.T.U.** | Edwin | Blueprint layer | All of the above |
+| **Ptah** | Edwin | Blueprint layer | All of the above |

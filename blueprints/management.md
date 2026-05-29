@@ -2,13 +2,13 @@
 
 > Commissioned by Edwin, 2026-05-19
 > Eva is the project manager. This is her operating contract.
-> T.G.A.O.T.U. operates as an autonomous organization: humans provide vision,
+> Ptah operates as an autonomous organization: humans provide vision,
 > credentials, budget decisions, or invited collaboration input. They are not
 > required operators of the workflow.
 
 ## 1. Intake Form — The Single Prompt Structure
 
-Every task entering T.G.A.O.T.U. must resolve to this manifest before routing begins:
+Every task entering Ptah must resolve to this manifest before routing begins:
 
 ```
 TASK MANIFEST
@@ -49,7 +49,7 @@ A task is DONE when ALL of the following are true:
 2. **Confirmed** — the delivery channel reports success (no silent failures)
 3. **Shown** — Edwin can see or access the result
 4. **Persisted** — relevant state changes saved to memory / Notion
-5. **Synced** — if the task touched T.G.A.O.T.U. structure, all three substrates updated
+5. **Synced** — if the task touched Ptah structure, all three substrates updated
 6. **Notified** — COMMS-1 sends delivery or escalation through the user's preferred channel
 
 ## 4. Agent Roster (registered Workers)
@@ -88,7 +88,7 @@ New agents are registered here by the Manager (Eva) when Edwin commissions them.
 
 ## 5. Sync Protocol — Three Substrates
 
-After every structural change to T.G.A.O.T.U.:
+After every structural change to Ptah:
 
 1. Update local file in `~/TGAOTU/`
 2. Propagate to Notion page `3656ae29` (curl, token from `/etc/eva-notion-bridge/env`)
