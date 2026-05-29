@@ -101,6 +101,47 @@ def test_validate_from_plan_empty_checks_is_false():
         ok, _ = bl.validate_from_plan(Path(d), {"checks": []})
         assert not ok
 
+def test_validate_from_plan_scalar_expect_contains_is_whole_string():
+    # regression: a scalar "olleh" must NOT char-match against "hello"
+    with tempfile.TemporaryDirectory() as d:
+        plan = {"checks": [{"command": "echo hello", "expect_exit": "0", "expect_contains": "olleh"}]}
+        ok, _ = bl.validate_from_plan(Path(d), plan)
+        assert not ok
+
+def test_validate_from_plan_scalar_expect_contains_real_substring_passes():
+    with tempfile.TemporaryDirectory() as d:
+        plan = {"checks": [{"command": "echo hello world", "expect_exit": "0", "expect_contains": "hello"}]}
+        ok, log = bl.validate_from_plan(Path(d), plan)
+        assert ok, log
+
+def test_validate_from_plan_ignores_non_dict_checks():
+    with tempfile.TemporaryDirectory() as d:
+        plan = {"checks": ["junk", {"command": "echo ok", "expect_exit": "0", "expect_contains": ["ok"]}]}
+        ok, log = bl.validate_from_plan(Path(d), plan)
+        assert ok, log
+
+
+# ── extract_check_plan (shape guard; LLM call monkeypatched) ──────────────────
+
+def _patched_plan(raw_json):
+    orig_cc, orig_llm = bl.dispatch_via_claude_code, bl.call_llm
+    bl.dispatch_via_claude_code = lambda s, u: raw_json
+    bl.call_llm = lambda s, u: ""
+    try:
+        return bl.extract_check_plan("vision")
+    finally:
+        bl.dispatch_via_claude_code, bl.call_llm = orig_cc, orig_llm
+
+def test_extract_check_plan_rejects_non_list_checks():
+    assert _patched_plan('{"checks": "echo hi"}') is None
+
+def test_extract_check_plan_rejects_empty_checks():
+    assert _patched_plan('{"checks": []}') is None
+
+def test_extract_check_plan_coerces_non_dict_fixtures():
+    plan = _patched_plan('{"checks": [{"command": "echo hi"}], "fixtures": []}')
+    assert plan is not None and plan["fixtures"] == {}
+
 
 # ── validate_cli_fallback ─────────────────────────────────────────────────────
 
