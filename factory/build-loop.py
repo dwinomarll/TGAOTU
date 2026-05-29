@@ -158,7 +158,15 @@ def extract_check_plan(vision: str) -> dict | None:
         plan = json.loads(m.group(0))
     except Exception:  # noqa: BLE001
         return None
-    return plan if isinstance(plan, dict) and plan.get("checks") else None
+    # The plan is untrusted LLM output: a truthy `checks` is not necessarily a
+    # non-empty list, and `fixtures` may come back as [] for no-fixture apps.
+    # Reject the wrong shape (→ caller falls back to the CLI check) rather than
+    # crash later on .items()/.get().
+    if not isinstance(plan, dict) or not isinstance(plan.get("checks"), list) or not plan["checks"]:
+        return None
+    if not isinstance(plan.get("fixtures"), dict):
+        plan["fixtures"] = {}
+    return plan
 
 
 def validate_from_plan(app_dir: Path, plan: dict) -> tuple[bool, str]:
@@ -172,13 +180,20 @@ def validate_from_plan(app_dir: Path, plan: dict) -> tuple[bool, str]:
     log: list[str] = []
     all_ok = True
     for chk in plan.get("checks", []):
+        if not isinstance(chk, dict):
+            continue
         cmd = (chk.get("command") or "").strip()
         if not cmd:
             continue
         want_nonzero = str(chk.get("expect_exit", "0")).lower() in ("nonzero", "non-zero", "!=0", "1")
         rc, out = run(["bash", "-c", cmd], app_dir)
         exit_ok = (rc != 0) if want_nonzero else (rc == 0)
-        contains = [s for s in (chk.get("expect_contains") or []) if isinstance(s, str)]
+        # A scalar string is a common LLM slip; without this it iterates
+        # character-by-character so "olleh" would pass against "hello".
+        raw_contains = chk.get("expect_contains") or []
+        if isinstance(raw_contains, str):
+            raw_contains = [raw_contains]
+        contains = [s for s in raw_contains if isinstance(s, str)]
         missing = [s for s in contains if s.lower() not in out.lower()]
         ok = exit_ok and not missing
         all_ok = all_ok and ok
