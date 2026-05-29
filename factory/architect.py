@@ -14,6 +14,8 @@ import os
 import sys
 import json
 import re
+import shutil
+import subprocess
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 try:
@@ -108,8 +110,9 @@ def call_llm(system_prompt: str, user_message: str) -> str:
     """
     Backend priority:
     1. ANTHROPIC_API_KEY in env → Claude Sonnet (best quality)
-    2. Mac Ollama via Tailscale → qwen3:8b (heavy reasoning, approved)
-    3. Jetson Ollama → qwen3:1.7b (fast local fallback)
+    2. Claude Code CLI (`claude --print`) → strong local backend, no API key needed
+    3. Mac Ollama via Tailscale → qwen3:8b (heavy reasoning, approved)
+    4. Jetson Ollama → qwen3:1.7b (fast local fallback)
     """
     import urllib.request
 
@@ -129,9 +132,27 @@ def call_llm(system_prompt: str, user_message: str) -> str:
             print(f"[Architect] Backend: Claude {MODEL_CLAUDE}")
             return response.content[0].text
         except Exception as e:
-            print(f"[Architect] Claude failed ({e}), trying Mac Ollama...")
+            print(f"[Architect] Claude failed ({e}), trying Claude Code CLI...")
 
-    # ── 2. Mac Ollama qwen3:8b (Tailscale) ───────────────────────────────────
+    # ── 2. Claude Code CLI (claude --print) ───────────────────────────────────
+    # The same strong local backend the build Worker uses; no API key required —
+    # far better blueprint fidelity than the local Ollama models.
+    if shutil.which("claude"):
+        prompt = (f"{system_prompt}\n\n{user_message}\n\n"
+                  "Do NOT use any tools or write files. Respond with ONLY the requested content.")
+        try:
+            proc = subprocess.run(
+                ["claude", "--print", "--permission-mode", "bypassPermissions", prompt],
+                capture_output=True, text=True, timeout=300,
+            )
+            if proc.returncode == 0 and proc.stdout.strip():
+                print("[Architect] Backend: Claude Code (claude --print)")
+                return proc.stdout
+            print(f"[Architect] Claude Code returned nothing (exit {proc.returncode}), trying Mac Ollama...")
+        except Exception as e:
+            print(f"[Architect] Claude Code error ({e}), trying Mac Ollama...")
+
+    # ── 3. Mac Ollama qwen3:8b (Tailscale) ───────────────────────────────────
     combined = f"{system_prompt}\n\n---\n\n{user_message}"
     payload = json.dumps({
         "model": MODEL_OLLAMA,

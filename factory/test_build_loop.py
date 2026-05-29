@@ -47,9 +47,9 @@ def test_detect_target_files_from_file_tree_section():
     bp = "## File Tree\n```\napp/\n  main.py\n  utils.py\n```\n## Phases\nstuff"
     assert bl.detect_target_files("myapp", bp) == ["main.py", "utils.py"]
 
-def test_detect_target_files_dedup_and_leaf_only():
+def test_detect_target_files_preserves_paths_and_dedupes():
     bp = "# File Structure\nsrc/main.py\nsrc/main.py\nlib/helper.py\n# Next"
-    assert bl.detect_target_files("a", bp) == ["main.py", "helper.py"]
+    assert bl.detect_target_files("a", bp) == ["src/main.py", "lib/helper.py"]
 
 def test_detect_target_files_fallback_when_no_tree():
     assert bl.detect_target_files("widget", "no tree here") == ["widget.py"]
@@ -226,8 +226,8 @@ def test_parse_phases_extracts_deliverables_and_command():
     phases = bl.parse_phases(_TWO_PHASE_BP)
     assert len(phases) == 2, phases
     assert phases[0]["number"] == 1 and phases[1]["number"] == 2
-    assert phases[0]["deliverables"] == ["a.py"]   # leaf only
-    assert phases[1]["deliverables"] == ["b.py"]
+    assert phases[0]["deliverables"] == ["src/a.py"]   # relative path preserved
+    assert phases[1]["deliverables"] == ["src/b.py"]
     assert phases[0]["command"] == "echo ok"
     assert phases[0]["pass_condition"] and "ok" in phases[0]["pass_condition"].lower()
 
@@ -310,11 +310,13 @@ def test_sequential_builds_phases_in_order_and_validates():
         with tempfile.TemporaryDirectory() as d:
             app = _write_app(d, bp)
             code, state = _run_main(app)
+            # subdir deliverables must be written at their relative paths (mkdir parents)
+            assert (Path(d) / "src" / "a.py").exists() and (Path(d) / "src" / "b.py").exists()
     finally:
         bl.dispatch_worker = orig_dispatch
         bl.extract_check_plan = orig_plan
 
-    assert calls == ["a.py", "b.py"], calls            # phase 1 file before phase 2 file
+    assert calls == ["src/a.py", "src/b.py"], calls    # phase 1 file before phase 2 file
     assert code == 0, state
     assert state["overall_status"] == "complete"
     assert all(p["status"] == "complete" and p["validated"] for p in state["phases"])
@@ -343,8 +345,8 @@ def test_sequential_gates_later_phases_when_phase1_fails():
         bl.dispatch_worker = orig_dispatch
         bl.extract_check_plan = orig_plan
 
-    assert "b.py" not in calls, calls                  # phase 2 worker never called
-    assert "a.py" in calls
+    assert "src/b.py" not in calls, calls              # phase 2 worker never called
+    assert "src/a.py" in calls
     assert code == 2, state
     assert state["overall_status"] == "blocked"
     escs = state.get("escalations", [])
