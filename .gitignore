@@ -8,3 +8,16 @@ __pycache__/
 *.pyc
 .idea/
 .vscode/
+
+# eva-discord — separate project with its own git repo. Not Ptah geometry
+# (RULES: "Ptah = geometry only"); never versioned into this canon.
+eva-discord/
+
+# --- Non-canon working trees: kept local, never versioned into the Ptah canon ---
+# The canon tracks the factory MACHINERY (architect.py, build-loop.py, schemas…),
+# never its build OUTPUTS. factory/active/ is the factory's runtime workspace.
+factory/active/
+
+# Claude Code local agent state (worktrees, session scratch). Nested worktrees
+# must never reach the canon — a `git add -A` would otherwise swallow a whole repo.
+.claude/
