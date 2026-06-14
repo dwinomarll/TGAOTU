@@ -1,0 +1,144 @@
+{
+  "generated_at": "2026-06-14T18:58:09-04:00",
+  "source_policy": {
+    "mode": "local_activation_checklist",
+    "external_mutation_attempted": false,
+    "secrets_recorded": false,
+    "confirmation_tokens_are_examples": true
+  },
+  "activation_summary": {
+    "total_targets": 6,
+    "ready_with_confirmation_token": 1,
+    "pending_targets": 5,
+    "pending_target_ids": [
+      "github_global_repo",
+      "notion_live_launch_team",
+      "gmail_mailbox_lane",
+      "slack_maverick_app",
+      "google_calendar_lane"
+    ]
+  },
+  "lanes": [
+    {
+      "target_id": "github_global_repo",
+      "system": "github",
+      "known_target": null,
+      "confirmation_status": "pending",
+      "gate": "github_publish",
+      "gate_enabled": false,
+      "activation_status": "needs_confirmation",
+      "missing_evidence": [
+        "repo owner/name or confirmation to create a new repo",
+        "branch name",
+        "publish mode: push, pull request, or release package"
+      ],
+      "draft_count": 0,
+      "draft_ids": [],
+      "example_action_id": "activate-github_global_repo",
+      "example_confirmation_token": "MAVERICK-CONFIRM github_publish activate-github_global_repo",
+      "external_mutation_attempted": false
+    },
+    {
+      "target_id": "icloud_destination",
+      "system": "icloud_drive",
+      "known_target": "/Users/edwinrosa/Library/Mobile Documents/com~apple~CloudDocs/Desktop/MAVERICK/Maverick-Cockpit",
+      "confirmation_status": "confirmed",
+      "gate": "icloud_artifact_export",
+      "gate_enabled": true,
+      "activation_status": "ready_with_confirmation_token",
+      "missing_evidence": [],
+      "draft_count": 0,
+      "draft_ids": [],
+      "example_action_id": "activate-icloud_destination",
+      "example_confirmation_token": "MAVERICK-CONFIRM icloud_artifact_export activate-icloud_destination",
+      "external_mutation_attempted": false
+    },
+    {
+      "target_id": "notion_live_launch_team",
+      "system": "notion",
+      "known_target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+      "confirmation_status": "pending",
+      "gate": "notion_status_update",
+      "gate_enabled": false,
+      "activation_status": "needs_confirmation",
+      "missing_evidence": [
+        "live row query method",
+        "write/update method",
+        "property mapping confirmation"
+      ],
+      "draft_count": 1,
+      "draft_ids": [
+        "notion_status_batch_plan"
+      ],
+      "example_action_id": "activate-notion_live_launch_team",
+      "example_confirmation_token": "MAVERICK-CONFIRM notion_status_update activate-notion_live_launch_team",
+      "external_mutation_attempted": false
+    },
+    {
+      "target_id": "gmail_mailbox_lane",
+      "system": "gmail",
+      "known_target": null,
+      "confirmation_status": "pending",
+      "gate": "gmail_send",
+      "gate_enabled": false,
+      "activation_status": "needs_confirmation",
+      "missing_evidence": [
+        "mailbox identity",
+        "read/draft/send permission boundary",
+        "send confirmation wording"
+      ],
+      "draft_count": 1,
+      "draft_ids": [
+        "gmail_followup_batch_plan"
+      ],
+      "example_action_id": "activate-gmail_mailbox_lane",
+      "example_confirmation_token": "MAVERICK-CONFIRM gmail_send activate-gmail_mailbox_lane",
+      "external_mutation_attempted": false
+    },
+    {
+      "target_id": "slack_maverick_app",
+      "system": "slack",
+      "known_target": "A0BALRB6CNQ",
+      "confirmation_status": "pending",
+      "gate": "slack_write",
+      "gate_enabled": false,
+      "activation_status": "needs_confirmation",
+      "missing_evidence": [
+        "Slack channel or DM target where Maverick should communicate with Edwin",
+        "bot token stored only in a secret store",
+        "per-message confirmation wording",
+        "Slack channel or DM id must be stored as the communication target",
+        "bot token must stay in the secret store, not in repo artifacts"
+      ],
+      "draft_count": 1,
+      "draft_ids": [
+        "slack_daily_command_brief"
+      ],
+      "example_action_id": "activate-slack_maverick_app",
+      "example_confirmation_token": "MAVERICK-CONFIRM slack_write activate-slack_maverick_app",
+      "external_mutation_attempted": false
+    },
+    {
+      "target_id": "google_calendar_lane",
+      "system": "google_calendar",
+      "known_target": null,
+      "confirmation_status": "pending",
+      "gate": "google_calendar_update",
+      "gate_enabled": false,
+      "activation_status": "needs_confirmation",
+      "missing_evidence": [
+        "calendar identity",
+        "event ownership rules",
+        "create/update confirmation wording"
+      ],
+      "draft_count": 1,
+      "draft_ids": [
+        "calendar_focus_block_plan"
+      ],
+      "example_action_id": "activate-google_calendar_lane",
+      "example_confirmation_token": "MAVERICK-CONFIRM google_calendar_update activate-google_calendar_lane",
+      "external_mutation_attempted": false
+    }
+  ],
+  "external_mutation_attempted": false
+}

@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-06-14T18:44:12-04:00",
+  "source_policy": {
+    "mode": "local_draft_outbox",
+    "external_mutation_attempted": false,
+    "secret_storage_required": true,
+    "personal_contact_fields_excluded": true
+  },
+  "slack_app": {
+    "app_id": "A0BALRB6CNQ",
+    "target_status": "pending",
+    "communication_target": null,
+    "secret_policy": "Bot token must live in a secret store, never in Notion, dashboard JSON, docs, or transcripts."
+  },
+  "delivery_rules": [
+    "No draft may leave local disk until its live target is confirmed.",
+    "Every external action needs an exact MAVERICK-CONFIRM token for its gate and action id.",
+    "Slack signal watch remains read-only; Slack app messages use the separate slack_write gate.",
+    "Do not include secrets, bot tokens, direct personal contact details, or unverified case facts."
+  ],
+  "drafts": [
+    {
+      "id": "slack_daily_command_brief",
+      "lane": "slack",
+      "target_id": "slack_maverick_app",
+      "known_target": "A0BALRB6CNQ",
+      "gate": "slack_write",
+      "action_id": "slack-daily-command-brief",
+      "required_token": "MAVERICK-CONFIRM slack_write slack-daily-command-brief",
+      "status": "blocked_pending_target",
+      "title": "Send Maverick daily command brief to Edwin",
+      "body": "Maverick daily command: 120 active cases against the 50-case target. Protect the 14-day window. Top objective: 22 overdue follow-ups. Next move: work overdue and day-10-to-13 cases before low-risk new tasks.",
+      "external_mutation_attempted": false
+    },
+    {
+      "id": "gmail_followup_batch_plan",
+      "lane": "gmail",
+      "target_id": "gmail_mailbox_lane",
+      "known_target": null,
+      "gate": "gmail_send",
+      "action_id": "gmail-followup-batch-plan",
+      "required_token": "MAVERICK-CONFIRM gmail_send gmail-followup-batch-plan",
+      "status": "blocked_pending_target",
+      "title": "Prepare follow-up batch draft",
+      "body": "Draft merchant follow-up messages only after mailbox identity and send boundary are confirmed.",
+      "external_mutation_attempted": false
+    },
+    {
+      "id": "calendar_focus_block_plan",
+      "lane": "google_calendar",
+      "target_id": "google_calendar_lane",
+      "known_target": null,
+      "gate": "google_calendar_update",
+      "action_id": "calendar-focus-block-plan",
+      "required_token": "MAVERICK-CONFIRM google_calendar_update calendar-focus-block-plan",
+      "status": "blocked_pending_target",
+      "title": "Prepare protected callback/follow-up focus block",
+      "body": "Plan a calendar focus block for callbacks and overdue follow-ups after calendar ownership is confirmed.",
+      "external_mutation_attempted": false
+    },
+    {
+      "id": "notion_status_batch_plan",
+      "lane": "notion",
+      "target_id": "notion_live_launch_team",
+      "known_target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+      "gate": "notion_status_update",
+      "action_id": "notion-status-batch-plan",
+      "required_token": "MAVERICK-CONFIRM notion_status_update notion-status-batch-plan",
+      "status": "blocked_pending_target",
+      "title": "Prepare Notion status update batch",
+      "body": "Prepare status updates only after live row query, property mapping, and write method are confirmed.",
+      "external_mutation_attempted": false
+    }
+  ],
+  "external_mutation_attempted": false
+}

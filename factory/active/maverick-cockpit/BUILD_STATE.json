@@ -1,0 +1,118 @@
+{
+  "app_name": "maverick-cockpit",
+  "created_at": "2026-06-14T16:09:13-04:00",
+  "last_updated": "2026-06-14T19:49:33-04:00",
+  "overall_status": "in_progress",
+  "current_phase": 7,
+  "phases": [
+    {
+      "number": 1,
+      "title": "Register Maverick as an active factory build",
+      "worker": "ARCH-1",
+      "status": "complete",
+      "validated": true,
+      "validation_command": "python3 factory/validate_maverick.py",
+      "validation_result": {
+        "exit_code": 0,
+        "summary": "PASS: Maverick Cockpit Phase 1 artifacts are present and consistent."
+      },
+      "notes": "Cockpit blueprint, source map, schema, and validator are registered."
+    },
+    {
+      "number": 2,
+      "title": "Promote legacy Shift4 Dine assets into source references",
+      "worker": "OPS-1",
+      "status": "complete",
+      "validated": true,
+      "validation_command": "python3 factory/validate_maverick.py --phase source-map",
+      "validation_result": {
+        "exit_code": 0,
+        "summary": "PASS: Maverick Cockpit source map is present and references existing legacy assets."
+      },
+      "notes": "Legacy sources are classified as copy_now, copy_later, reference, rebuild, retire, or blocked."
+    },
+    {
+      "number": 3,
+      "title": "Build normalized case ledger",
+      "worker": "ENG-PY",
+      "status": "complete",
+      "validated": true,
+      "validation_command": "python3 factory/validate_maverick.py --phase ledger",
+      "validation_result": {
+        "exit_code": 0,
+        "summary": "PASS: Maverick Cockpit ledger seed normalizes the sample case correctly."
+      },
+      "notes": "Ledger contract, sample raw case, sample normalized case, and adapter seed are validated."
+    },
+    {
+      "number": 4,
+      "title": "Build cockpit UI shell",
+      "worker": "DESIGN-1 + ENG-FRONTEND",
+      "status": "complete",
+      "validated": true,
+      "validation_command": "python3 factory/validate_maverick.py --phase dashboard",
+      "validation_result": {
+        "exit_code": 0,
+        "summary": "PASS: Maverick Cockpit dashboard shell is present and wired. Playwright smoke checked desktop/mobile render and filter controls with system Chrome."
+      },
+      "notes": "Static dashboard shell implemented with local demo data, responsive layout, and interactive filters."
+    },
+    {
+      "number": 5,
+      "title": "Connect read-only adapters",
+      "worker": "ENG-INTEGRATION",
+      "status": "complete",
+      "validated": true,
+      "validation_command": "python3 factory/validate_maverick.py --phase adapters",
+      "validation_result": {
+        "exit_code": 0,
+        "summary": "PASS: Maverick Cockpit read-only adapters emit a current dashboard snapshot. HTTP dashboard smoke checked adapter data load with system Chrome."
+      },
+      "notes": "Read-only adapters emit dashboard JSON for Notion, the local operating loop, the local communication outbox, the local activation checklist, the local learning ledger, the local Slack app bridge, the local GitHub publish bridge, the local Notion live bridge, the legacy Slack watch, the gated Maverick Slack app lane, Gmail, Google Calendar, and iCloud destination status."
+    },
+    {
+      "number": 6,
+      "title": "Add confirmation-gated external writes and exports",
+      "worker": "ENG-INTEGRATION + QA-1",
+      "status": "complete",
+      "validated": true,
+      "validation_command": "python3 factory/validate_maverick.py --phase write-gates",
+      "validation_result": {
+        "exit_code": 0,
+        "summary": "PASS: Maverick Cockpit write gates deny unconfirmed external mutations and prepare a local export manifest."
+      },
+      "notes": "Local write-gate contract, audit log, and export manifest are validated. External publish/export remains disabled until live targets are confirmed."
+    },
+    {
+      "number": 7,
+      "title": "Confirm live targets and publish/export",
+      "worker": "ENG-INTEGRATION + DEVOPS-1",
+      "status": "in_progress",
+      "validated": false,
+      "validation_command": "python3 factory/validate_maverick.py --phase icloud-export && python3 factory/validate_maverick.py --phase live-targets",
+      "validation_result": {
+        "exit_code": 1,
+                "summary": "PASS: iCloud workflow package copied to the local MAVERICK folder. Live-target validation remains pending for GitHub, Notion, Gmail, the Maverick Slack app, and Google Calendar."
+            },
+      "notes": "Global repo package, repo assembly, target discovery, local confirmation applier, dashboard Launch Gates, Daily Command operating loop, Comms Outbox draft lane, Slack Bridge dry-run envelopes, GitHub Bridge dry-run publish envelope, Notion Bridge dry-run row/update envelope, Activation Matrix readiness checklist, Learning Ledger local memory, and the local iCloud workflow copy are prepared. Repo assembly is serialized with a local lock so concurrent validators do not corrupt the generated package. External publish/update/send actions remain disabled until explicit confirmation for GitHub repo/branch, Notion live row method, Gmail mailbox lane, Maverick Slack app channel/DM and secret handling, and Google Calendar source ownership."
+        }
+  ],
+  "escalations": [
+    {
+      "time": "2026-06-14T16:09:13-04:00",
+      "phase": 1,
+      "reason": "Notion row-query tool unavailable: notion-query-data-sources not found.",
+      "owner": "ARCH-1",
+      "status": "noted",
+      "resolution": "Use fetched page/database schema and source references; defer live row aggregates."
+    },
+    {
+      "time": "2026-06-14T16:09:13-04:00",
+      "phase": 1,
+      "reason": "iCloud Drive URL provided as destination but no local mounted path or authenticated sync surface is confirmed.",
+      "owner": "ARCH-1",
+      "status": "resolved",
+      "resolution": "User provided the local iCloud MAVERICK folder; Maverick copied the 40-file cockpit workflow package there and recorded the export manifest."
+    }
+  ]
+}

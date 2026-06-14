@@ -1,0 +1,98 @@
+{
+  "name": "maverick-live-target-confirmations",
+  "version": 1,
+  "created_at": "2026-06-14T16:32:36-04:00",
+  "purpose": "Track the external targets that must be confirmed before Maverick publishes, exports, reads live private sources, or mutates external systems.",
+  "completion_rule": "Every target must be confirmed with a concrete target, owner, access method, and write gate before live-target validation can pass.",
+  "targets": [
+    {
+      "id": "github_global_repo",
+      "system": "github",
+      "write_gate": "github_publish",
+      "confirmation_status": "pending",
+      "known_target": null,
+      "evidence_required": [
+        "repo owner/name or confirmation to create a new repo",
+        "branch name",
+        "publish mode: push, pull request, or release package"
+      ],
+      "notes": "The local repo contains Maverick. External GitHub publish is still disabled."
+    },
+    {
+      "id": "icloud_destination",
+      "system": "icloud_drive",
+      "write_gate": "icloud_artifact_export",
+      "confirmation_status": "confirmed",
+      "known_target": "/Users/edwinrosa/Library/Mobile Documents/com~apple~CloudDocs/Desktop/MAVERICK/Maverick-Cockpit",
+      "local_path": null,
+      "evidence_required": [
+        "local mounted folder path or authenticated upload route",
+        "confirmation that Maverick artifacts should be copied there"
+      ],
+      "notes": "Confirmed locally for copy Maverick Cockpit workflow package to the local iCloud MAVERICK folder. External mutation still requires the action runner to pass its write gate.",
+      "confirmed_at": "2026-06-14T16:40:22-04:00",
+      "owner_boundary": "local user iCloud Drive folder",
+      "access_method": "local filesystem path provided by user",
+      "allowed_action": "copy Maverick Cockpit workflow package to the local iCloud MAVERICK folder",
+      "confirmation_evidence": {
+        "user_request": "copy or add the workflow in the provided MAVERICK folder",
+        "destination_root": "/Users/edwinrosa/Library/Mobile Documents/com~apple~CloudDocs/Desktop/MAVERICK",
+        "destination_subfolder": "Maverick-Cockpit"
+      },
+      "external_mutation_allowed": false
+    },
+    {
+      "id": "notion_live_launch_team",
+      "system": "notion",
+      "write_gate": "notion_status_update",
+      "confirmation_status": "pending",
+      "known_target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+      "evidence_required": [
+        "live row query method",
+        "write/update method",
+        "property mapping confirmation"
+      ],
+      "notes": "The current Notion row query surface was unavailable, so Maverick uses local seed data."
+    },
+        {
+            "id": "gmail_mailbox_lane",
+            "system": "gmail",
+            "write_gate": "gmail_send",
+      "confirmation_status": "pending",
+      "known_target": null,
+      "evidence_required": [
+        "mailbox identity",
+        "read/draft/send permission boundary",
+        "send confirmation wording"
+            ],
+            "notes": "No mailbox is confirmed. Sending is disabled."
+        },
+        {
+            "id": "slack_maverick_app",
+            "system": "slack",
+            "write_gate": "slack_write",
+            "confirmation_status": "pending",
+            "known_target": "A0BALRB6CNQ",
+            "evidence_required": [
+                "Slack channel or DM target where Maverick should communicate with Edwin",
+                "bot token stored only in a secret store",
+                "per-message confirmation wording"
+            ],
+            "notes": "User provided the Maverick Slack app id. The legacy Slack watch remains read-only; outbound communication through this app is disabled until target, secret handling, and per-message confirmation are settled.",
+            "user_provided_app_id": "A0BALRB6CNQ"
+        },
+        {
+            "id": "google_calendar_lane",
+            "system": "google_calendar",
+      "write_gate": "google_calendar_update",
+      "confirmation_status": "pending",
+      "known_target": null,
+      "evidence_required": [
+        "calendar identity",
+        "event ownership rules",
+        "create/update confirmation wording"
+      ],
+      "notes": "No calendar source ownership is confirmed. Event mutation is disabled."
+    }
+  ]
+}

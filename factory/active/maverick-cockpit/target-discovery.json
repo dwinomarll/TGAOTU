@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-06-14T16:37:38-04:00",
+  "live_targets": "factory/active/maverick-cockpit/live-targets.json",
+  "external_mutation_attempted": false,
+  "confirmation_status_changed": false,
+  "github": {
+    "current_origin": "https://github.com/dwinomarll/TGAOTU.git",
+    "candidate_repo": "dwinomarll/maverick-cockpit",
+    "candidate_branch": "codex/maverick-cockpit",
+    "candidate_publish_mode": "pull_request_or_new_private_repo",
+    "gh": {
+      "cli_present": true,
+      "cli_path": "/opt/homebrew/bin/gh",
+      "authenticated": true,
+      "auth_output_recorded": false,
+      "secret_policy": "Do not store gh auth output, tokens, scopes, or credential paths in Maverick artifacts."
+    },
+    "write_gate": "github_publish"
+  },
+  "icloud_drive": {
+    "provided_url": "https://www.icloud.com/iclouddrive/09dTCQP4Zljf2MEc0fPTBGyGA",
+    "candidates": [
+      {
+        "path": "/Users/edwinrosa/Library/Mobile Documents/com~apple~CloudDocs",
+        "exists": true,
+        "is_dir": true,
+        "selected": true
+      },
+      {
+        "path": "/Users/edwinrosa/Library/Mobile Documents",
+        "exists": true,
+        "is_dir": true,
+        "selected": false
+      },
+      {
+        "path": "/Users/edwinrosa/iCloud Drive",
+        "exists": false,
+        "is_dir": false,
+        "selected": false
+      }
+    ],
+    "write_gate": "icloud_artifact_export"
+  },
+  "notion": {
+    "candidate_collection": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+    "row_query_status": "unavailable_in_current_tooling",
+    "write_gate": "notion_status_update"
+  },
+  "gmail": {
+    "candidate_mailbox": null,
+    "access_status": "pending_user_or_connector_confirmation",
+    "write_gate": "gmail_send"
+  },
+  "slack": {
+    "candidate_app_id": "A0BALRB6CNQ",
+    "communication_target": null,
+    "access_status": "pending_channel_or_dm_and_secret_confirmation",
+    "legacy_watch_policy": "read_only",
+    "write_gate": "slack_write"
+  },
+  "google_calendar": {
+    "candidate_calendar": null,
+    "access_status": "pending_user_or_connector_confirmation",
+    "write_gate": "google_calendar_update"
+  },
+  "pending_target_ids": [
+    "github_global_repo",
+    "notion_live_launch_team",
+    "gmail_mailbox_lane",
+    "slack_maverick_app",
+    "google_calendar_lane"
+  ]
+}

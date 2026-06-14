@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-06-14T19:12:26-04:00",
+  "source_policy": {
+    "mode": "local_learning_ledger",
+    "external_mutation_attempted": false,
+    "personal_contact_fields_excluded": true,
+    "secrets_recorded": false,
+    "promotion_rule": "Promote a learning only when it changes routing, priority, safety, or next action."
+  },
+  "summary": {
+    "promoted_events": 7,
+    "rejected_memory": 4,
+    "confidence": "evidence_backed_local_snapshot",
+    "review_cadence": "daily after case work and before export/publish decisions"
+  },
+  "learning_events": [
+    {
+      "id": "case_pressure_target_gap",
+      "kind": "portfolio_pressure",
+      "signal": "120 active cases vs 50 target",
+      "lesson": "Maverick must prioritize reduction lanes before expanding new work.",
+      "next_action": "Keep Daily Command focused on overdue, callback, false-close, and reactivation objectives.",
+      "promotion_status": "promoted_to_dashboard_memory",
+      "confidence": "evidence_backed"
+    },
+    {
+      "id": "overdue_followup_bias",
+      "kind": "timing_pressure",
+      "signal": "22 overdue follow-ups",
+      "lesson": "Overdue work is the clearest signal that the 14-day rule is under pressure.",
+      "next_action": "Promote overdue follow-ups into the first daily work block.",
+      "promotion_status": "promoted_to_dashboard_memory",
+      "confidence": "evidence_backed"
+    },
+    {
+      "id": "callback_batching",
+      "kind": "workflow_pattern",
+      "signal": "37 callbacks pending",
+      "lesson": "Callbacks should be batched through the Callback canvas instead of handled one by one.",
+      "next_action": "Use the Callback canvas as the default route for call-stack actions.",
+      "promotion_status": "promoted_to_dashboard_memory",
+      "confidence": "evidence_backed"
+    },
+    {
+      "id": "false_closure_qa",
+      "kind": "quality_pattern",
+      "signal": "12 resolved-but-open tasks",
+      "lesson": "Resolved labels are not enough; QA must confirm the task is actually closed.",
+      "next_action": "Route resolved-but-open work through QA Breakdown before archive.",
+      "promotion_status": "promoted_to_dashboard_memory",
+      "confidence": "evidence_backed"
+    },
+    {
+      "id": "reactivation_burndown",
+      "kind": "burndown_pattern",
+      "signal": "103 accounts marked move to active",
+      "lesson": "Reactivation candidates should enter active review deliberately, not by copying stale rows wholesale.",
+      "next_action": "Use Portfolio Reconciliation as a candidate list, then verify each case before action.",
+      "promotion_status": "promoted_to_dashboard_memory",
+      "confidence": "evidence_backed"
+    },
+    {
+      "id": "slack_two_lane_model",
+      "kind": "communication_boundary",
+      "signal": "Slack app A0BALRB6CNQ is pending",
+      "lesson": "Slack signal watching and Slack app messaging are different lanes with different gates.",
+      "next_action": "Keep the watch read-only and use Comms Outbox plus slack_write for future app messages.",
+      "promotion_status": "promoted_to_dashboard_memory",
+      "confidence": "evidence_backed"
+    },
+    {
+      "id": "activation_gate_pressure",
+      "kind": "safety_pattern",
+      "signal": "5 live targets pending",
+      "lesson": "Maverick should surface missing evidence instead of guessing live access.",
+      "next_action": "Use Activation Matrix before attempting publish, send, schedule, or update actions.",
+      "promotion_status": "promoted_to_dashboard_memory",
+      "confidence": "evidence_backed"
+    }
+  ],
+  "rejected_memory": [
+    {
+      "id": "direct_contact_fields",
+      "reason": "contact_number and contact_email are explicitly never-guess fields",
+      "handling": "leave unknown until verified in the source system"
+    },
+    {
+      "id": "bot_or_oauth_tokens",
+      "reason": "secrets must live only in a secret store",
+      "handling": "do not write tokens into Notion, docs, dashboard JSON, or transcripts"
+    },
+    {
+      "id": "unmatched_slack_chatter",
+      "reason": "Slack signal watch alerts only on active-account evidence",
+      "handling": "ignore chatter unless it matches MID, DBA, account, contact, or Salesforce case"
+    },
+    {
+      "id": "unverified_row_mutation",
+      "reason": "Notion row query and update method are not confirmed",
+      "handling": "prepare local plans only until live row method is proven"
+    }
+  ],
+  "dashboard_ready": true,
+  "external_mutation_attempted": false
+}

@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-06-14T19:49:33-04:00",
+  "source_policy": {
+    "mode": "local_notion_live_bridge",
+    "preferred_source": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+    "row_query_status": "unavailable: notion-query-data-sources not found",
+    "local_cache_fallback": "/Users/edwinrosa/.codex/worktrees/slack-signal-maverick/Maverick Project/Shift4 Dine/Workflow/modules/_base.py",
+    "external_mutation_attempted": false,
+    "personal_contact_fields_excluded": true,
+    "secrets_recorded": false
+  },
+  "target": {
+    "id": "notion_live_launch_team",
+    "known_target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+    "confirmation_status": "pending",
+    "write_gate": "notion_status_update",
+    "live_row_query_method": null,
+    "live_update_method": null,
+    "property_mapping_confirmed": false
+  },
+  "read_model": {
+    "overview_observed_at": "2026-06-14T17:08:36-04:00",
+    "active_cases": 120,
+    "callbacks_pending": 37,
+    "overdue_followups": 22,
+    "canvas_count": 8,
+    "uses_overview_snapshot": true
+  },
+  "update_envelopes": [
+    {
+      "id": "notion_status_batch_plan",
+      "target_id": "notion_live_launch_team",
+      "collection": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+      "source_draft": "notion_status_batch_plan",
+      "required_gate": "notion_status_update",
+      "required_token": "MAVERICK-CONFIRM notion_status_update notion-status-batch-plan",
+      "proposed_operation": "batch_status_update_after_row_method_confirmation",
+      "row_filter": {
+        "active_window_days": 14,
+        "requires_live_row_query": true,
+        "fallback_is_read_only_cache": true
+      },
+      "property_map_required": [
+        "Task Status",
+        "Next Action",
+        "Next Follow-up",
+        "QA Score",
+        "MID",
+        "Salesforce Case"
+      ],
+      "gate_assessment_without_token": {
+        "gate_id": "notion_status_update",
+        "system": "notion",
+        "action_id": "notion-status-batch-plan",
+        "allowed": false,
+        "reason": "gate_not_enabled",
+        "required_token": "MAVERICK-CONFIRM notion_status_update notion-status-batch-plan",
+        "token_matches": false,
+        "external_mutation_attempted": false
+      },
+      "update_allowed": false,
+      "external_mutation_attempted": false
+    }
+  ],
+  "required_before_update": [
+    "Confirm live row query method for Launch Team rows.",
+    "Confirm Notion update method and allowed properties.",
+    "Confirm property mapping for status, next action, follow-up, QA, MID, and Salesforce case.",
+    "Confirm the exact action id with a MAVERICK-CONFIRM notion_status_update token."
+  ],
+  "dry_run": {
+    "query_attempted": false,
+    "update_attempted": false,
+    "update_allowed": false,
+    "reason": "missing live row query method, update method, property mapping, and confirmation token",
+    "gate_timestamp": "2026-06-14T16:30:35-04:00"
+  },
+  "external_mutation_attempted": false
+}

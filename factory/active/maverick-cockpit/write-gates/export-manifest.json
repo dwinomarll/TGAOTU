@@ -1,0 +1,381 @@
+{
+  "generated_at": "2026-06-14T16:30:35-04:00",
+  "contract": "factory/active/maverick-cockpit/write-gates/write-gate-contract.json",
+  "destination": {
+    "github": "pending explicit repo/branch confirmation",
+    "icloud_drive": "https://www.icloud.com/iclouddrive/09dTCQP4Zljf2MEc0fPTBGyGA",
+    "icloud_local_path": null,
+    "status": "prepared_local_manifest_only"
+  },
+  "external_mutation_attempted": false,
+  "gates": [
+    {
+      "id": "notion_status_update",
+      "system": "notion",
+      "operation": "update case/task status",
+      "policy": "confirmation_required",
+      "enabled": false,
+      "allowed_without_token": false,
+      "denial_reason": "gate_not_enabled"
+    },
+    {
+      "id": "gmail_send",
+      "system": "gmail",
+      "operation": "send or schedule email",
+      "policy": "confirmation_required",
+      "enabled": false,
+      "allowed_without_token": false,
+      "denial_reason": "gate_not_enabled"
+    },
+    {
+      "id": "google_calendar_update",
+      "system": "google_calendar",
+      "operation": "create or update calendar event",
+      "policy": "confirmation_required",
+      "enabled": false,
+      "allowed_without_token": false,
+      "denial_reason": "gate_not_enabled"
+    },
+    {
+      "id": "icloud_artifact_export",
+      "system": "icloud_drive",
+      "operation": "copy Maverick artifacts to iCloud Drive destination",
+      "policy": "confirmation_required",
+      "enabled": true,
+      "allowed_without_token": false,
+      "denial_reason": "missing_or_invalid_confirmation_token"
+    },
+    {
+      "id": "github_publish",
+      "system": "github",
+      "operation": "push branch, create repo, or create pull request",
+      "policy": "confirmation_required",
+      "enabled": false,
+      "allowed_without_token": false,
+      "denial_reason": "gate_not_enabled"
+    },
+    {
+      "id": "slack_write",
+      "system": "slack",
+      "operation": "send a message through the Maverick Slack app",
+      "policy": "confirmation_required",
+      "enabled": false,
+      "allowed_without_token": false,
+      "denial_reason": "gate_not_enabled"
+    }
+  ],
+  "artifact_count": 62,
+  "missing_artifacts": [],
+  "artifacts": [
+    {
+      "path": "docs/maverick-cockpit.md",
+      "bytes": 7322,
+      "sha256": "c249c0af2f37bde42a8ec22e476790794e174699a3d606026367827b34bd8a70"
+    },
+    {
+      "path": "docs/maverick-source-map.md",
+      "bytes": 2874,
+      "sha256": "d79f1e945fc034493060343d5de13dc20f9d0b84468ba0ad0256e297e3154297"
+    },
+    {
+      "path": "docs/maverick-ledger.md",
+      "bytes": 1390,
+      "sha256": "4fe6fc568a45b4ce78b1ab01e99a857adaacdc94a9be60a027a46ef92ecbb4b4"
+    },
+    {
+      "path": "docs/maverick-adapters.md",
+      "bytes": 5146,
+      "sha256": "61acc761ef62aa8a8999e0fe0cdc0780e9a6d56923341a34ff53aec88038afa1"
+    },
+    {
+      "path": "docs/maverick-write-gates.md",
+      "bytes": 1983,
+      "sha256": "90ba6dd4b20338d7e533ecced2b391f2fa96a494acf5218a3a341f843027f1d3"
+    },
+    {
+      "path": "docs/maverick-live-targets.md",
+      "bytes": 1901,
+      "sha256": "53eb2da780590d2bf15117acda0472ad0f52c2e06bd6e029a8ae046eb9d7067d"
+    },
+    {
+      "path": "docs/maverick-global-repo.md",
+      "bytes": 1597,
+      "sha256": "f50b4ade35c7910dffb1f685ed1496c618f22167032cc19a01c04cc973712f00"
+    },
+    {
+      "path": "docs/maverick-target-discovery.md",
+      "bytes": 1072,
+      "sha256": "74b4955e3fc89b83066660306741c01560b832c0b40bff61b6a97f0f79c8ab60"
+    },
+    {
+      "path": "docs/maverick-confirmation-applier.md",
+      "bytes": 877,
+      "sha256": "0c3f30fb4c08ec5da38ae5ee75c93bad05527c31403b2db816efc964c4e20d34"
+    },
+    {
+      "path": "docs/maverick-repo-assembly.md",
+      "bytes": 1035,
+      "sha256": "77f902c84b06200026ab9cdccc921d8b7aa9ded46edc3bb1b2a7d47a689ea2aa"
+    },
+    {
+      "path": "docs/maverick-workflow.md",
+      "bytes": 5323,
+      "sha256": "93dc05dcc4617964d3a88c2c7da4e5af4128e4c8a949ceaa96c84dfafad44d7b"
+    },
+    {
+      "path": "docs/maverick-icloud-export.md",
+      "bytes": 1384,
+      "sha256": "660b16b2c839d9bac7a642fb25331a38f26a3697e85767c8265f63790635ffaf"
+    },
+    {
+      "path": "docs/maverick-notion-overview.md",
+      "bytes": 1473,
+      "sha256": "0a8388575fd371b2f36df44e2afbe068240e2912163b0e28193ca4e92505b667"
+    },
+    {
+      "path": "docs/maverick-operating-loop.md",
+      "bytes": 1905,
+      "sha256": "08bd909a8fd113e33bfeb57272238b558b7d2c7c4b04f68d45fb2fabd0017942"
+    },
+    {
+      "path": "docs/maverick-communication-outbox.md",
+      "bytes": 1260,
+      "sha256": "0ce6832fe7cf552f185dff7f05e53559bc66f28d3848f8b5d1957255dad0de26"
+    },
+    {
+      "path": "docs/maverick-activation-checklist.md",
+      "bytes": 1277,
+      "sha256": "a5e8c0fbdca4fffa9d2135f4cf7a833aacb642ad7d6c804ca1d1a25a317a5f67"
+    },
+    {
+      "path": "docs/maverick-learning-ledger.md",
+      "bytes": 1573,
+      "sha256": "abdd1e101e810fdc37114ef16af5fa5c8705ea76ac69434cee66ee427a22ee96"
+    },
+    {
+      "path": "docs/maverick-slack-bridge.md",
+      "bytes": 1159,
+      "sha256": "42aeda78277cd8e98b850a61e63b67a69a732f3d735282147b5a4d7fc24abaa1"
+    },
+    {
+      "path": "docs/maverick-github-bridge.md",
+      "bytes": 1251,
+      "sha256": "10d4c05331fd519d526977a245bd475b0ccd1c68d1dc14e46861472fd45085a5"
+    },
+    {
+      "path": "docs/maverick-notion-bridge.md",
+      "bytes": 1223,
+      "sha256": "a3fdfa374d28f8559b60778d3c5eaec7b6ce1e1a00621f0a657cc565724eb4e6"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/VISION.md",
+      "bytes": 2123,
+      "sha256": "a04e3d4050ee8cd86958e11b2c2e0fe1100bf90eb0762d40464d4c1e00ff6902"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/BLUEPRINT.md",
+      "bytes": 9040,
+      "sha256": "d7f900ca750eac05a769c93bc0cbda8aeaba0387d02ce4ec67ff97148cefc1be"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/BUILD_STATE.json",
+      "bytes": 5994,
+      "sha256": "931593a56af07c512e4489602dba4a43502a532f7947529f84a3b0d56b9e6c08"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/notion-overview.json",
+      "bytes": 6471,
+      "sha256": "c595ef312309d06a2924a93b9088a0d3690fdd4b100404f35ad633a6b7f16014"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/operating-loop.json",
+      "bytes": 7142,
+      "sha256": "cd01fe5ca78a5ed22b6c65ff2f25739ec0293f93d10dd80337a7c4cc70b06a83"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/communication-outbox.json",
+      "bytes": 3393,
+      "sha256": "e50132e77b8e9487963dfcb5c92d21afa3db7527b690d368adc34e5163cd072e"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/activation-checklist.json",
+      "bytes": 5034,
+      "sha256": "658be589255631a12de4ffbf3dce3ed8311958daaf48413378d5c8c02cd22404"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/learning-ledger.json",
+      "bytes": 4501,
+      "sha256": "d90d1018141caab85e3cf3ecaa21b95f71ae7e4f053959570a3ff21167675922"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/slack-app-bridge.json",
+      "bytes": 2200,
+      "sha256": "fea68a3b3598a7c6cbafcb01c5f4bb5eba5d85cd7d96cfd6794358f2d5c4afd9"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/github-publish-bridge.json",
+      "bytes": 2416,
+      "sha256": "4c67cd07113db1147578dd95e3e6e8740c7b055c9169ccb8bb72440d17c01196"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/notion-live-bridge.json",
+      "bytes": 2977,
+      "sha256": "52df332216da94193f339469701cb26169d7d522d4b930fef73e6e1a81dc2010"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/live-targets.json",
+      "bytes": 4302,
+      "sha256": "18d9218a6bd62b40fb3c6a005b5c8d12bfe7541c8a9a36cd4e7954bc041a074b"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/target-discovery.json",
+      "bytes": 2307,
+      "sha256": "d6ad8c85e86a79c16859a19f89ea9f5259c3bddde5b7c75a88b4febfcc2e3ee4"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/confirmation-request.md",
+      "bytes": 1635,
+      "sha256": "2cb15378a8da8026d73122c6bdf133acdc2fad43226d0fda0117e702a94420b4"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/global-repo/README.md",
+      "bytes": 1928,
+      "sha256": "bc21a14b0e8c62d2db1f4b5f663c6f2af22e0798b6f1c0f3b8217f8618c24712"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/global-repo/repo-contract.json",
+      "bytes": 2211,
+      "sha256": "ead290cee65299baa624af5506aa034b64ae83b628977d287292a74002ddec52"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/source-map.json",
+      "bytes": 9788,
+      "sha256": "f98fb5ed5ac8671a2b71728bbe5c7e70e4a60609805e4c26be05cff29559c9db"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/ledger-contract.json",
+      "bytes": 1471,
+      "sha256": "af47678e7f034a8a4c5dc61518baed59d5aec75833a33d7f88df3c5abebb5471"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/adapters/adapter-contract.json",
+      "bytes": 5610,
+      "sha256": "5f1a0beb72c65b74673ad3323188bf36c7262fadcd8fecb4ff086ad6032d4207"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/adapters/adapter-snapshot.json",
+      "bytes": 76136,
+      "sha256": "419395b5cbc1c7e8dfa350372bd630fa742addde94a6cf23516c13cfca167488"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/dashboard/index.html",
+      "bytes": 8597,
+      "sha256": "4cf0c4ebdbbf4cad0b0430ca20adfb3d3371d407d8e79b3fb498371f242e9192"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/dashboard/styles.css",
+      "bytes": 19397,
+      "sha256": "63edfa864f500ac4cc5888dacb6e0156a0be96f0d08aef0e8e8e4db0c3179c25"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/dashboard/app.js",
+      "bytes": 22995,
+      "sha256": "edaf77a57f1e42e7ff8fc6d5e85532a16b01103e1902223a7cab437aeaf02296"
+    },
+    {
+      "path": "factory/active/maverick-cockpit/dashboard/data/maverick-dashboard-data.json",
+      "bytes": 32601,
+      "sha256": "d6885396425af99244408d032d60d218df9c2935e0ed3cce814e825c6df520fb"
+    },
+    {
+      "path": "factory/maverick_adapters.py",
+      "bytes": 19283,
+      "sha256": "3054cb0e5174c4bd00682896127ec94c92fbaec4034ee66391c531224f4facc9"
+    },
+    {
+      "path": "factory/maverick_assemble_repo.py",
+      "bytes": 4945,
+      "sha256": "ae50f237ceb75e7e1358c70e2732b896981b1dc72de56da567603400d30529c0"
+    },
+    {
+      "path": "factory/maverick_activation_checklist.py",
+      "bytes": 4851,
+      "sha256": "fbe5dbd7de2daf7b8367e385f7dce4585063bfa29baa1b2632b5412a6f2b282b"
+    },
+    {
+      "path": "factory/maverick_case_adapter.py",
+      "bytes": 6871,
+      "sha256": "d0bb33315f7889846034c6aa966abb970b26f3aa3f25a2b627013e26f47f92d4"
+    },
+    {
+      "path": "factory/maverick_comms_outbox.py",
+      "bytes": 6925,
+      "sha256": "8488aae17e6b9b60897b92a5eb42d664d8b26ed6a6d3551f49d76bb06d47a596"
+    },
+    {
+      "path": "factory/maverick_confirm_target.py",
+      "bytes": 5836,
+      "sha256": "c9749fea2ec9e72127b477d668820c920c3636e8e9de72902fda72f9fb76de68"
+    },
+    {
+      "path": "factory/maverick_export_icloud.py",
+      "bytes": 7264,
+      "sha256": "9f5adc6255cf5d5cb688c27ac96c552c124fa1e25638abfa865fd1840b63b6e2"
+    },
+    {
+      "path": "factory/maverick_global_repo.py",
+      "bytes": 4740,
+      "sha256": "dac82badbaa15f93cfe32eb7234b7de73278239db621dca6ba4b58e68f394d6e"
+    },
+    {
+      "path": "factory/maverick_github_bridge.py",
+      "bytes": 5677,
+      "sha256": "22d48b4d9a4ba1a519482670a6ae0f7d6a588a53e08c037abc51485de6812ad2"
+    },
+    {
+      "path": "factory/maverick_learning_ledger.py",
+      "bytes": 7060,
+      "sha256": "5dba62c3fe36be1b842c40904262e5e57230e0fdc294145dacaa1e22f78671ac"
+    },
+    {
+      "path": "factory/maverick_live_targets.py",
+      "bytes": 6809,
+      "sha256": "d1d41ab9e3f352adb2ef10a2c3ab404b341edbf67b2a2b4a5b2e8a3347430d81"
+    },
+    {
+      "path": "factory/maverick_notion_bridge.py",
+      "bytes": 6333,
+      "sha256": "e0a7afcb6eabeeaecdbfc1407ec22f713d0fec15ad2738aa373ddddd506af7d4"
+    },
+    {
+      "path": "factory/maverick_slack_bridge.py",
+      "bytes": 4592,
+      "sha256": "eb637c611bef282d9a16b555552b5bc9f2c23d5818d123e0bbb1a271c026ad2c"
+    },
+    {
+      "path": "factory/maverick_notion_overview.py",
+      "bytes": 8310,
+      "sha256": "57a989e9bf96498971525524cbdb7c9f6de21e7dd386d4ac9dc469d1a4f5d750"
+    },
+    {
+      "path": "factory/maverick_operating_loop.py",
+      "bytes": 9319,
+      "sha256": "7be9ed86a69b87305808d127e571ccf6563a41fa86c5e8a34c0554552c7c07a4"
+    },
+    {
+      "path": "factory/maverick_write_gates.py",
+      "bytes": 5858,
+      "sha256": "e2230e8d20dd39cc55221d75da25efcf8ee0f473cd68090df3ef4d3c91a113c8"
+    },
+    {
+      "path": "factory/validate_maverick.py",
+      "bytes": 80131,
+      "sha256": "ca8858a92d937b44166e1ff294bc9807418e90f7ec8d8c5bad23ab6ec47e92a5"
+    },
+    {
+      "path": "factory/schemas/maverick-workplace.schema.json",
+      "bytes": 4192,
+      "sha256": "3e64113cf0678479bf065ccadb8e099443481a73348ae816e90a76ed7b6573c7"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-06-14T19:38:44-04:00",
+  "source_policy": {
+    "mode": "local_github_publish_bridge",
+    "external_mutation_attempted": false,
+    "secrets_recorded": false,
+    "gh_auth_output_recorded": false
+  },
+  "repository": {
+    "target_id": "github_global_repo",
+    "candidate_repo": "dwinomarll/maverick-cockpit",
+    "candidate_branch": "codex/maverick-cockpit",
+    "candidate_publish_mode": "pull_request_or_new_private_repo",
+    "current_origin": "https://github.com/dwinomarll/TGAOTU.git",
+    "current_branch": null,
+    "current_commit": "3645e98",
+    "confirmation_status": "pending",
+    "write_gate": "github_publish"
+  },
+  "package_evidence": {
+    "package_dir": "factory/active/maverick-cockpit/global-repo/package",
+    "assembled_file_count": 64,
+    "source_artifact_count": 62,
+    "missing_required_artifacts": [],
+    "external_mutation_allowed": false,
+    "publish_status": "prepared_local_only"
+  },
+  "publish_envelope": {
+    "action_id": "github-publish-maverick-cockpit",
+    "required_token": "MAVERICK-CONFIRM github_publish github-publish-maverick-cockpit",
+    "gate_assessment_without_token": {
+      "gate_id": "github_publish",
+      "system": "github",
+      "action_id": "github-publish-maverick-cockpit",
+      "allowed": false,
+      "reason": "gate_not_enabled",
+      "required_token": "MAVERICK-CONFIRM github_publish github-publish-maverick-cockpit",
+      "token_matches": false,
+      "external_mutation_attempted": false
+    },
+    "publish_allowed": false,
+    "commands_planned_not_run": [
+      "create or select the target repository after confirmation",
+      "create local publish branch from the assembled package after confirmation",
+      "push the branch after confirmation",
+      "open a pull request or release after confirmation"
+    ]
+  },
+  "required_before_publish": [
+    "Confirm repo owner/name or explicitly approve creating a new repo.",
+    "Confirm branch name and publish mode.",
+    "Confirm whether package/ should be copied into the current repo or published as a standalone repo root.",
+    "Provide an exact MAVERICK-CONFIRM github_publish token for the action id."
+  ],
+  "dry_run": {
+    "publish_attempted": false,
+    "publish_allowed": false,
+    "reason": "missing confirmed GitHub target and confirmation token",
+    "gate_timestamp": "2026-06-14T16:30:35-04:00"
+  },
+  "external_mutation_attempted": false
+}

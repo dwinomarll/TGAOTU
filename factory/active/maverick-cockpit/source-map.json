@@ -1,0 +1,235 @@
+{
+  "name": "maverick-cockpit-source-map",
+  "version": 1,
+  "created_at": "2026-06-14T16:15:58-04:00",
+  "legacy_root": "/Users/edwinrosa/.codex/worktrees/slack-signal-maverick/Maverick Project/Shift4 Dine",
+  "global_repo_root": "/Users/edwinrosa/.codex/worktrees/5eac/TGAOTU",
+  "icloud_destination_url": "https://www.icloud.com/iclouddrive/09dTCQP4Zljf2MEc0fPTBGyGA",
+  "policy": {
+    "default_external_write_policy": "confirmation_required",
+    "slack_policy": "read_only",
+    "notion_policy": "read_allowed_write_confirmation_required",
+    "gmail_policy": "pending_mailbox_access",
+    "google_calendar_policy": "read_planned_write_confirmation_required",
+    "icloud_policy": "destination_registered_local_path_required"
+  },
+  "migration_roles": [
+    "copy_now",
+    "copy_later",
+    "reference",
+    "rebuild",
+    "retire",
+    "blocked"
+  ],
+  "sources": [
+    {
+      "id": "doctrine",
+      "title": "Maverick Doctrine",
+      "source_path": "MAVERICK_DOCTRINE.md",
+      "migration_role": "copy_now",
+      "target": "docs/maverick-cockpit.md purpose layer",
+      "reason": "Defines Maverick as earned Shift4 performance, not case-admin. This should shape every cockpit interaction."
+    },
+    {
+      "id": "sop",
+      "title": "Maverick SOP",
+      "source_path": "SOP.md",
+      "migration_role": "reference",
+      "target": "Phase 3 adapter and Phase 5 integration rules",
+      "reason": "Contains operating boundaries, broken-field warnings, write policy, and delivery surfaces. Reference now; distill into code contracts later."
+    },
+    {
+      "id": "v2_requirements",
+      "title": "Maverick v2 Requirements",
+      "source_path": "MAVERICK_V2_REQUIREMENTS.md",
+      "migration_role": "reference",
+      "target": "Phase backlog",
+      "reason": "Captures the user's original functional requirements for memory, escalation, accountability, timing, email, and Omi."
+    },
+    {
+      "id": "v2_gap_analysis",
+      "title": "Maverick v2 Gap Analysis",
+      "source_path": "MAVERICK_V2_GAP_ANALYSIS.md",
+      "migration_role": "reference",
+      "target": "Phase backlog and risk register",
+      "reason": "Separates current capability, buildable-now work, and decisions that require confirmation."
+    },
+    {
+      "id": "argo_environment",
+      "title": "Argo Shift4 Dine Environment",
+      "source_url": "https://app.notion.com/p/3716ae29a07c818f8b64c8a28fea4dbf",
+      "migration_role": "reference",
+      "target": "Bot Dispatch, priority engine, and 14-day handling rule",
+      "reason": "Defines the new bot layer, quick replies, Zapier spine, daily command stack, and case-handling doctrine."
+    },
+    {
+      "id": "buddy_mainframe",
+      "title": "Buddy Mainframe",
+      "source_url": "https://app.notion.com/p/2f76ae29a07c80a2bc10c0ff048cc3c2",
+      "migration_role": "reference",
+      "target": "Canvas Map and Launch Team board orientation",
+      "reason": "Connects the bot/mainframe surface to the Launch Team data source grouped by Task Status."
+    },
+    {
+      "id": "portfolio_reconciliation",
+      "title": "Portfolio Reconciliation - 2026-04-22",
+      "source_url": "https://app.notion.com/p/08a172aab28548abba3dec346ea06cf5",
+      "migration_role": "reference",
+      "target": "Case Radar and burndown memory",
+      "reason": "Provides the 172-account reconciliation and close/good/reactivate/hold buckets."
+    },
+    {
+      "id": "burndown_board",
+      "title": "Burndown Sheet Operations Board",
+      "source_url": "https://app.notion.com/p/4b75c8244fb34ea5a7775c5089c8cfa4",
+      "migration_role": "reference",
+      "target": "Case Radar examples and reactivation queue",
+      "reason": "Lists concrete MID/DBA examples for close, active-good, move-to-active, and hold lanes."
+    },
+    {
+      "id": "launch_team_property_map",
+      "title": "Launch Team Property Map",
+      "source_path": "Database/Notion/launch_team_property_map.json",
+      "migration_role": "copy_later",
+      "target": "factory/schemas and Phase 3 case adapter",
+      "reason": "Verified property names, types, and select options are required for safe Notion normalization and future write gates."
+    },
+    {
+      "id": "agent_property_bindings",
+      "title": "Agent Property Bindings",
+      "source_path": "Database/Notion/agent_property_bindings.json",
+      "migration_role": "copy_later",
+      "target": "Maverick role-to-property access policy",
+      "reason": "Maps agent responsibilities to read/write fields and human-approval requirements."
+    },
+    {
+      "id": "satellite_contract",
+      "title": "Autonomous Satellite Contract",
+      "source_path": "Workflow/modules/README.md",
+      "migration_role": "reference",
+      "target": "Phase 3 case ledger and Phase 5 adapters",
+      "reason": "Defines the read-only module pattern, local state ownership, drafts-only behavior, and heartbeat seam."
+    },
+    {
+      "id": "base_module",
+      "title": "Maverick Base Module",
+      "source_path": "Workflow/modules/_base.py",
+      "migration_role": "copy_later",
+      "target": "Phase 3 Notion adapter",
+      "reason": "Existing read-only cache and property extraction pattern should be lifted only after normalizing for the new schema."
+    },
+    {
+      "id": "casebook_module",
+      "title": "Casebook Satellite",
+      "source_path": "Workflow/modules/casebook.py",
+      "migration_role": "copy_later",
+      "target": "Phase 3 case ledger",
+      "reason": "Already implements per-case memory; should be inspected and adapted instead of rewritten blind."
+    },
+    {
+      "id": "timing_module",
+      "title": "Timing Satellite",
+      "source_path": "Workflow/modules/timing.py",
+      "migration_role": "copy_later",
+      "target": "Calendar Guard and deadline computation",
+      "reason": "Contains 24-48h, QA same-day, and timezone logic aligned with cockpit timing needs."
+    },
+    {
+      "id": "accountability_module",
+      "title": "Accountability Satellite",
+      "source_path": "Workflow/modules/accountability.py",
+      "migration_role": "copy_later",
+      "target": "Action Queue yes/no loop",
+      "reason": "Persists a daily accountability queue; cockpit should make it visible before any write-back."
+    },
+    {
+      "id": "escalation_module",
+      "title": "Escalation Satellite",
+      "source_path": "Workflow/modules/escalation.py",
+      "migration_role": "copy_later",
+      "target": "Risk and escalation radar",
+      "reason": "Existing escalation detection should feed risk signals while writes remain confirmation-gated."
+    },
+    {
+      "id": "slack_watch_runbook",
+      "title": "Slack Signal Watch Runbook",
+      "source_path": "Workflow/slack_signal_watch_runbook.md",
+      "migration_role": "reference",
+      "target": "Signal Watch",
+      "reason": "Read-only Slack contract and active-account matching rules are authoritative."
+    },
+    {
+      "id": "slack_watch_config",
+      "title": "Slack Signal Watch Config",
+      "source_path": "config/slack_signal_watch.json",
+      "migration_role": "copy_later",
+      "target": "Signal Watch adapter config",
+      "reason": "Defines channel IDs, active window, risk keywords, dedupe, and no-Slack-write rule."
+    },
+    {
+      "id": "signal_inbox",
+      "title": "Signal Inbox Consumer and Schema",
+      "source_path": "Workflow/signal_inbox_consumer.py",
+      "migration_role": "copy_later",
+      "target": "Signal ledger ingestion",
+      "reason": "Existing routed packet consumer can become the cockpit's read-side signal ingestion pattern."
+    },
+    {
+      "id": "email_reference",
+      "title": "Shift4 Email Reference",
+      "source_path": "reference/shift4_email_reference.md",
+      "migration_role": "copy_now",
+      "target": "Email Intelligence",
+      "reason": "Durable standing-rules destination for Shift4 email memory."
+    },
+    {
+      "id": "merchant_outreach",
+      "title": "Merchant Outreach Guide",
+      "source_path": "instructions/merchant_outreach_guide.md",
+      "migration_role": "reference",
+      "target": "Gmail draft lane",
+      "reason": "Contains outreach phrasing and should inform drafts without enabling send automation."
+    },
+    {
+      "id": "legacy_interfaces",
+      "title": "Legacy HTML Interfaces",
+      "source_path": "Interface",
+      "migration_role": "rebuild",
+      "target": "Phase 4 cockpit UI",
+      "reason": "Prior HTML surfaces are useful references, but the cockpit should be built as a cohesive dashboard rather than copied."
+    },
+    {
+      "id": "runtime_state",
+      "title": "Legacy Runtime State",
+      "source_path": "state",
+      "migration_role": "retire",
+      "target": "None",
+      "reason": "State caches and live runtime files should not be migrated as canon; rebuild state from adapters and ledgers."
+    },
+    {
+      "id": "icloud_destination",
+      "title": "iCloud Drive Destination",
+      "source_path": null,
+      "source_url": "https://www.icloud.com/iclouddrive/09dTCQP4Zljf2MEc0fPTBGyGA",
+      "migration_role": "blocked",
+      "target": "Artifact export surface",
+      "reason": "Destination is registered, but writing requires a local mounted folder path or authenticated access."
+    },
+    {
+      "id": "gmail_connector",
+      "title": "Gmail Connector",
+      "source_path": null,
+      "migration_role": "blocked",
+      "target": "Email Intelligence",
+      "reason": "Mailbox and access method need confirmation before read/draft integration."
+    },
+    {
+      "id": "google_calendar_connector",
+      "title": "Google Calendar Connector",
+      "source_path": null,
+      "migration_role": "blocked",
+      "target": "Calendar Guard",
+      "reason": "Read rules and calendar source-of-truth need mapping before adapter work."
+    }
+  ]
+}

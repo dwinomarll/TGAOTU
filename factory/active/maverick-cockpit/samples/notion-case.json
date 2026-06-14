@@ -1,0 +1,144 @@
+{
+  "id": "3796ae29-a07c-81f1-b051-f8ea7c65a075",
+  "url": "https://app.notion.com/p/3796ae29a07c81f1b051f8ea7c65a075",
+  "properties": {
+    "Accounts": {
+      "type": "title",
+      "title": [
+        {
+          "plain_text": "EL ARADO"
+        }
+      ]
+    },
+    "Business Name": {
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "plain_text": "EL ARADO RESTAURANT"
+        }
+      ]
+    },
+    "DBA": {
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "plain_text": "EL ARADO"
+        }
+      ]
+    },
+    "MID": {
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "plain_text": "0023207479"
+        }
+      ]
+    },
+    "Location ID*": {
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Salesforce Case #": {
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Language ": {
+      "type": "select",
+      "select": {
+        "name": "Spanish"
+      }
+    },
+    "Task Status": {
+      "type": "status",
+      "status": {
+        "name": "In progress"
+      }
+    },
+    "Next Action": {
+      "type": "select",
+      "select": {
+        "name": "Call"
+      }
+    },
+    "Outcome / Current Status": {
+      "type": "multi_select",
+      "multi_select": [
+        {
+          "name": "Pending - Merchant Response Needed"
+        }
+      ]
+    },
+    "Action Items": {
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "plain_text": "Confirm install readiness."
+        }
+      ]
+    },
+    "Case notes:": {
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "plain_text": "Merchant requested Spanish follow-up."
+        }
+      ]
+    },
+    "Feedback": {
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "Date": {
+      "type": "created_time",
+      "created_time": "2026-06-12T14:00:00.000Z"
+    },
+    "Case Age": {
+      "type": "formula",
+      "formula": {
+        "type": "number",
+        "number": 2
+      }
+    },
+    "Case Phase": {
+      "type": "rich_text",
+      "rich_text": [
+        {
+          "plain_text": "Active"
+        }
+      ]
+    },
+    "Next Follow-up": {
+      "type": "date",
+      "date": {
+        "start": "2026-06-14"
+      }
+    },
+    "Last Contact": {
+      "type": "date",
+      "date": null
+    },
+    "Timezone": {
+      "type": "rich_text",
+      "rich_text": []
+    },
+    "QA Score": {
+      "type": "select",
+      "select": null
+    },
+    "Open Loop": {
+      "type": "formula",
+      "formula": {
+        "type": "boolean",
+        "boolean": true
+      }
+    },
+    "No Answer": {
+      "type": "checkbox",
+      "checkbox": false
+    },
+    "Call Back": {
+      "type": "checkbox",
+      "checkbox": true
+    }
+  }
+}

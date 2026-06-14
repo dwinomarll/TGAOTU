@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maverick Cockpit</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="Primary">
+        <div class="brand-mark">M</div>
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" data-filter="all" title="Cockpit"><span class="icon">▦</span><span>Cockpit</span></button>
+          <button class="nav-item" type="button" data-filter="active" title="Cases"><span class="icon">□</span><span>Cases</span></button>
+          <button class="nav-item" type="button" data-filter="callback" title="Callbacks"><span class="icon">↺</span><span>Callback</span></button>
+          <button class="nav-item" type="button" data-filter="escalation" title="Escalations"><span class="icon">△</span><span>Escalate</span></button>
+          <button class="nav-item" type="button" data-filter="needs-tz" title="Needs timezone"><span class="icon">◷</span><span>Needs TZ</span></button>
+        </nav>
+        <div class="rail-footer">
+          <button class="filter-button" type="button" id="resetFilters" title="Reset filters"><span class="icon">⌁</span><span>Reset</span></button>
+          <div class="online"><span></span> Online</div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <h1>Maverick Cockpit</h1>
+            <p>Shift4 Dine case command center</p>
+          </div>
+          <div class="top-actions" aria-label="Session status">
+            <span>June 14, 2026</span>
+            <span>America/New_York</span>
+            <button type="button" class="status-menu"><span></span> Active</button>
+            <div class="avatar">ER</div>
+          </div>
+        </header>
+
+        <section class="mission panel" aria-labelledby="mission-title">
+          <h2 id="mission-title">Mission Control</h2>
+          <div class="kpi-grid" id="kpiGrid"></div>
+        </section>
+
+        <section class="main-grid">
+          <article class="panel case-radar">
+            <div class="panel-header">
+              <h2>Case Radar</h2>
+              <div class="segmented" aria-label="Case filter">
+                <button type="button" class="segment active" data-filter="all">All</button>
+                <button type="button" class="segment" data-filter="active">Active</button>
+                <button type="button" class="segment" data-filter="escalation">Escalation</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Case</th>
+                    <th>Merchant</th>
+                    <th>Issue</th>
+                    <th>Status</th>
+                    <th>SLA</th>
+                    <th>Update</th>
+                  </tr>
+                </thead>
+                <tbody id="caseRows"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="panel action-queue">
+            <div class="panel-header">
+              <h2>Action Queue</h2>
+              <button class="text-button" type="button" id="onlyConfirmations">Confirmation required</button>
+            </div>
+            <div class="queue-list" id="actionQueue"></div>
+            <button type="button" class="add-action" id="addReviewAction">+ Add review action</button>
+          </article>
+        </section>
+
+        <section class="support-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Signal Watch</h2>
+              <span class="policy">Read-only</span>
+            </div>
+            <div class="signal-list" id="signalList"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Merchant Memory</h2>
+              <span class="policy">Local ledger</span>
+            </div>
+            <div class="memory-list" id="memoryList"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Calendar Guard</h2>
+              <span class="policy">Read lane</span>
+            </div>
+            <div class="calendar-list" id="calendarList"></div>
+            <div class="deadline" id="nextDeadline"></div>
+          </article>
+
+          <article class="panel learning">
+            <div class="panel-header">
+              <h2>Learning Loop</h2>
+              <select id="learningRange" aria-label="Learning range">
+                <option>This week</option>
+                <option>30 days</option>
+              </select>
+            </div>
+            <div class="learning-stats" id="learningStats"></div>
+            <svg class="trend" viewBox="0 0 360 150" role="img" aria-label="Weekly performance trend">
+              <polyline class="grid-line" points="0,120 360,120"></polyline>
+              <polyline class="grid-line" points="0,80 360,80"></polyline>
+              <polyline class="grid-line" points="0,40 360,40"></polyline>
+              <polyline class="trend-last" points="10,116 70,104 130,98 190,82 250,75 310,81 350,92"></polyline>
+              <polyline class="trend-now" points="10,102 70,92 130,68 190,55 250,31 310,39 350,54"></polyline>
+            </svg>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Learning Ledger</h2>
+              <span class="policy">Local memory</span>
+            </div>
+            <div class="ledger-card" id="learningLedger"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Daily Command</h2>
+              <span class="policy">Operating loop</span>
+            </div>
+            <div class="loop-card" id="operatingLoop"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Canvas Map</h2>
+              <span class="policy">Notion views</span>
+            </div>
+            <div class="canvas-list" id="canvasList"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Bot Dispatch</h2>
+              <span class="policy">Guarded</span>
+            </div>
+            <div class="bot-card" id="botDispatch"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Comms Outbox</h2>
+              <span class="policy">Draft only</span>
+            </div>
+            <div class="outbox-list" id="commsOutbox"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Slack Bridge</h2>
+              <span class="policy">Dry run</span>
+            </div>
+            <div class="bridge-card" id="slackBridge"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>GitHub Bridge</h2>
+              <span class="policy">Local publish plan</span>
+            </div>
+            <div class="github-card" id="githubBridge"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Notion Bridge</h2>
+              <span class="policy">Row gate</span>
+            </div>
+            <div class="notion-card" id="notionBridge"></div>
+          </article>
+        </section>
+
+        <section class="launch-grid">
+          <article class="panel launch-gates">
+            <div class="panel-header">
+              <h2>Activation Matrix</h2>
+              <span class="policy">Local checklist</span>
+            </div>
+            <div class="activation-list" id="activationChecklist"></div>
+          </article>
+
+          <article class="panel launch-gates">
+            <div class="panel-header">
+              <h2>Launch Gates</h2>
+              <span class="policy">Confirmation required</span>
+            </div>
+            <div class="package-strip" id="packageStatus"></div>
+            <div class="gate-list" id="launchGates"></div>
+          </article>
+        </section>
+
+        <footer class="statusbar">
+          <span>Data refreshed from local read-only adapters</span>
+          <span>External writes blocked unless confirmation gate is present</span>
+        </footer>
+      </main>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+{"actor": "ENG-INTEGRATION", "event_type": "write_gate_dry_run", "external_mutation_attempted": false, "summary": "Prepared local export manifest and verified every external gate denies unconfirmed writes.", "time": "2026-06-14T16:30:35-04:00"}

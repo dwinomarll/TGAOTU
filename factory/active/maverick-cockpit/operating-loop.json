@@ -1,0 +1,233 @@
+{
+  "generated_at": "2026-06-14T18:29:18-04:00",
+  "source_policy": {
+    "mode": "local_operating_loop",
+    "notion_row_query": "unavailable: notion-query-data-sources not found",
+    "slack_policy": "legacy_watch_read_only_maverick_app_writes_gated",
+    "external_mutation_attempted": false
+  },
+  "mission": {
+    "name": "Maverick daily command",
+    "target": "reduce active cases to 50 or fewer while keeping every case inside a 14-day handling window",
+    "active_cases": 120,
+    "desired_active_cases": 50,
+    "window_days": 14,
+    "success_signal": "lower overdue follow-ups, callbacks, and unresolved open loops before adding new work"
+  },
+  "daily_cadence": [
+    {
+      "step": 1,
+      "name": "Read the field",
+      "dashboard_zone": "Mission Control",
+      "decision": "120 active cases, 22 overdue follow-ups, 37 callbacks",
+      "exit_condition": "top risk lane is chosen before opening new work"
+    },
+    {
+      "step": 2,
+      "name": "Route through canvases",
+      "dashboard_zone": "Canvas Map",
+      "decision": "use Launch Team views as navigation, not as hidden context",
+      "exit_condition": "each action points to a specific canvas or local evidence file"
+    },
+    {
+      "step": 3,
+      "name": "Dispatch guarded bot actions",
+      "dashboard_zone": "Bot Dispatch",
+      "decision": "quick replies can plan, draft, search, or classify; external effects stay gated",
+      "exit_condition": "no write/send/update occurs without a matching confirmation token"
+    },
+    {
+      "step": 4,
+      "name": "Close the loop",
+      "dashboard_zone": "Learning Loop",
+      "decision": "record only memory that changes the next decision",
+      "exit_condition": "case state, blocker, next action, and due window are explicit"
+    }
+  ],
+  "today_objectives": [
+    {
+      "id": "protect_14_day_window",
+      "priority": "P1 Aging",
+      "metric": "22 overdue follow-ups",
+      "action": "work overdue and day-10-to-13 cases before low-risk new tasks"
+    },
+    {
+      "id": "clear_callbacks",
+      "priority": "P2 Active Work",
+      "metric": "37 callbacks pending",
+      "action": "batch callbacks through the Callback canvas and capture next follow-up"
+    },
+    {
+      "id": "resolve_false_closure",
+      "priority": "P4 QA/Close",
+      "metric": "12 resolved-but-open tasks",
+      "action": "confirm QA or final blocker before marking work closed"
+    },
+    {
+      "id": "reactivate_burndown",
+      "priority": "P1 Aging",
+      "metric": "103 accounts marked move to active",
+      "action": "pull reactivation candidates into active case review without copying stale rows wholesale"
+    }
+  ],
+  "case_lanes": [
+    {
+      "lane": "Call",
+      "count": 30,
+      "priority": "P2/P3",
+      "rule": "route through call stack"
+    },
+    {
+      "lane": "Escalate",
+      "count": 10,
+      "priority": "P0/P1",
+      "rule": "route through escalation stack"
+    },
+    {
+      "lane": "Waiting on Internal Team",
+      "count": 48,
+      "priority": "P2/P3",
+      "rule": "route through waiting stack"
+    },
+    {
+      "lane": "Waiting on Merchant",
+      "count": 29,
+      "priority": "P2/P3",
+      "rule": "route through waiting stack"
+    },
+    {
+      "lane": "Email",
+      "count": 3,
+      "priority": "P2/P3",
+      "rule": "route through email stack"
+    }
+  ],
+  "canvas_routes": [
+    {
+      "name": "Mainframe",
+      "type": "board",
+      "use_when": "start-of-day triage by Task Status"
+    },
+    {
+      "name": "Follow-ups",
+      "type": "table",
+      "use_when": "due today, overdue, and one-week follow-up sweep"
+    },
+    {
+      "name": "Callback",
+      "type": "table",
+      "use_when": "call block planning and callback recovery"
+    },
+    {
+      "name": "Launch Pad",
+      "type": "table",
+      "use_when": "case check-in and next-action planning"
+    },
+    {
+      "name": "QA Breakdown",
+      "type": "board",
+      "use_when": "same-day QA, resolved-but-open, and close-readiness checks"
+    },
+    {
+      "name": "Map Coverage",
+      "type": "map",
+      "use_when": "location-aware dispatch and coverage questions"
+    },
+    {
+      "name": "Observation Bin",
+      "type": "table",
+      "use_when": "aging cases that need a stronger decision"
+    },
+    {
+      "name": "Archive Ready",
+      "type": "table",
+      "use_when": "final close, park, or escalation decision"
+    }
+  ],
+  "bot_dispatch": {
+    "name": "Argo / Buddy dispatch",
+    "allowed_quick_replies": [
+      "Acknowledge",
+      "Reply Gmail",
+      "Search Similar",
+      "Escalate",
+      "Nudge Merchant",
+      "Create RMA",
+      "Mark Waiting",
+      "QA",
+      "Resolve",
+      "Park"
+    ],
+    "guardrail": "Bot token must live in a secret store, never in Notion or transcripts.",
+    "external_effects": "Notion updates, Slack app messages, Gmail sends, Calendar mutations, GitHub publish, and iCloud export require confirmation gates."
+  },
+  "learning_loop": {
+    "capture": [
+      "new blocker",
+      "merchant preference",
+      "confirmed next action",
+      "due window change",
+      "resolution pattern that applies to future cases"
+    ],
+    "ignore": [
+      "personal contact details",
+      "unverified assumptions",
+      "Slack chatter without active-account match",
+      "secrets or bot tokens"
+    ],
+    "promotion_rule": "promote a note only when it changes routing, priority, or the next useful action."
+  },
+  "confirmation_gates": [
+    {
+      "id": "github_global_repo",
+      "system": "github",
+      "status": "pending",
+      "gate": "github_publish",
+      "next_confirmation": "repo owner/name or confirmation to create a new repo; branch name"
+    },
+    {
+      "id": "icloud_destination",
+      "system": "icloud_drive",
+      "status": "confirmed",
+      "gate": "icloud_artifact_export",
+      "next_confirmation": "local mounted folder path or authenticated upload route; confirmation that Maverick artifacts should be copied there"
+    },
+    {
+      "id": "notion_live_launch_team",
+      "system": "notion",
+      "status": "pending",
+      "gate": "notion_status_update",
+      "next_confirmation": "live row query method; write/update method"
+    },
+    {
+      "id": "gmail_mailbox_lane",
+      "system": "gmail",
+      "status": "pending",
+      "gate": "gmail_send",
+      "next_confirmation": "mailbox identity; read/draft/send permission boundary"
+    },
+    {
+      "id": "slack_maverick_app",
+      "system": "slack",
+      "status": "pending",
+      "gate": "slack_write",
+      "next_confirmation": "Slack channel or DM target where Maverick should communicate with Edwin; bot token stored only in a secret store"
+    },
+    {
+      "id": "google_calendar_lane",
+      "system": "google_calendar",
+      "status": "pending",
+      "gate": "google_calendar_update",
+      "next_confirmation": "calendar identity; event ownership rules"
+    }
+  ],
+  "pending_confirmations": [
+    "github_global_repo",
+    "notion_live_launch_team",
+    "gmail_mailbox_lane",
+    "slack_maverick_app",
+    "google_calendar_lane"
+  ],
+  "dashboard_ready": true,
+  "external_mutation_attempted": false
+}

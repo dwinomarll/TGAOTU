@@ -16,7 +16,11 @@ eva-discord/
 # --- Non-canon working trees: kept local, never versioned into the Ptah canon ---
 # The canon tracks the factory MACHINERY (architect.py, build-loop.py, schemas…),
 # never its build OUTPUTS. factory/active/ is the factory's runtime workspace.
-factory/active/
+# Maverick Cockpit is intentionally tracked as the portable workplace seed.
+factory/active/*
+!factory/active/maverick-cockpit/
+!factory/active/maverick-cockpit/**
+factory/active/maverick-cockpit/global-repo/package/
 
 # Claude Code local agent state (worktrees, session scratch). Nested worktrees
 # must never reach the canon — a `git add -A` would otherwise swallow a whole repo.

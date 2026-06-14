@@ -1,0 +1,946 @@
+{
+  "kpis": [
+    {
+      "label": "Active Cases",
+      "value": 120,
+      "note": "SHIFT-4 field",
+      "tone": "teal"
+    },
+    {
+      "label": "Follow-ups",
+      "value": 22,
+      "note": "Overdue",
+      "tone": "amber"
+    },
+    {
+      "label": "Callback",
+      "value": 37,
+      "note": "Pending",
+      "tone": "blue"
+    },
+    {
+      "label": "Escalation",
+      "value": 10,
+      "note": "Next action",
+      "tone": "red"
+    },
+    {
+      "label": "Canvases",
+      "value": 8,
+      "note": "Notion views",
+      "tone": "teal"
+    },
+    {
+      "label": "Reconcile",
+      "value": 172,
+      "note": "Burndown",
+      "tone": "muted"
+    },
+    {
+      "label": "Confirmation required",
+      "value": 5,
+      "note": "Writes gated",
+      "tone": "amber"
+    }
+  ],
+  "cases": [
+    {
+      "id": "0022990331",
+      "merchant": "BROTHERS BURGERS",
+      "issue": "Close in Launch Team",
+      "status": "confirmation",
+      "sla": "Notion overview",
+      "update": "ready to close",
+      "risk": "warn"
+    },
+    {
+      "id": "0022997740",
+      "merchant": "EL VADO MEXICAN RESTAURANT",
+      "issue": "Maintain light-touch cadence",
+      "status": "active",
+      "sla": "Notion overview",
+      "update": "cadence",
+      "risk": "ok"
+    },
+    {
+      "id": "0022885556",
+      "merchant": "HARDENS HAMBURGERS MATHIS",
+      "issue": "Re-engage and promote to active",
+      "status": "follow-ups",
+      "sla": "Notion overview",
+      "update": "reactivate",
+      "risk": "warn"
+    },
+    {
+      "id": "0022889186",
+      "merchant": "DEJAVU BAR & LIVE MUSIC",
+      "issue": "Re-engage and promote to active",
+      "status": "follow-ups",
+      "sla": "Notion overview",
+      "update": "reactivate",
+      "risk": "warn"
+    },
+    {
+      "id": "0022781078",
+      "merchant": "ALL AMERICAN SMASH WAGON",
+      "issue": "Confirm hold reason",
+      "status": "escalation",
+      "sla": "Notion overview",
+      "update": "hold decision",
+      "risk": "danger"
+    }
+  ],
+  "actions": [
+    {
+      "title": "Call: 30 cases",
+      "detail": "Route through call stack",
+      "status": "callback",
+      "time": "Notion",
+      "urgent": false
+    },
+    {
+      "title": "Escalate: 10 cases",
+      "detail": "Route through escalation stack",
+      "status": "escalation",
+      "time": "Notion",
+      "urgent": true
+    },
+    {
+      "title": "Waiting on Internal Team: 48 cases",
+      "detail": "Route through waiting stack",
+      "status": "confirmation",
+      "time": "Notion",
+      "urgent": false
+    },
+    {
+      "title": "Waiting on Merchant: 29 cases",
+      "detail": "Route through waiting stack",
+      "status": "confirmation",
+      "time": "Notion",
+      "urgent": false
+    },
+    {
+      "title": "Email: 3 cases",
+      "detail": "Route through email stack",
+      "status": "follow-ups",
+      "time": "Notion",
+      "urgent": false
+    },
+    {
+      "title": "Confirm bot dispatch guardrails",
+      "detail": "Bot token must live in a secret store, never in Notion or transcripts.",
+      "status": "confirmation",
+      "time": "Gate"
+    }
+  ],
+  "signals": [
+    {
+      "icon": "S",
+      "label": "Slack",
+      "detail": "5 watched sources",
+      "count": 21,
+      "color": "#dc2626"
+    },
+    {
+      "icon": "N",
+      "label": "Notion",
+      "detail": "Launch Team overview",
+      "count": 120,
+      "color": "#111827"
+    },
+    {
+      "icon": "B",
+      "label": "Bot",
+      "detail": "Argo / Buddy dispatch",
+      "count": 10,
+      "color": "#0f766e"
+    },
+    {
+      "icon": "G",
+      "label": "Gmail",
+      "detail": "Pending mailbox access",
+      "count": 0,
+      "color": "#1d64d8"
+    },
+    {
+      "icon": "C",
+      "label": "Calendar",
+      "detail": "Pending source map",
+      "count": 0,
+      "color": "#c27803"
+    }
+  ],
+  "memory": [
+    {
+      "merchant": "Portfolio Reconciliation",
+      "detail": "172 accounts \u00b7 103 move to active",
+      "tag": "Burndown"
+    },
+    {
+      "merchant": "Argo Priority Engine",
+      "detail": "P0-P4 lanes with 14-day handling rule",
+      "tag": "Bot layer"
+    },
+    {
+      "merchant": "Launch Team Canvases",
+      "detail": "8 views mapped for cockpit navigation",
+      "tag": "Canvas map"
+    }
+  ],
+  "calendar": [
+    {
+      "time": "Day 0-2",
+      "title": "Acknowledge and define next action",
+      "duration": "14-day rule"
+    },
+    {
+      "time": "Day 10-13",
+      "title": "Final acceleration lane",
+      "duration": "before forced decision"
+    }
+  ],
+  "learning": [
+    [
+      "Cases Visible",
+      "120",
+      "Notion"
+    ],
+    [
+      "Slack Sources",
+      "5",
+      "read-only"
+    ],
+    [
+      "Bot Replies",
+      "10",
+      "guarded"
+    ],
+    [
+      "Package Files",
+      "64",
+      "local"
+    ]
+  ],
+  "canvases": [
+    {
+      "name": "Mainframe",
+      "type": "board",
+      "purpose": "Group Launch Team work by Task Status"
+    },
+    {
+      "name": "Follow-ups",
+      "type": "table",
+      "purpose": "Next Follow-up due today through one week"
+    },
+    {
+      "name": "Callback",
+      "type": "table",
+      "purpose": "Call Back checked cases"
+    },
+    {
+      "name": "Launch Pad",
+      "type": "table",
+      "purpose": "Command view for check-in and action planning"
+    },
+    {
+      "name": "QA Breakdown",
+      "type": "board",
+      "purpose": "Group work by QA Score"
+    },
+    {
+      "name": "Map Coverage",
+      "type": "map",
+      "purpose": "Location coverage from Launch Team places"
+    },
+    {
+      "name": "Observation Bin",
+      "type": "table",
+      "purpose": "Aging cases from one week to one month"
+    },
+    {
+      "name": "Archive Ready",
+      "type": "table",
+      "purpose": "Older unresolved cases needing final decision"
+    }
+  ],
+  "botDispatch": {
+    "name": "Argo / Buddy dispatch",
+    "mission": "Rank open loops, overdue work, callbacks, escalations, and QA-ready closures before Edwin spends energy.",
+    "target": "reduce active cases to 50 or fewer while keeping every case inside a 14-day handling window",
+    "daily_intake_expectation": "5+ new cases plus escalations and emails",
+    "quick_replies": [
+      "Acknowledge",
+      "Reply Gmail",
+      "Search Similar",
+      "Escalate",
+      "Nudge Merchant",
+      "Create RMA",
+      "Mark Waiting",
+      "QA",
+      "Resolve",
+      "Park"
+    ],
+    "secret_policy": "Bot token must live in a secret store, never in Notion or transcripts."
+  },
+  "priorityEngine": [
+    {
+      "level": "P0",
+      "name": "Critical",
+      "trigger": "payment outage, merchant blocked, cancellation risk, same-day escalation, or VIP urgent impact"
+    },
+    {
+      "level": "P1",
+      "name": "Aging",
+      "trigger": "10+ days with no movement, overdue follow-up, open loop, or escalation pending"
+    },
+    {
+      "level": "P2",
+      "name": "Active Work",
+      "trigger": "equipment, RMA, technician, menu, tax, training, network, or support workflow"
+    },
+    {
+      "level": "P3",
+      "name": "Waiting",
+      "trigger": "waiting on merchant, internal team, tech, parts, or external response"
+    },
+    {
+      "level": "P4",
+      "name": "QA/Close",
+      "trigger": "resolved, transition-ready, archive-ready, or final quality check"
+    }
+  ],
+  "operatingLoop": {
+    "mission": {
+      "name": "Maverick daily command",
+      "target": "reduce active cases to 50 or fewer while keeping every case inside a 14-day handling window",
+      "active_cases": 120,
+      "desired_active_cases": 50,
+      "window_days": 14,
+      "success_signal": "lower overdue follow-ups, callbacks, and unresolved open loops before adding new work"
+    },
+    "dailyCadence": [
+      {
+        "step": 1,
+        "name": "Read the field",
+        "dashboard_zone": "Mission Control",
+        "decision": "120 active cases, 22 overdue follow-ups, 37 callbacks",
+        "exit_condition": "top risk lane is chosen before opening new work"
+      },
+      {
+        "step": 2,
+        "name": "Route through canvases",
+        "dashboard_zone": "Canvas Map",
+        "decision": "use Launch Team views as navigation, not as hidden context",
+        "exit_condition": "each action points to a specific canvas or local evidence file"
+      },
+      {
+        "step": 3,
+        "name": "Dispatch guarded bot actions",
+        "dashboard_zone": "Bot Dispatch",
+        "decision": "quick replies can plan, draft, search, or classify; external effects stay gated",
+        "exit_condition": "no write/send/update occurs without a matching confirmation token"
+      },
+      {
+        "step": 4,
+        "name": "Close the loop",
+        "dashboard_zone": "Learning Loop",
+        "decision": "record only memory that changes the next decision",
+        "exit_condition": "case state, blocker, next action, and due window are explicit"
+      }
+    ],
+    "todayObjectives": [
+      {
+        "id": "protect_14_day_window",
+        "priority": "P1 Aging",
+        "metric": "22 overdue follow-ups",
+        "action": "work overdue and day-10-to-13 cases before low-risk new tasks"
+      },
+      {
+        "id": "clear_callbacks",
+        "priority": "P2 Active Work",
+        "metric": "37 callbacks pending",
+        "action": "batch callbacks through the Callback canvas and capture next follow-up"
+      },
+      {
+        "id": "resolve_false_closure",
+        "priority": "P4 QA/Close",
+        "metric": "12 resolved-but-open tasks",
+        "action": "confirm QA or final blocker before marking work closed"
+      },
+      {
+        "id": "reactivate_burndown",
+        "priority": "P1 Aging",
+        "metric": "103 accounts marked move to active",
+        "action": "pull reactivation candidates into active case review without copying stale rows wholesale"
+      }
+    ],
+    "caseLanes": [
+      {
+        "lane": "Call",
+        "count": 30,
+        "priority": "P2/P3",
+        "rule": "route through call stack"
+      },
+      {
+        "lane": "Escalate",
+        "count": 10,
+        "priority": "P0/P1",
+        "rule": "route through escalation stack"
+      },
+      {
+        "lane": "Waiting on Internal Team",
+        "count": 48,
+        "priority": "P2/P3",
+        "rule": "route through waiting stack"
+      },
+      {
+        "lane": "Waiting on Merchant",
+        "count": 29,
+        "priority": "P2/P3",
+        "rule": "route through waiting stack"
+      },
+      {
+        "lane": "Email",
+        "count": 3,
+        "priority": "P2/P3",
+        "rule": "route through email stack"
+      }
+    ],
+    "pendingConfirmations": [
+      "github_global_repo",
+      "notion_live_launch_team",
+      "gmail_mailbox_lane",
+      "slack_maverick_app",
+      "google_calendar_lane"
+    ]
+  },
+  "commsOutbox": {
+    "slackApp": {
+      "app_id": "A0BALRB6CNQ",
+      "target_status": "pending",
+      "communication_target": null,
+      "secret_policy": "Bot token must live in a secret store, never in Notion, dashboard JSON, docs, or transcripts."
+    },
+    "deliveryRules": [
+      "No draft may leave local disk until its live target is confirmed.",
+      "Every external action needs an exact MAVERICK-CONFIRM token for its gate and action id.",
+      "Slack signal watch remains read-only; Slack app messages use the separate slack_write gate.",
+      "Do not include secrets, bot tokens, direct personal contact details, or unverified case facts."
+    ],
+    "drafts": [
+      {
+        "id": "slack_daily_command_brief",
+        "lane": "slack",
+        "target_id": "slack_maverick_app",
+        "known_target": "A0BALRB6CNQ",
+        "gate": "slack_write",
+        "action_id": "slack-daily-command-brief",
+        "required_token": "MAVERICK-CONFIRM slack_write slack-daily-command-brief",
+        "status": "blocked_pending_target",
+        "title": "Send Maverick daily command brief to Edwin",
+        "body": "Maverick daily command: 120 active cases against the 50-case target. Protect the 14-day window. Top objective: 22 overdue follow-ups. Next move: work overdue and day-10-to-13 cases before low-risk new tasks.",
+        "external_mutation_attempted": false
+      },
+      {
+        "id": "gmail_followup_batch_plan",
+        "lane": "gmail",
+        "target_id": "gmail_mailbox_lane",
+        "known_target": null,
+        "gate": "gmail_send",
+        "action_id": "gmail-followup-batch-plan",
+        "required_token": "MAVERICK-CONFIRM gmail_send gmail-followup-batch-plan",
+        "status": "blocked_pending_target",
+        "title": "Prepare follow-up batch draft",
+        "body": "Draft merchant follow-up messages only after mailbox identity and send boundary are confirmed.",
+        "external_mutation_attempted": false
+      },
+      {
+        "id": "calendar_focus_block_plan",
+        "lane": "google_calendar",
+        "target_id": "google_calendar_lane",
+        "known_target": null,
+        "gate": "google_calendar_update",
+        "action_id": "calendar-focus-block-plan",
+        "required_token": "MAVERICK-CONFIRM google_calendar_update calendar-focus-block-plan",
+        "status": "blocked_pending_target",
+        "title": "Prepare protected callback/follow-up focus block",
+        "body": "Plan a calendar focus block for callbacks and overdue follow-ups after calendar ownership is confirmed.",
+        "external_mutation_attempted": false
+      },
+      {
+        "id": "notion_status_batch_plan",
+        "lane": "notion",
+        "target_id": "notion_live_launch_team",
+        "known_target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+        "gate": "notion_status_update",
+        "action_id": "notion-status-batch-plan",
+        "required_token": "MAVERICK-CONFIRM notion_status_update notion-status-batch-plan",
+        "status": "blocked_pending_target",
+        "title": "Prepare Notion status update batch",
+        "body": "Prepare status updates only after live row query, property mapping, and write method are confirmed.",
+        "external_mutation_attempted": false
+      }
+    ]
+  },
+  "activationChecklist": {
+    "summary": {
+      "total_targets": 6,
+      "ready_with_confirmation_token": 1,
+      "pending_targets": 5,
+      "pending_target_ids": [
+        "github_global_repo",
+        "notion_live_launch_team",
+        "gmail_mailbox_lane",
+        "slack_maverick_app",
+        "google_calendar_lane"
+      ]
+    },
+    "lanes": [
+      {
+        "target_id": "github_global_repo",
+        "system": "github",
+        "known_target": null,
+        "confirmation_status": "pending",
+        "gate": "github_publish",
+        "gate_enabled": false,
+        "activation_status": "needs_confirmation",
+        "missing_evidence": [
+          "repo owner/name or confirmation to create a new repo",
+          "branch name",
+          "publish mode: push, pull request, or release package"
+        ],
+        "draft_count": 0,
+        "draft_ids": [],
+        "example_action_id": "activate-github_global_repo",
+        "example_confirmation_token": "MAVERICK-CONFIRM github_publish activate-github_global_repo",
+        "external_mutation_attempted": false
+      },
+      {
+        "target_id": "icloud_destination",
+        "system": "icloud_drive",
+        "known_target": "/Users/edwinrosa/Library/Mobile Documents/com~apple~CloudDocs/Desktop/MAVERICK/Maverick-Cockpit",
+        "confirmation_status": "confirmed",
+        "gate": "icloud_artifact_export",
+        "gate_enabled": true,
+        "activation_status": "ready_with_confirmation_token",
+        "missing_evidence": [],
+        "draft_count": 0,
+        "draft_ids": [],
+        "example_action_id": "activate-icloud_destination",
+        "example_confirmation_token": "MAVERICK-CONFIRM icloud_artifact_export activate-icloud_destination",
+        "external_mutation_attempted": false
+      },
+      {
+        "target_id": "notion_live_launch_team",
+        "system": "notion",
+        "known_target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+        "confirmation_status": "pending",
+        "gate": "notion_status_update",
+        "gate_enabled": false,
+        "activation_status": "needs_confirmation",
+        "missing_evidence": [
+          "live row query method",
+          "write/update method",
+          "property mapping confirmation"
+        ],
+        "draft_count": 1,
+        "draft_ids": [
+          "notion_status_batch_plan"
+        ],
+        "example_action_id": "activate-notion_live_launch_team",
+        "example_confirmation_token": "MAVERICK-CONFIRM notion_status_update activate-notion_live_launch_team",
+        "external_mutation_attempted": false
+      },
+      {
+        "target_id": "gmail_mailbox_lane",
+        "system": "gmail",
+        "known_target": null,
+        "confirmation_status": "pending",
+        "gate": "gmail_send",
+        "gate_enabled": false,
+        "activation_status": "needs_confirmation",
+        "missing_evidence": [
+          "mailbox identity",
+          "read/draft/send permission boundary",
+          "send confirmation wording"
+        ],
+        "draft_count": 1,
+        "draft_ids": [
+          "gmail_followup_batch_plan"
+        ],
+        "example_action_id": "activate-gmail_mailbox_lane",
+        "example_confirmation_token": "MAVERICK-CONFIRM gmail_send activate-gmail_mailbox_lane",
+        "external_mutation_attempted": false
+      },
+      {
+        "target_id": "slack_maverick_app",
+        "system": "slack",
+        "known_target": "A0BALRB6CNQ",
+        "confirmation_status": "pending",
+        "gate": "slack_write",
+        "gate_enabled": false,
+        "activation_status": "needs_confirmation",
+        "missing_evidence": [
+          "Slack channel or DM target where Maverick should communicate with Edwin",
+          "bot token stored only in a secret store",
+          "per-message confirmation wording",
+          "Slack channel or DM id must be stored as the communication target",
+          "bot token must stay in the secret store, not in repo artifacts"
+        ],
+        "draft_count": 1,
+        "draft_ids": [
+          "slack_daily_command_brief"
+        ],
+        "example_action_id": "activate-slack_maverick_app",
+        "example_confirmation_token": "MAVERICK-CONFIRM slack_write activate-slack_maverick_app",
+        "external_mutation_attempted": false
+      },
+      {
+        "target_id": "google_calendar_lane",
+        "system": "google_calendar",
+        "known_target": null,
+        "confirmation_status": "pending",
+        "gate": "google_calendar_update",
+        "gate_enabled": false,
+        "activation_status": "needs_confirmation",
+        "missing_evidence": [
+          "calendar identity",
+          "event ownership rules",
+          "create/update confirmation wording"
+        ],
+        "draft_count": 1,
+        "draft_ids": [
+          "calendar_focus_block_plan"
+        ],
+        "example_action_id": "activate-google_calendar_lane",
+        "example_confirmation_token": "MAVERICK-CONFIRM google_calendar_update activate-google_calendar_lane",
+        "external_mutation_attempted": false
+      }
+    ]
+  },
+  "learningLedger": {
+    "summary": {
+      "promoted_events": 7,
+      "rejected_memory": 4,
+      "confidence": "evidence_backed_local_snapshot",
+      "review_cadence": "daily after case work and before export/publish decisions"
+    },
+    "events": [
+      {
+        "id": "case_pressure_target_gap",
+        "kind": "portfolio_pressure",
+        "signal": "120 active cases vs 50 target",
+        "lesson": "Maverick must prioritize reduction lanes before expanding new work.",
+        "next_action": "Keep Daily Command focused on overdue, callback, false-close, and reactivation objectives.",
+        "promotion_status": "promoted_to_dashboard_memory",
+        "confidence": "evidence_backed"
+      },
+      {
+        "id": "overdue_followup_bias",
+        "kind": "timing_pressure",
+        "signal": "22 overdue follow-ups",
+        "lesson": "Overdue work is the clearest signal that the 14-day rule is under pressure.",
+        "next_action": "Promote overdue follow-ups into the first daily work block.",
+        "promotion_status": "promoted_to_dashboard_memory",
+        "confidence": "evidence_backed"
+      },
+      {
+        "id": "callback_batching",
+        "kind": "workflow_pattern",
+        "signal": "37 callbacks pending",
+        "lesson": "Callbacks should be batched through the Callback canvas instead of handled one by one.",
+        "next_action": "Use the Callback canvas as the default route for call-stack actions.",
+        "promotion_status": "promoted_to_dashboard_memory",
+        "confidence": "evidence_backed"
+      },
+      {
+        "id": "false_closure_qa",
+        "kind": "quality_pattern",
+        "signal": "12 resolved-but-open tasks",
+        "lesson": "Resolved labels are not enough; QA must confirm the task is actually closed.",
+        "next_action": "Route resolved-but-open work through QA Breakdown before archive.",
+        "promotion_status": "promoted_to_dashboard_memory",
+        "confidence": "evidence_backed"
+      },
+      {
+        "id": "reactivation_burndown",
+        "kind": "burndown_pattern",
+        "signal": "103 accounts marked move to active",
+        "lesson": "Reactivation candidates should enter active review deliberately, not by copying stale rows wholesale.",
+        "next_action": "Use Portfolio Reconciliation as a candidate list, then verify each case before action.",
+        "promotion_status": "promoted_to_dashboard_memory",
+        "confidence": "evidence_backed"
+      },
+      {
+        "id": "slack_two_lane_model",
+        "kind": "communication_boundary",
+        "signal": "Slack app A0BALRB6CNQ is pending",
+        "lesson": "Slack signal watching and Slack app messaging are different lanes with different gates.",
+        "next_action": "Keep the watch read-only and use Comms Outbox plus slack_write for future app messages.",
+        "promotion_status": "promoted_to_dashboard_memory",
+        "confidence": "evidence_backed"
+      },
+      {
+        "id": "activation_gate_pressure",
+        "kind": "safety_pattern",
+        "signal": "5 live targets pending",
+        "lesson": "Maverick should surface missing evidence instead of guessing live access.",
+        "next_action": "Use Activation Matrix before attempting publish, send, schedule, or update actions.",
+        "promotion_status": "promoted_to_dashboard_memory",
+        "confidence": "evidence_backed"
+      }
+    ],
+    "rejectedMemory": [
+      {
+        "id": "direct_contact_fields",
+        "reason": "contact_number and contact_email are explicitly never-guess fields",
+        "handling": "leave unknown until verified in the source system"
+      },
+      {
+        "id": "bot_or_oauth_tokens",
+        "reason": "secrets must live only in a secret store",
+        "handling": "do not write tokens into Notion, docs, dashboard JSON, or transcripts"
+      },
+      {
+        "id": "unmatched_slack_chatter",
+        "reason": "Slack signal watch alerts only on active-account evidence",
+        "handling": "ignore chatter unless it matches MID, DBA, account, contact, or Salesforce case"
+      },
+      {
+        "id": "unverified_row_mutation",
+        "reason": "Notion row query and update method are not confirmed",
+        "handling": "prepare local plans only until live row method is proven"
+      }
+    ]
+  },
+  "slackBridge": {
+    "app": {
+      "id": "A0BALRB6CNQ",
+      "target_id": "slack_maverick_app",
+      "known_target": "A0BALRB6CNQ",
+      "confirmation_status": "pending",
+      "write_gate": "slack_write",
+      "communication_target": null,
+      "secret_store_reference": null
+    },
+    "requiredBeforeSend": [
+      "Confirm the Slack channel id or DM id where Maverick should communicate with Edwin.",
+      "Store the bot token only in a secret store outside repo artifacts.",
+      "Confirm the exact message action id with a MAVERICK-CONFIRM slack_write token.",
+      "Keep the legacy Slack signal watch read-only."
+    ],
+    "messageEnvelopes": [
+      {
+        "id": "slack_daily_command_brief",
+        "app_id": "A0BALRB6CNQ",
+        "channel_or_dm_id": null,
+        "text": "Maverick daily command: 120 active cases against the 50-case target. Protect the 14-day window. Top objective: 22 overdue follow-ups. Next move: work overdue and day-10-to-13 cases before low-risk new tasks.",
+        "source_draft": "slack_daily_command_brief",
+        "required_gate": "slack_write",
+        "required_token": "MAVERICK-CONFIRM slack_write slack-daily-command-brief",
+        "gate_assessment_without_token": {
+          "gate_id": "slack_write",
+          "system": "slack",
+          "action_id": "slack-daily-command-brief",
+          "allowed": false,
+          "reason": "gate_not_enabled",
+          "required_token": "MAVERICK-CONFIRM slack_write slack-daily-command-brief",
+          "token_matches": false,
+          "external_mutation_attempted": false
+        },
+        "send_allowed": false,
+        "delivery_status": "blocked_pending_channel_or_dm_secret_and_confirmation",
+        "external_mutation_attempted": false
+      }
+    ],
+    "dryRun": {
+      "send_attempted": false,
+      "send_allowed": false,
+      "reason": "missing channel_or_dm_id, secret_store_reference, and confirmation token",
+      "gate_timestamp": "2026-06-14T16:30:35-04:00"
+    }
+  },
+  "githubBridge": {
+    "repository": {
+      "target_id": "github_global_repo",
+      "candidate_repo": "dwinomarll/maverick-cockpit",
+      "candidate_branch": "codex/maverick-cockpit",
+      "candidate_publish_mode": "pull_request_or_new_private_repo",
+      "current_origin": "https://github.com/dwinomarll/TGAOTU.git",
+      "current_branch": null,
+      "current_commit": "3645e98",
+      "confirmation_status": "pending",
+      "write_gate": "github_publish"
+    },
+    "packageEvidence": {
+      "package_dir": "factory/active/maverick-cockpit/global-repo/package",
+      "assembled_file_count": 64,
+      "source_artifact_count": 62,
+      "missing_required_artifacts": [],
+      "external_mutation_allowed": false,
+      "publish_status": "prepared_local_only"
+    },
+    "publishEnvelope": {
+      "action_id": "github-publish-maverick-cockpit",
+      "required_token": "MAVERICK-CONFIRM github_publish github-publish-maverick-cockpit",
+      "gate_assessment_without_token": {
+        "gate_id": "github_publish",
+        "system": "github",
+        "action_id": "github-publish-maverick-cockpit",
+        "allowed": false,
+        "reason": "gate_not_enabled",
+        "required_token": "MAVERICK-CONFIRM github_publish github-publish-maverick-cockpit",
+        "token_matches": false,
+        "external_mutation_attempted": false
+      },
+      "publish_allowed": false,
+      "commands_planned_not_run": [
+        "create or select the target repository after confirmation",
+        "create local publish branch from the assembled package after confirmation",
+        "push the branch after confirmation",
+        "open a pull request or release after confirmation"
+      ]
+    },
+    "requiredBeforePublish": [
+      "Confirm repo owner/name or explicitly approve creating a new repo.",
+      "Confirm branch name and publish mode.",
+      "Confirm whether package/ should be copied into the current repo or published as a standalone repo root.",
+      "Provide an exact MAVERICK-CONFIRM github_publish token for the action id."
+    ],
+    "dryRun": {
+      "publish_attempted": false,
+      "publish_allowed": false,
+      "reason": "missing confirmed GitHub target and confirmation token",
+      "gate_timestamp": "2026-06-14T16:30:35-04:00"
+    }
+  },
+  "notionBridge": {
+    "target": {
+      "id": "notion_live_launch_team",
+      "known_target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+      "confirmation_status": "pending",
+      "write_gate": "notion_status_update",
+      "live_row_query_method": null,
+      "live_update_method": null,
+      "property_mapping_confirmed": false
+    },
+    "readModel": {
+      "overview_observed_at": "2026-06-14T17:08:36-04:00",
+      "active_cases": 120,
+      "callbacks_pending": 37,
+      "overdue_followups": 22,
+      "canvas_count": 8,
+      "uses_overview_snapshot": true
+    },
+    "updateEnvelopes": [
+      {
+        "id": "notion_status_batch_plan",
+        "target_id": "notion_live_launch_team",
+        "collection": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+        "source_draft": "notion_status_batch_plan",
+        "required_gate": "notion_status_update",
+        "required_token": "MAVERICK-CONFIRM notion_status_update notion-status-batch-plan",
+        "proposed_operation": "batch_status_update_after_row_method_confirmation",
+        "row_filter": {
+          "active_window_days": 14,
+          "requires_live_row_query": true,
+          "fallback_is_read_only_cache": true
+        },
+        "property_map_required": [
+          "Task Status",
+          "Next Action",
+          "Next Follow-up",
+          "QA Score",
+          "MID",
+          "Salesforce Case"
+        ],
+        "gate_assessment_without_token": {
+          "gate_id": "notion_status_update",
+          "system": "notion",
+          "action_id": "notion-status-batch-plan",
+          "allowed": false,
+          "reason": "gate_not_enabled",
+          "required_token": "MAVERICK-CONFIRM notion_status_update notion-status-batch-plan",
+          "token_matches": false,
+          "external_mutation_attempted": false
+        },
+        "update_allowed": false,
+        "external_mutation_attempted": false
+      }
+    ],
+    "requiredBeforeUpdate": [
+      "Confirm live row query method for Launch Team rows.",
+      "Confirm Notion update method and allowed properties.",
+      "Confirm property mapping for status, next action, follow-up, QA, MID, and Salesforce case.",
+      "Confirm the exact action id with a MAVERICK-CONFIRM notion_status_update token."
+    ],
+    "dryRun": {
+      "query_attempted": false,
+      "update_attempted": false,
+      "update_allowed": false,
+      "reason": "missing live row query method, update method, property mapping, and confirmation token",
+      "gate_timestamp": "2026-06-14T16:30:35-04:00"
+    }
+  },
+  "launchGates": [
+    {
+      "id": "github_global_repo",
+      "label": "GitHub",
+      "target": "pending",
+      "gate": "github_publish",
+      "status": "pending",
+      "detail": "The local repo contains Maverick. External GitHub publish is still disabled."
+    },
+    {
+      "id": "icloud_destination",
+      "label": "iCloud Drive",
+      "target": "/Users/edwinrosa/Library/Mobile Documents/com~apple~CloudDocs/Desktop/MAVERICK/Maverick-Cockpit",
+      "gate": "icloud_artifact_export",
+      "status": "confirmed",
+      "detail": "Confirmed locally for copy Maverick Cockpit workflow package to the local iCloud MAVERICK folder. External mutation still requires the action runner to pass its write gate."
+    },
+    {
+      "id": "notion_live_launch_team",
+      "label": "Notion",
+      "target": "collection://2106ae29-a07c-81cb-9c6e-000ba25c1f45",
+      "gate": "notion_status_update",
+      "status": "pending",
+      "detail": "The current Notion row query surface was unavailable, so Maverick uses local seed data."
+    },
+    {
+      "id": "gmail_mailbox_lane",
+      "label": "Gmail",
+      "target": "pending",
+      "gate": "gmail_send",
+      "status": "pending",
+      "detail": "No mailbox is confirmed. Sending is disabled."
+    },
+    {
+      "id": "slack_maverick_app",
+      "label": "Slack",
+      "target": "A0BALRB6CNQ",
+      "gate": "slack_write",
+      "status": "pending",
+      "detail": "User provided the Maverick Slack app id. The legacy Slack watch remains read-only; outbound communication through this app is disabled until target, secret handling, and per-message confirmation are settled."
+    },
+    {
+      "id": "google_calendar_lane",
+      "label": "Google Calendar",
+      "target": "pending",
+      "gate": "google_calendar_update",
+      "status": "pending",
+      "detail": "No calendar source ownership is confirmed. Event mutation is disabled."
+    }
+  ],
+  "packageStatus": {
+    "repo": "maverick-cockpit",
+    "sourceArtifacts": 62,
+    "assembledFiles": 64,
+    "publishStatus": "prepared_local_only",
+    "externalMutationAllowed": false,
+    "githubOrigin": "https://github.com/dwinomarll/TGAOTU.git",
+    "icloudPath": "/Users/edwinrosa/Library/Mobile Documents/com~apple~CloudDocs"
+  },
+  "confirmationRequest": "factory/active/maverick-cockpit/confirmation-request.md",
+  "nextDeadline": "22 overdue follow-ups \u00b7 37 callbacks"
+}

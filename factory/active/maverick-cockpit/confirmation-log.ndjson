@@ -1,0 +1,1 @@
+{"action_id": "phase7-live-target-confirmation", "event_type": "live_target_confirmed", "external_mutation_attempted": false, "target_id": "icloud_destination", "time": "2026-06-14T16:40:22-04:00", "write_gate": "icloud_artifact_export"}

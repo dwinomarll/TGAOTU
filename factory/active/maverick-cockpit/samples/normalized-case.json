@@ -1,0 +1,62 @@
+{
+  "case": {
+    "page_id": "3796ae29-a07c-81f1-b051-f8ea7c65a075",
+    "account": "EL ARADO",
+    "business_name": "EL ARADO RESTAURANT",
+    "dba": "EL ARADO",
+    "mid": "0023207479",
+    "location_id": null,
+    "salesforce_case": null,
+    "language": "Spanish"
+  },
+  "workflow": {
+    "task_status": "In progress",
+    "next_action": "Call",
+    "outcome_status": [
+      "Pending - Merchant Response Needed"
+    ],
+    "action_items": "Confirm install readiness.",
+    "case_notes": "Merchant requested Spanish follow-up.",
+    "feedback": null
+  },
+  "timing": {
+    "created_at": "2026-06-12T14:00:00.000Z",
+    "case_age_days": 2,
+    "case_phase": "Active",
+    "next_follow_up": "2026-06-14",
+    "last_contact": null,
+    "timezone": null,
+    "timezone_confidence": "missing"
+  },
+  "risk": {
+    "risk_level": "medium",
+    "qa_score": null,
+    "open_loop": true,
+    "no_answer": false,
+    "callback": true,
+    "signals": [
+      "open_loop",
+      "callback"
+    ]
+  },
+  "memory": {
+    "first_seen": "2026-06-14T16:15:58-04:00",
+    "last_seen": "2026-06-14T16:15:58-04:00",
+    "last_change": null,
+    "events": [
+      {
+        "at": "2026-06-14T16:15:58-04:00",
+        "kind": "observed",
+        "summary": "Normalized from Launch Team source row."
+      }
+    ],
+    "confidence_notes": "Never-guess fields remain null when absent."
+  },
+  "source": {
+    "system": "notion",
+    "source_id": "3796ae29-a07c-81f1-b051-f8ea7c65a075",
+    "source_url": "https://app.notion.com/p/3796ae29a07c81f1b051f8ea7c65a075",
+    "read_policy": "allowed",
+    "write_policy": "confirmation_required"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-06-14T16:35:13-04:00",
+  "contract": "factory/active/maverick-cockpit/global-repo/repo-contract.json",
+  "suggested_repo_name": "maverick-cockpit",
+  "suggested_visibility": "private",
+  "publish_gate": "github_publish",
+  "export_gate": "icloud_artifact_export",
+  "publish_status": "prepared_local_only",
+  "external_mutation_allowed": false,
+  "source_manifest": "factory/active/maverick-cockpit/write-gates/export-manifest.json",
+  "source_artifact_count": 62,
+  "missing_required_artifacts": [],
+  "repo_layout": [
+    {
+      "target": "README.md",
+      "source": "factory/active/maverick-cockpit/global-repo/README.md",
+      "role": "entrypoint"
+    },
+    {
+      "target": "docs/",
+      "source": "docs/maverick-*.md",
+      "role": "operating documentation"
+    },
+    {
+      "target": "cockpit/",
+      "source": "factory/active/maverick-cockpit/dashboard/",
+      "role": "static dashboard"
+    },
+    {
+      "target": "contracts/",
+      "source": "factory/active/maverick-cockpit/*.json and nested contract files",
+      "role": "machine-readable operating state"
+    },
+    {
+      "target": "CONFIRMATION_REQUEST.md",
+      "source": "factory/active/maverick-cockpit/confirmation-request.md",
+      "role": "human confirmation gate"
+    },
+    {
+      "target": "scripts/",
+      "source": "factory/maverick_*.py and factory/validate_maverick.py",
+      "role": "local builders and validators"
+    }
+  ],
+  "required_confirmation_before_publish": [
+    "MAVERICK-CONFIRM github_publish <action_id>",
+    "confirmed repo owner/name or create-new-repo instruction",
+    "confirmed branch name",
+    "confirmed publish mode"
+  ]
+}

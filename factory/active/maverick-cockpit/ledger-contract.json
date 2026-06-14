@@ -1,0 +1,48 @@
+{
+  "name": "maverick-case-ledger",
+  "version": 1,
+  "created_at": "2026-06-14T16:15:58-04:00",
+  "purpose": "Preserve per-case memory outside Notion while keeping external writes confirmation-gated.",
+  "canonical_key": "case.page_id",
+  "secondary_keys": [
+    "case.mid",
+    "case.salesforce_case",
+    "case.dba",
+    "case.business_name"
+  ],
+  "retention_policy": "retain_forever_until_user_changes_policy",
+  "state_file": "factory/active/maverick-cockpit/runtime/ledger.json",
+  "event_kinds": [
+    "observed",
+    "new_case",
+    "workflow_changed",
+    "risk_changed",
+    "timing_changed",
+    "contact_changed",
+    "signal_matched",
+    "user_confirmed",
+    "gone_from_source",
+    "reappeared"
+  ],
+  "never_guess_fields": [
+    "case.mid",
+    "case.location_id",
+    "case.salesforce_case",
+    "contact_number",
+    "contact_email"
+  ],
+  "write_policy": {
+    "local_ledger": "allowed_local_only",
+    "notion": "confirmation_required",
+        "slack_signal_watch": "blocked_for_writes",
+        "slack_maverick_app": "confirmation_required",
+    "gmail": "confirmation_required",
+    "google_calendar": "confirmation_required",
+    "icloud_drive": "confirmation_required"
+  },
+  "validation": {
+    "command": "python3 factory/validate_maverick.py --phase ledger",
+    "sample_raw_case": "factory/active/maverick-cockpit/samples/notion-case.json",
+    "sample_normalized_case": "factory/active/maverick-cockpit/samples/normalized-case.json"
+  }
+}

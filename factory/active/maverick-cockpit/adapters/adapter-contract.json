@@ -1,0 +1,136 @@
+{
+  "name": "maverick-read-only-adapters",
+  "version": 1,
+  "created_at": "2026-06-14T16:28:44-04:00",
+  "purpose": "Feed Maverick Cockpit from trusted sources without external mutation.",
+  "output_snapshot": "factory/active/maverick-cockpit/adapters/adapter-snapshot.json",
+  "dashboard_data": "factory/active/maverick-cockpit/dashboard/data/maverick-dashboard-data.json",
+  "adapters": [
+    {
+      "id": "notion_launch_team_sample",
+      "system": "notion",
+      "mode": "local_sample",
+      "read_policy": "allowed",
+      "write_policy": "confirmation_required",
+      "source": "factory/active/maverick-cockpit/samples/notion-case.json",
+      "notes": "Uses the normalized Launch Team sample until live Notion row query or local cache adapter is promoted."
+    },
+    {
+      "id": "notion_live_overview",
+      "system": "notion",
+      "mode": "read_only_fetch_snapshot",
+      "read_policy": "allowed",
+      "write_policy": "confirmation_required",
+      "source": "factory/active/maverick-cockpit/notion-overview.json",
+      "notes": "Summarizes fetched Shift4, Argo, Launch Team, Buddy Mainframe, and burndown evidence while SQL row query remains unavailable."
+    },
+    {
+      "id": "maverick_operating_loop",
+      "system": "local_memory",
+      "mode": "local_operating_loop",
+      "read_policy": "allowed",
+      "write_policy": "local_only",
+      "source": "factory/active/maverick-cockpit/operating-loop.json",
+      "notes": "Turns case counts, canvases, bot dispatch, and confirmation gates into the daily Maverick command rhythm."
+    },
+    {
+      "id": "maverick_communication_outbox",
+      "system": "local_memory",
+      "mode": "local_draft_outbox",
+      "read_policy": "allowed",
+      "write_policy": "local_only",
+      "source": "factory/active/maverick-cockpit/communication-outbox.json",
+      "notes": "Prepares Slack app, Gmail, Calendar, and Notion communication drafts locally without sending."
+    },
+    {
+      "id": "maverick_activation_checklist",
+      "system": "local_memory",
+      "mode": "local_activation_checklist",
+      "read_policy": "allowed",
+      "write_policy": "local_only",
+      "source": "factory/active/maverick-cockpit/activation-checklist.json",
+      "notes": "Maps live target readiness and missing evidence without opening gates."
+    },
+    {
+      "id": "maverick_learning_ledger",
+      "system": "local_memory",
+      "mode": "local_learning_ledger",
+      "read_policy": "allowed",
+      "write_policy": "local_only",
+      "source": "factory/active/maverick-cockpit/learning-ledger.json",
+      "notes": "Promotes evidence-backed learning events and rejects unsafe memory."
+    },
+    {
+      "id": "maverick_slack_bridge",
+      "system": "local_memory",
+      "mode": "local_slack_app_bridge",
+      "read_policy": "allowed",
+      "write_policy": "local_only",
+      "source": "factory/active/maverick-cockpit/slack-app-bridge.json",
+      "notes": "Prepares dry-run Slack app envelopes without sending or storing secrets."
+    },
+    {
+      "id": "maverick_github_bridge",
+      "system": "local_memory",
+      "mode": "local_github_publish_bridge",
+      "read_policy": "allowed",
+      "write_policy": "local_only",
+      "source": "factory/active/maverick-cockpit/github-publish-bridge.json",
+      "notes": "Prepares a dry-run global repo publish envelope without pushing or creating GitHub content."
+    },
+    {
+      "id": "maverick_notion_bridge",
+      "system": "local_memory",
+      "mode": "local_notion_live_bridge",
+      "read_policy": "allowed",
+      "write_policy": "local_only",
+      "source": "factory/active/maverick-cockpit/notion-live-bridge.json",
+      "notes": "Prepares row-query and update envelopes without mutating Notion."
+    },
+    {
+      "id": "slack_signal_config",
+      "system": "slack",
+      "mode": "legacy_config_read",
+      "read_policy": "allowed",
+      "write_policy": "blocked",
+      "source": "/Users/edwinrosa/.codex/worktrees/slack-signal-maverick/Maverick Project/Shift4 Dine/config/slack_signal_watch.json",
+      "notes": "Reads configured watch channels, active window, and risk keywords. Never writes to Slack."
+    },
+    {
+      "id": "slack_maverick_app",
+      "system": "slack",
+      "mode": "pending_communication_target",
+      "read_policy": "pending_access",
+      "write_policy": "confirmation_required",
+      "source": "A0BALRB6CNQ",
+      "notes": "Dedicated Maverick Slack app id provided by the user. Outbound communication is gated until channel/DM target and secret storage are confirmed."
+    },
+    {
+      "id": "gmail_lane",
+      "system": "gmail",
+      "mode": "pending_access",
+      "read_policy": "pending_access",
+      "write_policy": "confirmation_required",
+      "source": null,
+      "notes": "Mailbox and access method are still unconfirmed. Dashboard can show lane status but not read mail yet."
+    },
+    {
+      "id": "google_calendar_lane",
+      "system": "google_calendar",
+      "mode": "pending_source_map",
+      "read_policy": "pending_access",
+      "write_policy": "confirmation_required",
+      "source": null,
+      "notes": "Calendar source rules are still unmapped. Dashboard can show lane status but not read calendar yet."
+    },
+    {
+      "id": "icloud_destination",
+      "system": "icloud_drive",
+      "mode": "destination_registered",
+      "read_policy": "blocked",
+      "write_policy": "confirmation_required",
+      "source": "https://www.icloud.com/iclouddrive/09dTCQP4Zljf2MEc0fPTBGyGA",
+      "notes": "Needs local mounted path or authenticated access before artifact export."
+    }
+  ]
+}

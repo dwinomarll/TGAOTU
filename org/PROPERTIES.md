@@ -51,6 +51,7 @@ schema, and downstream output format during the same session.
 | Quality Report | `factory/templates/QUALITY_REPORT.md` | `factory/schemas/quality-report.schema.json` | `factory/active/<app>/qa-reports/*.md` |
 | User Preferences | `factory/templates/USER_PREFERENCES.md` | `factory/schemas/user-preferences.schema.json` | `org/users/<user-id>.json` |
 | Notification Event | `factory/templates/NOTIFICATION_EVENT.md` | `factory/schemas/notification-event.schema.json` | `org/logs/notifications.ndjson` |
+| Maverick Workplace | `factory/active/maverick-cockpit/VISION.md` | `factory/schemas/maverick-workplace.schema.json` | `factory/active/maverick-cockpit/BUILD_STATE.json` |
 
 ---
 
@@ -153,6 +154,36 @@ schema, and downstream output format during the same session.
 | `final_status` | yes | enum | COMMS-1/Eva | `sent`, `failed`, or `skipped`. |
 | `fallback_used` | yes | boolean | COMMS-1/Eva | True if preferred channel failed. |
 | `log_reference` | yes | string | COMMS-1/Eva | Activity or notification log reference. |
+
+---
+
+## Maverick Workplace Properties
+
+Maverick is the Shift4 Dine cockpit domain. It uses Ptah's factory rules, but
+its workplace boundary is not a single folder or repo. It is a normalized view
+across Notion, Slack, Gmail, Google Calendar, GitHub, iCloud Drive, local
+memory, and legacy Shift4 Dine source assets.
+
+| Property | Required | Type | Owner | Notes |
+|---|---:|---|---|---|
+| `case.page_id` | yes | string | Maverick | Canonical case key. Prefer Notion page id over MID because MIDs can repeat or be blank. |
+| `case.account` | yes | string | Maverick | Human-readable account title from Launch Team. |
+| `case.mid` | no | string/null | Maverick | Merchant-level rollup key when present. |
+| `case.salesforce_case` | no | string/null | Maverick | External case reference. |
+| `workflow.task_status` | yes | string/null | Maverick | Notion `Task Status` value. |
+| `workflow.next_action` | yes | string/null | Maverick | Notion `Next Action` value. |
+| `workflow.outcome_status` | no | list | Maverick | Multi-select status values, including escalation when present. |
+| `timing.case_age_days` | yes | integer/null | Maverick | Numeric age when available. |
+| `timing.case_phase` | yes | string/null | Maverick | Active, Observation, Archive Ready, or equivalent phase label. |
+| `timing.timezone_confidence` | yes | enum | Maverick | `high`, `medium`, `low`, `missing`, or `unknown`. |
+| `risk.risk_level` | yes | enum | Maverick | `low`, `medium`, `high`, `critical`, or `unknown`. |
+| `risk.signals` | yes | list | Maverick | Named reasons for surfacing the case. |
+| `memory.first_seen` | yes | datetime/string | Maverick | First time the cockpit saw this case. |
+| `memory.last_seen` | yes | datetime/string | Maverick | Last time the cockpit saw this case. |
+| `memory.events` | yes | list | Maverick | Append-only per-case learning and delta events. |
+| `source.system` | yes | enum | Maverick | `notion`, `slack`, `gmail`, `google_calendar`, `github`, `icloud_drive`, `local`, or `omi`. |
+| `source.read_policy` | yes | enum | Maverick | `allowed`, `blocked`, or `pending_access`. |
+| `source.write_policy` | yes | enum | Maverick | `blocked`, `confirmation_required`, or `allowed_local_only`. |
 
 ---
 

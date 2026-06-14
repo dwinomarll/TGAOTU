@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgaotu.local/schemas/maverick-workplace.schema.json",
+  "title": "Maverick Workplace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case",
+    "workflow",
+    "timing",
+    "risk",
+    "memory",
+    "source"
+  ],
+  "properties": {
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page_id", "account"],
+      "properties": {
+        "page_id": { "type": "string", "minLength": 1 },
+        "account": { "type": "string", "minLength": 1 },
+        "business_name": { "type": ["string", "null"] },
+        "dba": { "type": ["string", "null"] },
+        "mid": { "type": ["string", "null"] },
+        "location_id": { "type": ["string", "null"] },
+        "salesforce_case": { "type": ["string", "null"] },
+        "language": { "type": ["string", "null"] }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_status", "next_action"],
+      "properties": {
+        "task_status": { "type": ["string", "null"] },
+        "next_action": { "type": ["string", "null"] },
+        "outcome_status": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "action_items": { "type": ["string", "null"] },
+        "case_notes": { "type": ["string", "null"] },
+        "feedback": { "type": ["string", "null"] }
+      }
+    },
+    "timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_age_days", "case_phase"],
+      "properties": {
+        "created_at": { "type": ["string", "null"] },
+        "case_age_days": { "type": ["integer", "null"], "minimum": 0 },
+        "case_phase": { "type": ["string", "null"] },
+        "next_follow_up": { "type": ["string", "null"] },
+        "last_contact": { "type": ["string", "null"] },
+        "timezone": { "type": ["string", "null"] },
+        "timezone_confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "missing", "unknown"]
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk_level", "signals"],
+      "properties": {
+        "risk_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical", "unknown"]
+        },
+        "qa_score": { "type": ["string", "null"] },
+        "open_loop": { "type": ["boolean", "null"] },
+        "no_answer": { "type": ["boolean", "null"] },
+        "callback": { "type": ["boolean", "null"] },
+        "signals": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["first_seen", "last_seen", "events"],
+      "properties": {
+        "first_seen": { "type": "string" },
+        "last_seen": { "type": "string" },
+        "last_change": { "type": ["string", "null"] },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["at", "kind", "summary"],
+            "properties": {
+              "at": { "type": "string" },
+              "kind": { "type": "string" },
+              "summary": { "type": "string" }
+            }
+          }
+        },
+        "confidence_notes": { "type": ["string", "null"] }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system", "read_policy", "write_policy"],
+      "properties": {
+        "system": {
+          "type": "string",
+          "enum": ["notion", "slack", "gmail", "google_calendar", "github", "icloud_drive", "local", "omi"]
+        },
+        "source_id": { "type": ["string", "null"] },
+        "source_url": { "type": ["string", "null"] },
+        "read_policy": {
+          "type": "string",
+          "enum": ["allowed", "blocked", "pending_access"]
+        },
+        "write_policy": {
+          "type": "string",
+          "enum": ["blocked", "confirmation_required", "allowed_local_only"]
+        }
+      }
+    }
+  }
+}

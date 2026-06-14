@@ -46,6 +46,37 @@
 | `factory/schemas/notification-event.schema.json` | DONE - machine-readable notification event schema |
 | `org/agents/comms-1.md` | DONE - user notification manager contract |
 | `org/users/edwin.json` | DONE - repo-safe default notification preferences |
+| `docs/maverick-cockpit.md` | DONE - Shift4 Dine workplace cockpit blueprint |
+| `factory/active/maverick-cockpit/` | DONE - active factory workspace for Maverick Cockpit |
+| `factory/schemas/maverick-workplace.schema.json` | DONE - machine-readable Maverick case/workplace contract |
+| `factory/validate_maverick.py` | DONE - Phase 1 Maverick artifact validator |
+| `factory/active/maverick-cockpit/source-map.json` | DONE - legacy Shift4 Dine migration source map |
+| `docs/maverick-source-map.md` | DONE - human-readable migration role guide |
+| `factory/maverick_case_adapter.py` | DONE - Launch Team row to Maverick case adapter seed |
+| `factory/active/maverick-cockpit/ledger-contract.json` | DONE - local per-case memory contract |
+| `docs/maverick-ledger.md` | DONE - human-readable case ledger guide |
+| `factory/active/maverick-cockpit/dashboard/` | DONE - static Maverick Cockpit dashboard shell |
+| `factory/maverick_adapters.py` | DONE - read-only adapter snapshot builder |
+| `factory/active/maverick-cockpit/adapters/` | DONE - adapter contract and generated snapshot |
+| `factory/active/maverick-cockpit/dashboard/data/` | DONE - dashboard data emitted by adapters |
+| `docs/maverick-adapters.md` | DONE - human-readable adapter contract guide |
+| `factory/maverick_write_gates.py` | DONE - confirmation-gate and export-manifest builder |
+| `factory/active/maverick-cockpit/write-gates/` | DONE - gate contract, local export manifest, and audit log |
+| `docs/maverick-write-gates.md` | DONE - human-readable write-gate policy |
+| `factory/active/maverick-cockpit/live-targets.json` | DONE - Phase 7 external target confirmation checklist |
+| `docs/maverick-live-targets.md` | DONE - human-readable live-target confirmation guide |
+| `factory/maverick_global_repo.py` | DONE - local global-repo package manifest builder |
+| `factory/active/maverick-cockpit/global-repo/` | DONE - standalone repo contract, README, and package manifest |
+| `docs/maverick-global-repo.md` | DONE - human-readable global repo package guide |
+| `factory/maverick_live_targets.py` | DONE - local live-target discovery without confirmation |
+| `factory/active/maverick-cockpit/target-discovery.json` | DONE - discovered local GitHub/iCloud candidates |
+| `factory/active/maverick-cockpit/confirmation-request.md` | DONE - exact pending confirmation request |
+| `docs/maverick-target-discovery.md` | DONE - human-readable target discovery guide |
+| `factory/maverick_confirm_target.py` | DONE - local-only live-target confirmation applier |
+| `docs/maverick-confirmation-applier.md` | DONE - confirmation payload and safety guide |
+| `factory/maverick_assemble_repo.py` | DONE - local standalone repo package assembler |
+| `factory/active/maverick-cockpit/global-repo/assembly-manifest.json` | DONE - local package integrity manifest |
+| `docs/maverick-repo-assembly.md` | DONE - human-readable repo assembly guide |
 
 ---
 
@@ -59,6 +90,7 @@
 | **F4** | Escalation Gate — 3-case only Edwin contact protocol | after F3 |
 | **F5** | First live run — Edwin drops one VISION.md, Factory ships an app | after F4 |
 | **P1** | Telegram intake receptor (eva-gateway) — Factory receives commissions from phone | parallel |
+| **M1** | Maverick Cockpit — Shift4 Dine workplace bootstrap | in progress: Phase 6 write gates validated; Phase 7 live-target confirmations pending |
 
 ---
 

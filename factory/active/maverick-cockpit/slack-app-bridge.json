@@ -1,0 +1,56 @@
+{
+  "generated_at": "2026-06-14T19:27:18-04:00",
+  "source_policy": {
+    "mode": "local_slack_app_bridge",
+    "legacy_watch_policy": "read_only",
+    "external_mutation_attempted": false,
+    "secrets_recorded": false,
+    "personal_contact_fields_excluded": true
+  },
+  "app": {
+    "id": "A0BALRB6CNQ",
+    "target_id": "slack_maverick_app",
+    "known_target": "A0BALRB6CNQ",
+    "confirmation_status": "pending",
+    "write_gate": "slack_write",
+    "communication_target": null,
+    "secret_store_reference": null
+  },
+  "required_before_send": [
+    "Confirm the Slack channel id or DM id where Maverick should communicate with Edwin.",
+    "Store the bot token only in a secret store outside repo artifacts.",
+    "Confirm the exact message action id with a MAVERICK-CONFIRM slack_write token.",
+    "Keep the legacy Slack signal watch read-only."
+  ],
+  "message_envelopes": [
+    {
+      "id": "slack_daily_command_brief",
+      "app_id": "A0BALRB6CNQ",
+      "channel_or_dm_id": null,
+      "text": "Maverick daily command: 120 active cases against the 50-case target. Protect the 14-day window. Top objective: 22 overdue follow-ups. Next move: work overdue and day-10-to-13 cases before low-risk new tasks.",
+      "source_draft": "slack_daily_command_brief",
+      "required_gate": "slack_write",
+      "required_token": "MAVERICK-CONFIRM slack_write slack-daily-command-brief",
+      "gate_assessment_without_token": {
+        "gate_id": "slack_write",
+        "system": "slack",
+        "action_id": "slack-daily-command-brief",
+        "allowed": false,
+        "reason": "gate_not_enabled",
+        "required_token": "MAVERICK-CONFIRM slack_write slack-daily-command-brief",
+        "token_matches": false,
+        "external_mutation_attempted": false
+      },
+      "send_allowed": false,
+      "delivery_status": "blocked_pending_channel_or_dm_secret_and_confirmation",
+      "external_mutation_attempted": false
+    }
+  ],
+  "dry_run": {
+    "send_attempted": false,
+    "send_allowed": false,
+    "reason": "missing channel_or_dm_id, secret_store_reference, and confirmation token",
+    "gate_timestamp": "2026-06-14T16:30:35-04:00"
+  },
+  "external_mutation_attempted": false
+}
