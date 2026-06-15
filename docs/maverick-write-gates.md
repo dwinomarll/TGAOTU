@@ -44,3 +44,7 @@ The export manifest hashes the local Maverick cockpit artifacts that would be
 published to GitHub or copied to iCloud after confirmation. The manifest itself
 is local proof only. It does not push, upload, copy, send, post, schedule, or
 update anything outside the repo.
+
+The manifest also carries Maverick's all-device access rule, PWA files, and
+same-Wi-Fi server helper. User-facing access must prefer a stable HTTPS host;
+`127.0.0.1` is only valid for local development checks.

@@ -8,7 +8,7 @@
   "publish_status": "prepared_local_only",
   "external_mutation_allowed": false,
   "source_manifest": "factory/active/maverick-cockpit/write-gates/export-manifest.json",
-  "source_artifact_count": 62,
+  "source_artifact_count": 71,
   "missing_required_artifacts": [],
   "repo_layout": [
     {
@@ -24,7 +24,12 @@
     {
       "target": "cockpit/",
       "source": "factory/active/maverick-cockpit/dashboard/",
-      "role": "static dashboard"
+      "role": "static dashboard, PWA manifest, service worker, and device-safe data"
+    },
+    {
+      "target": "netlify.toml",
+      "source": "factory/active/maverick-cockpit/global-repo/netlify.toml",
+      "role": "always-on static HTTPS deployment hint"
     },
     {
       "target": "contracts/",

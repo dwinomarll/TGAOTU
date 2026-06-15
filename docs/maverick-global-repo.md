@@ -34,6 +34,7 @@ candidate repo, candidate branch, package evidence, and blocked
 The package is designed so Maverick can move as one system:
 
 - cockpit dashboard
+- PWA manifest and service worker for all-device access after HTTPS publish
 - normalized case schema
 - source map
 - adapter snapshot
@@ -52,3 +53,10 @@ provided:
 The iCloud destination uses a separate gate:
 
 `MAVERICK-CONFIRM icloud_artifact_export <action_id>`
+
+## Device Access
+
+The global package carries `netlify.toml`, `cockpit/manifest.webmanifest`, and
+`cockpit/service-worker.js`. The hard rule is that Maverick must be reached from
+every Edwin device through a stable HTTPS URL after publish confirmation. LAN
+serving is only a same-Wi-Fi fallback.

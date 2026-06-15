@@ -82,9 +82,10 @@ def assemble_package(observed_at: str = GLOBAL_REPO_ASSEMBLED_AT) -> dict[str, A
         copied = []
         copied.append(_copy_file(ROOT / contract["standalone_readme"], PACKAGE_DIR / "README.md"))
         copied.append(_copy_file(ROOT / contract["confirmation_request"], PACKAGE_DIR / "CONFIRMATION_REQUEST.md"))
+        copied.append(_copy_file(GLOBAL_REPO_DIR / "netlify.toml", PACKAGE_DIR / "netlify.toml"))
 
         copied.extend(_copy_tree_files(ROOT / "docs", PACKAGE_DIR / "docs", ["maverick-*.md"]))
-        copied.extend(_copy_tree_files(APP_DIR / "dashboard", PACKAGE_DIR / "cockpit", ["*.html", "*.css", "*.js", "data/*.json"]))
+        copied.extend(_copy_tree_files(APP_DIR / "dashboard", PACKAGE_DIR / "cockpit", ["*.html", "*.css", "*.js", "*.svg", "*.webmanifest", "data/*.json"]))
         copied.extend(_copy_tree_files(APP_DIR, PACKAGE_DIR / "contracts", ["*.json", "adapters/*.json", "samples/*.json"]))
         for source in [
             APP_DIR / "write-gates" / "write-gate-contract.json",

@@ -12,15 +12,15 @@
     "candidate_branch": "codex/maverick-cockpit",
     "candidate_publish_mode": "pull_request_or_new_private_repo",
     "current_origin": "https://github.com/dwinomarll/TGAOTU.git",
-    "current_branch": null,
-    "current_commit": "3645e98",
+    "current_branch": "codex/maverick-cockpit",
+    "current_commit": "tracked_by_git_history_not_embedded",
     "confirmation_status": "pending",
     "write_gate": "github_publish"
   },
   "package_evidence": {
     "package_dir": "factory/active/maverick-cockpit/global-repo/package",
-    "assembled_file_count": 64,
-    "source_artifact_count": 62,
+    "assembled_file_count": 73,
+    "source_artifact_count": 71,
     "missing_required_artifacts": [],
     "external_mutation_allowed": false,
     "publish_status": "prepared_local_only"

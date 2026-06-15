@@ -71,7 +71,7 @@ def build_github_bridge(observed_at: str = GITHUB_BRIDGE_OBSERVED_AT) -> dict[st
             "candidate_publish_mode": github.get("candidate_publish_mode"),
             "current_origin": github.get("current_origin") or _git_value(["git", "config", "--get", "remote.origin.url"]),
             "current_branch": _git_value(["git", "branch", "--show-current"]),
-            "current_commit": _git_value(["git", "rev-parse", "--short", "HEAD"]),
+            "current_commit": "tracked_by_git_history_not_embedded",
             "confirmation_status": github_target.get("confirmation_status", "pending"),
             "write_gate": gate_id,
         },

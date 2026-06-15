@@ -16,6 +16,7 @@ from typing import Any
 from maverick_activation_checklist import ACTIVATION_CHECKLIST_PATH, build_activation_checklist
 from maverick_case_adapter import load_sample, normalize_notion_case
 from maverick_comms_outbox import OUTBOX_PATH, build_outbox
+from maverick_device_access import DEVICE_ACCESS_PATH, build_device_access
 from maverick_github_bridge import GITHUB_BRIDGE_PATH, build_github_bridge
 from maverick_learning_ledger import LEARNING_LEDGER_PATH, build_learning_ledger
 from maverick_notion_bridge import NOTION_BRIDGE_PATH, build_notion_bridge
@@ -92,6 +93,12 @@ def _load_notion_bridge() -> dict[str, Any]:
     if NOTION_BRIDGE_PATH.exists():
         return _load_json(NOTION_BRIDGE_PATH)
     return build_notion_bridge()
+
+
+def _load_device_access() -> dict[str, Any]:
+    if DEVICE_ACCESS_PATH.exists():
+        return _load_json(DEVICE_ACCESS_PATH)
+    return build_device_access()
 
 
 def _status_slug(normalized: dict[str, Any]) -> str:
@@ -300,6 +307,7 @@ def build_snapshot(observed_at: str | None = None) -> dict[str, Any]:
     slack_bridge = _load_slack_bridge()
     github_bridge = _load_github_bridge()
     notion_bridge = _load_notion_bridge()
+    device_access = _load_device_access()
     slack = _load_slack_config(contract)
 
     adapter_status = []
@@ -401,6 +409,7 @@ def build_snapshot(observed_at: str | None = None) -> dict[str, Any]:
             "requiredBeforeUpdate": notion_bridge.get("required_before_update") or [],
             "dryRun": notion_bridge.get("dry_run") or {},
         },
+        "deviceAccess": device_access,
         "launchGates": launch_gates,
         "packageStatus": _package_status(),
         "confirmationRequest": "factory/active/maverick-cockpit/confirmation-request.md",
@@ -420,6 +429,7 @@ def build_snapshot(observed_at: str | None = None) -> dict[str, Any]:
         "slack_bridge": slack_bridge,
         "github_bridge": github_bridge,
         "notion_bridge": notion_bridge,
+        "device_access": device_access,
         "normalized_cases": [normalized],
         "dashboard": dashboard,
     }

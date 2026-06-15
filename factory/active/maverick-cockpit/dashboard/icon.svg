@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Maverick Cockpit icon">
+  <rect width="512" height="512" rx="96" fill="#07141f"/>
+  <path d="M128 352V128h64l64 112 64-112h64v224h-58V228l-48 84h-44l-48-84v124h-58z" fill="#5eead4"/>
+  <path d="M104 392h304v34H104z" fill="#f6f8fb"/>
+</svg>

@@ -13,9 +13,13 @@ external writes unless the exact gate is confirmed.
 - `docs/maverick-adapters.md` - read-only adapter contract
 - `docs/maverick-write-gates.md` - external mutation safety rules
 - `docs/maverick-live-targets.md` - GitHub, iCloud, Notion, Gmail, and Calendar confirmation checklist
+- `docs/maverick-device-access.md` - all-device access hard rule
 - `factory/active/maverick-cockpit/dashboard/` - static cockpit dashboard
+- `factory/active/maverick-cockpit/dashboard/manifest.webmanifest` - installable app metadata
+- `factory/active/maverick-cockpit/dashboard/service-worker.js` - HTTPS offline shell
 - `factory/maverick_*.py` - local adapter, gate, and package builders
 - `factory/validate_maverick.py` - validation entrypoint
+- `factory/active/maverick-cockpit/global-repo/netlify.toml` - static HTTPS deploy hint
 
 ## Current Safety Boundary
 
@@ -49,4 +53,14 @@ confirmed:
 
 ```bash
 python3 factory/validate_maverick.py --phase live-targets
+```
+
+## Device Access Rule
+
+Maverick must work from every Edwin device. `localhost` and `127.0.0.1` are
+development-only links. The durable path is an HTTPS static host serving the
+packaged cockpit. Same-Wi-Fi serving is only a fallback:
+
+```bash
+python3 factory/maverick_serve_devices.py --port 4181
 ```

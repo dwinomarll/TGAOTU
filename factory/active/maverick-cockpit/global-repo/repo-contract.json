@@ -30,7 +30,12 @@
     {
       "target": "cockpit/",
       "source": "factory/active/maverick-cockpit/dashboard/",
-      "role": "static dashboard"
+      "role": "static dashboard, PWA manifest, service worker, and device-safe data"
+    },
+    {
+      "target": "netlify.toml",
+      "source": "factory/active/maverick-cockpit/global-repo/netlify.toml",
+      "role": "always-on static HTTPS deployment hint"
     },
     {
       "target": "contracts/",

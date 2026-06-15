@@ -7,19 +7,25 @@
   "export_gate": "icloud_artifact_export",
   "external_mutation_attempted": false,
   "external_mutation_allowed": false,
-  "file_count": 64,
+  "file_count": 73,
   "files": [
     {
       "source": "factory/active/maverick-cockpit/global-repo/README.md",
       "target": "README.md",
-      "bytes": 1928,
-      "sha256": "bc21a14b0e8c62d2db1f4b5f663c6f2af22e0798b6f1c0f3b8217f8618c24712"
+      "bytes": 2562,
+      "sha256": "b505db55f378521027b255affb6c2ea1e67d7f67e14574795a7203120745f0f8"
     },
     {
       "source": "factory/active/maverick-cockpit/confirmation-request.md",
       "target": "CONFIRMATION_REQUEST.md",
       "bytes": 1635,
       "sha256": "2cb15378a8da8026d73122c6bdf133acdc2fad43226d0fda0117e702a94420b4"
+    },
+    {
+      "source": "factory/active/maverick-cockpit/global-repo/netlify.toml",
+      "target": "netlify.toml",
+      "bytes": 257,
+      "sha256": "3c26222aaeaa11d190bee6524104e873bf63bdd6fe7f31c88d59893c30273c0e"
     },
     {
       "source": "docs/maverick-activation-checklist.md",
@@ -52,6 +58,12 @@
       "sha256": "0c3f30fb4c08ec5da38ae5ee75c93bad05527c31403b2db816efc964c4e20d34"
     },
     {
+      "source": "docs/maverick-device-access.md",
+      "target": "docs/maverick-device-access.md",
+      "bytes": 1547,
+      "sha256": "578a312ad543ee9a6a14abfe8da085723388178ee12c5c69d9b51ab859b50a27"
+    },
+    {
       "source": "docs/maverick-github-bridge.md",
       "target": "docs/maverick-github-bridge.md",
       "bytes": 1251,
@@ -60,8 +72,8 @@
     {
       "source": "docs/maverick-global-repo.md",
       "target": "docs/maverick-global-repo.md",
-      "bytes": 1597,
-      "sha256": "f50b4ade35c7910dffb1f685ed1496c618f22167032cc19a01c04cc973712f00"
+      "bytes": 1969,
+      "sha256": "43d293494711333093cde85311406282729a84170873011d7fd553d1d20661b2"
     },
     {
       "source": "docs/maverick-icloud-export.md",
@@ -138,32 +150,56 @@
     {
       "source": "docs/maverick-write-gates.md",
       "target": "docs/maverick-write-gates.md",
-      "bytes": 1983,
-      "sha256": "90ba6dd4b20338d7e533ecced2b391f2fa96a494acf5218a3a341f843027f1d3"
+      "bytes": 2194,
+      "sha256": "a98bb52698d01fae5082880562e82df4a95e1c01196a6729551f080edf48713a"
     },
     {
       "source": "factory/active/maverick-cockpit/dashboard/index.html",
       "target": "cockpit/index.html",
-      "bytes": 8597,
-      "sha256": "4cf0c4ebdbbf4cad0b0430ca20adfb3d3371d407d8e79b3fb498371f242e9192"
+      "bytes": 9258,
+      "sha256": "db361e2d580353d9b8cd068b735d9339a8309320fe1d0ce150c61f02687c88bc"
     },
     {
       "source": "factory/active/maverick-cockpit/dashboard/styles.css",
       "target": "cockpit/styles.css",
-      "bytes": 19397,
-      "sha256": "63edfa864f500ac4cc5888dacb6e0156a0be96f0d08aef0e8e8e4db0c3179c25"
+      "bytes": 19887,
+      "sha256": "6c3aec7ceaad5f5ecec2a1617b6257588a856c7f459c7382433914ef296ef225"
     },
     {
       "source": "factory/active/maverick-cockpit/dashboard/app.js",
       "target": "cockpit/app.js",
-      "bytes": 22995,
-      "sha256": "edaf77a57f1e42e7ff8fc6d5e85532a16b01103e1902223a7cab437aeaf02296"
+      "bytes": 24684,
+      "sha256": "615c00b798d52daf95379426134e8756717c218f6bdc54fc563b9b31eee3c56c"
+    },
+    {
+      "source": "factory/active/maverick-cockpit/dashboard/service-worker.js",
+      "target": "cockpit/service-worker.js",
+      "bytes": 1113,
+      "sha256": "1fdd8b2b7eb3391b6274ed77a3ad43616d8d3b9911a3d231d9b6eeef950b49e6"
+    },
+    {
+      "source": "factory/active/maverick-cockpit/dashboard/icon.svg",
+      "target": "cockpit/icon.svg",
+      "bytes": 325,
+      "sha256": "cbdc8cc944102810a17664369f15bee55fbfd4b68ee36805bfe827bf0b077940"
+    },
+    {
+      "source": "factory/active/maverick-cockpit/dashboard/manifest.webmanifest",
+      "target": "cockpit/manifest.webmanifest",
+      "bytes": 466,
+      "sha256": "86f5080521b3588e2277b5c1c4fd3c6fc2c5964b0748dac9faa95dcea6192c9e"
     },
     {
       "source": "factory/active/maverick-cockpit/dashboard/data/maverick-dashboard-data.json",
       "target": "cockpit/data/maverick-dashboard-data.json",
-      "bytes": 32601,
-      "sha256": "d6885396425af99244408d032d60d218df9c2935e0ed3cce814e825c6df520fb"
+      "bytes": 35022,
+      "sha256": "e0a0b3c59cf9bef6b97e1e3d03b93495ab45347c815a16a79176c3e522941bf9"
+    },
+    {
+      "source": "factory/active/maverick-cockpit/dashboard/data/maverick-device-access.json",
+      "target": "cockpit/data/maverick-device-access.json",
+      "bytes": 2243,
+      "sha256": "c466230869a80cfaadb584ef560303c80a05f95a2ac6e5b212f22ecd36b5cf75"
     },
     {
       "source": "factory/active/maverick-cockpit/BUILD_STATE.json",
@@ -184,10 +220,16 @@
       "sha256": "e50132e77b8e9487963dfcb5c92d21afa3db7527b690d368adc34e5163cd072e"
     },
     {
+      "source": "factory/active/maverick-cockpit/device-access.json",
+      "target": "contracts/device-access.json",
+      "bytes": 2243,
+      "sha256": "c466230869a80cfaadb584ef560303c80a05f95a2ac6e5b212f22ecd36b5cf75"
+    },
+    {
       "source": "factory/active/maverick-cockpit/github-publish-bridge.json",
       "target": "contracts/github-publish-bridge.json",
-      "bytes": 2416,
-      "sha256": "4c67cd07113db1147578dd95e3e6e8740c7b055c9169ccb8bb72440d17c01196"
+      "bytes": 2464,
+      "sha256": "caf09731cfd9e90424ad396c5704d3b0f6b18e803e25c290ec7d5c2d434bfb12"
     },
     {
       "source": "factory/active/maverick-cockpit/learning-ledger.json",
@@ -252,8 +294,8 @@
     {
       "source": "factory/active/maverick-cockpit/adapters/adapter-snapshot.json",
       "target": "contracts/adapters/adapter-snapshot.json",
-      "bytes": 76136,
-      "sha256": "419395b5cbc1c7e8dfa350372bd630fa742addde94a6cf23516c13cfca167488"
+      "bytes": 81091,
+      "sha256": "d5618a2ef19765e67595e3e209ab88ddea8123fcaaca8c07d3edf782602b2960"
     },
     {
       "source": "factory/active/maverick-cockpit/samples/normalized-case.json",
@@ -270,20 +312,20 @@
     {
       "source": "factory/active/maverick-cockpit/write-gates/write-gate-contract.json",
       "target": "contracts/write-gates/write-gate-contract.json",
-      "bytes": 5738,
-      "sha256": "aeeeb8c641868549a9c4042ef0577fc35d532676bcae0ba42136ddbe2854a30c"
+      "bytes": 6257,
+      "sha256": "b96cd476a665338a151ff685f9c628cf1cfc542ba54109fc30c2bfa985e09453"
     },
     {
       "source": "factory/active/maverick-cockpit/global-repo/repo-contract.json",
       "target": "contracts/global-repo/repo-contract.json",
-      "bytes": 2211,
-      "sha256": "ead290cee65299baa624af5506aa034b64ae83b628977d287292a74002ddec52"
+      "bytes": 2439,
+      "sha256": "0bcd2ddf3c807ea2bf6d416a253a912fa12cfab32efb5bb9288aa68ce141bddf"
     },
     {
       "source": "factory/active/maverick-cockpit/global-repo/package-manifest.json",
       "target": "contracts/global-repo/package-manifest.json",
-      "bytes": 1674,
-      "sha256": "c33ebb849e2cf1f0fc71199618763fbcb2443146901ebd57b67ad44c82955f0a"
+      "bytes": 1902,
+      "sha256": "dcf5ec1163348d36211af4c7aa74f732e0cf2432d658314ea3e4fd83d852e071"
     },
     {
       "source": "factory/maverick_activation_checklist.py",
@@ -294,14 +336,14 @@
     {
       "source": "factory/maverick_adapters.py",
       "target": "scripts/maverick_adapters.py",
-      "bytes": 19283,
-      "sha256": "3054cb0e5174c4bd00682896127ec94c92fbaec4034ee66391c531224f4facc9"
+      "bytes": 19641,
+      "sha256": "eaf6c535975c7107aad78ae0ac674a4f54c4e23c4427b663c23b50476987f288"
     },
     {
       "source": "factory/maverick_assemble_repo.py",
       "target": "scripts/maverick_assemble_repo.py",
-      "bytes": 4945,
-      "sha256": "ae50f237ceb75e7e1358c70e2732b896981b1dc72de56da567603400d30529c0"
+      "bytes": 5069,
+      "sha256": "3bdffe1d8f60ead580ffcda7977ca5a996c43cca4aba92ec83d7ffa8f8d940b6"
     },
     {
       "source": "factory/maverick_case_adapter.py",
@@ -322,6 +364,12 @@
       "sha256": "c9749fea2ec9e72127b477d668820c920c3636e8e9de72902fda72f9fb76de68"
     },
     {
+      "source": "factory/maverick_device_access.py",
+      "target": "scripts/maverick_device_access.py",
+      "bytes": 4261,
+      "sha256": "2fe625d361349a33e3e967204faf49beb26a7d77709c836fe7fae7df9826af2b"
+    },
+    {
       "source": "factory/maverick_export_icloud.py",
       "target": "scripts/maverick_export_icloud.py",
       "bytes": 7264,
@@ -330,14 +378,14 @@
     {
       "source": "factory/maverick_github_bridge.py",
       "target": "scripts/maverick_github_bridge.py",
-      "bytes": 5677,
-      "sha256": "22d48b4d9a4ba1a519482670a6ae0f7d6a588a53e08c037abc51485de6812ad2"
+      "bytes": 5663,
+      "sha256": "f332c85e398d1bea116cd611c7820d40aa3efba70983e9931d595991be54ee11"
     },
     {
       "source": "factory/maverick_global_repo.py",
       "target": "scripts/maverick_global_repo.py",
-      "bytes": 4740,
-      "sha256": "dac82badbaa15f93cfe32eb7234b7de73278239db621dca6ba4b58e68f394d6e"
+      "bytes": 5295,
+      "sha256": "7d3b0247caca38473963f1728b4558865b6b6af1de3a562937b20a85661e8153"
     },
     {
       "source": "factory/maverick_learning_ledger.py",
@@ -370,6 +418,12 @@
       "sha256": "7be9ed86a69b87305808d127e571ccf6563a41fa86c5e8a34c0554552c7c07a4"
     },
     {
+      "source": "factory/maverick_serve_devices.py",
+      "target": "scripts/maverick_serve_devices.py",
+      "bytes": 1998,
+      "sha256": "605cc5b68f77a823ccd9dda5c57fe30d26a4d2380c2b9273afbc91fc0d0cfac0"
+    },
+    {
       "source": "factory/maverick_slack_bridge.py",
       "target": "scripts/maverick_slack_bridge.py",
       "bytes": 4592,
@@ -384,8 +438,8 @@
     {
       "source": "factory/validate_maverick.py",
       "target": "scripts/validate_maverick.py",
-      "bytes": 80131,
-      "sha256": "ca8858a92d937b44166e1ff294bc9807418e90f7ec8d8c5bad23ab6ec47e92a5"
+      "bytes": 85282,
+      "sha256": "66bd377a5a6fd37be86bf9a96104dbf3cb945e4100ab4e2d7cead13f9fa07e2e"
     },
     {
       "source": "factory/schemas/maverick-workplace.schema.json",

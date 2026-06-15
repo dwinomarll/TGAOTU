@@ -20,6 +20,7 @@ from maverick_assemble_repo import GLOBAL_REPO_ASSEMBLED_AT, assemble_package  #
 from maverick_case_adapter import normalize_notion_case  # noqa: E402
 from maverick_comms_outbox import COMMS_OUTBOX_OBSERVED_AT, OUTBOX_PATH, build_outbox  # noqa: E402
 from maverick_confirm_target import CONFIRMATION_ACTION_ID, build_confirmed_targets, evaluate_confirmation  # noqa: E402
+from maverick_device_access import DEVICE_ACCESS_OBSERVED_AT, DEVICE_ACCESS_PATH, DASHBOARD_DEVICE_ACCESS_PATH, build_device_access  # noqa: E402
 from maverick_export_icloud import (
     DEFAULT_DESTINATION_ROOT,
     DESTINATION_PACKAGE_NAME,
@@ -137,6 +138,10 @@ LEARNING_LEDGER_DOC = ROOT / "docs" / "maverick-learning-ledger.md"
 SLACK_BRIDGE_DOC = ROOT / "docs" / "maverick-slack-bridge.md"
 GITHUB_BRIDGE_DOC = ROOT / "docs" / "maverick-github-bridge.md"
 NOTION_BRIDGE_DOC = ROOT / "docs" / "maverick-notion-bridge.md"
+DEVICE_ACCESS_DOC = ROOT / "docs" / "maverick-device-access.md"
+DASHBOARD_MANIFEST_PATH = DASHBOARD_DIR / "manifest.webmanifest"
+DASHBOARD_SERVICE_WORKER_PATH = DASHBOARD_DIR / "service-worker.js"
+DASHBOARD_ICON_PATH = DASHBOARD_DIR / "icon.svg"
 
 
 def fail(message: str) -> int:
@@ -473,6 +478,8 @@ def validate_adapters() -> int:
         slack_bridge = load_json(SLACK_BRIDGE_PATH)
         github_bridge = load_json(GITHUB_BRIDGE_PATH)
         notion_bridge = load_json(NOTION_BRIDGE_PATH)
+        device_access = load_json(DEVICE_ACCESS_PATH)
+        dashboard_device_access = load_json(DASHBOARD_DEVICE_ACCESS_PATH)
     except ValueError as exc:
         return fail(str(exc))
 
@@ -517,6 +524,10 @@ def validate_adapters() -> int:
         return fail("adapter snapshot must embed the current GitHub bridge")
     if snapshot.get("notion_bridge") != notion_bridge:
         return fail("adapter snapshot must embed the current Notion bridge")
+    if snapshot.get("device_access") != device_access:
+        return fail("adapter snapshot must embed the current device access contract")
+    if dashboard_device_access != device_access:
+        return fail("dashboard device-access JSON must match the root device access contract")
 
     for key in ["kpis", "cases", "actions", "signals", "memory", "calendar", "learning", "canvases", "launchGates"]:
         if not isinstance(dashboard_data.get(key), list):
@@ -535,6 +546,8 @@ def validate_adapters() -> int:
         return fail("dashboard data missing githubBridge object")
     if not isinstance(dashboard_data.get("notionBridge"), dict):
         return fail("dashboard data missing notionBridge object")
+    if not isinstance(dashboard_data.get("deviceAccess"), dict):
+        return fail("dashboard data missing deviceAccess object")
 
     if dashboard_data["kpis"][0].get("value") != 120:
         return fail("dashboard must show the fetched SHIFT-4 active case count")
@@ -584,6 +597,11 @@ def validate_adapters() -> int:
         return fail("dashboard Notion bridge must keep update_allowed false")
     if (notion_bridge_data.get("readModel") or {}).get("active_cases") != 120:
         return fail("dashboard Notion bridge must expose the read-only active case count")
+    device_access_data = dashboard_data.get("deviceAccess") or {}
+    if "every Edwin device" not in device_access_data.get("hard_rule", ""):
+        return fail("dashboard device access must expose the every-device hard rule")
+    if (device_access_data.get("primary_access") or {}).get("mode") != "always_on_static_https":
+        return fail("dashboard device access must prefer always-on HTTPS")
 
     package_status = dashboard_data.get("packageStatus")
     if not isinstance(package_status, dict):
@@ -604,6 +622,75 @@ def validate_adapters() -> int:
         return fail(f"docs/maverick-adapters.md missing terms: {', '.join(missing_doc_terms)}")
 
     print("PASS: Maverick Cockpit read-only adapters emit a current dashboard snapshot.")
+    return 0
+
+
+def validate_device_access() -> int:
+    if validate_adapters() != 0:
+        return 1
+
+    missing = [
+        path
+        for path in [
+            DEVICE_ACCESS_PATH,
+            DASHBOARD_DEVICE_ACCESS_PATH,
+            DEVICE_ACCESS_DOC,
+            DASHBOARD_MANIFEST_PATH,
+            DASHBOARD_SERVICE_WORKER_PATH,
+            DASHBOARD_ICON_PATH,
+            ROOT / "factory" / "maverick_device_access.py",
+            ROOT / "factory" / "maverick_serve_devices.py",
+        ]
+        if not path.exists()
+    ]
+    if missing:
+        rel = ", ".join(str(path.relative_to(ROOT)) for path in missing)
+        return fail(f"missing device-access files: {rel}")
+
+    try:
+        access = load_json(DEVICE_ACCESS_PATH)
+        dashboard_access = load_json(DASHBOARD_DEVICE_ACCESS_PATH)
+        manifest = load_json(DASHBOARD_MANIFEST_PATH)
+    except ValueError as exc:
+        return fail(str(exc))
+
+    expected = build_device_access(observed_at=DEVICE_ACCESS_OBSERVED_AT)
+    if access != expected:
+        return fail("device-access.json is stale; run python3 factory/maverick_device_access.py")
+    if dashboard_access != access:
+        return fail("dashboard/data/maverick-device-access.json is stale")
+    if "localhost is never the user-facing answer" not in access.get("hard_rule", ""):
+        return fail("device access hard rule must reject localhost as the final answer")
+    if (access.get("primary_access") or {}).get("mode") != "always_on_static_https":
+        return fail("device access primary mode must be always_on_static_https")
+    if (access.get("fallback_access") or {}).get("required_server_bind") != "0.0.0.0":
+        return fail("LAN fallback must bind 0.0.0.0 for other devices")
+    if (access.get("installable_app") or {}).get("service_worker") != str(DASHBOARD_SERVICE_WORKER_PATH.relative_to(ROOT)):
+        return fail("device access must point to the dashboard service worker")
+
+    if manifest.get("display") != "standalone" or manifest.get("start_url") != "./":
+        return fail("manifest.webmanifest must define standalone app startup")
+    if not manifest.get("icons"):
+        return fail("manifest.webmanifest must define an app icon")
+
+    index_text = (DASHBOARD_DIR / "index.html").read_text(encoding="utf-8")
+    app_text = (DASHBOARD_DIR / "app.js").read_text(encoding="utf-8")
+    service_worker_text = DASHBOARD_SERVICE_WORKER_PATH.read_text(encoding="utf-8")
+    if "manifest.webmanifest" not in index_text or "apple-mobile-web-app-capable" not in index_text:
+        return fail("dashboard index must advertise installable mobile metadata")
+    if "serviceWorker" not in app_text or "maverick-device-access.json" not in app_text:
+        return fail("dashboard app must register service worker and read device access data")
+    if "maverick-dashboard-data.json" not in service_worker_text or "maverick-device-access.json" not in service_worker_text:
+        return fail("service worker must cache dashboard and device access data")
+
+    missing_doc_terms = require_terms(
+        DEVICE_ACCESS_DOC,
+        ["every Edwin device", "127.0.0.1", "always-on HTTPS host", "maverick_serve_devices.py"],
+    )
+    if missing_doc_terms:
+        return fail(f"docs/maverick-device-access.md missing terms: {', '.join(missing_doc_terms)}")
+
+    print("PASS: Maverick Cockpit device access rule, PWA shell, and LAN fallback are present.")
     return 0
 
 
@@ -1388,13 +1475,18 @@ def validate_repo_assembly() -> int:
         "docs/maverick-slack-bridge.md",
         "docs/maverick-github-bridge.md",
         "docs/maverick-notion-bridge.md",
+        "docs/maverick-device-access.md",
         "docs/maverick-workflow.md",
         "docs/maverick-icloud-export.md",
         "docs/maverick-repo-assembly.md",
         "cockpit/index.html",
         "cockpit/styles.css",
         "cockpit/app.js",
+        "cockpit/icon.svg",
+        "cockpit/manifest.webmanifest",
+        "cockpit/service-worker.js",
         "contracts/BUILD_STATE.json",
+        "contracts/device-access.json",
         "contracts/notion-overview.json",
         "contracts/operating-loop.json",
         "contracts/communication-outbox.json",
@@ -1405,17 +1497,20 @@ def validate_repo_assembly() -> int:
         "contracts/notion-live-bridge.json",
         "contracts/live-targets.json",
         "contracts/global-repo/package-manifest.json",
+        "netlify.toml",
         "scripts/validate_maverick.py",
         "scripts/maverick_assemble_repo.py",
         "scripts/maverick_export_icloud.py",
         "scripts/maverick_notion_overview.py",
         "scripts/maverick_operating_loop.py",
         "scripts/maverick_comms_outbox.py",
+        "scripts/maverick_device_access.py",
         "scripts/maverick_activation_checklist.py",
         "scripts/maverick_learning_ledger.py",
         "scripts/maverick_slack_bridge.py",
         "scripts/maverick_github_bridge.py",
         "scripts/maverick_notion_bridge.py",
+        "scripts/maverick_serve_devices.py",
         "schemas/maverick-workplace.schema.json",
     ]
     manifest_targets = {file_info.get("target") for file_info in manifest.get("files", [])}
@@ -1780,6 +1875,7 @@ def main() -> int:
             "learning-ledger",
             "slack-bridge",
             "github-bridge",
+            "device-access",
             "icloud-export",
             "live-targets",
         ],
@@ -1822,6 +1918,9 @@ def main() -> int:
 
     if args.phase == "github-bridge":
         return validate_github_bridge()
+
+    if args.phase == "device-access":
+        return validate_device_access()
 
     if args.phase == "write-gates":
         return validate_write_gates()

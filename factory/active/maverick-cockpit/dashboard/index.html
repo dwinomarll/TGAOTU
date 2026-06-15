@@ -3,8 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#07141f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Maverick">
     <title>Maverick Cockpit</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="manifest" href="./manifest.webmanifest?v=device-access-1">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <link rel="stylesheet" href="./styles.css?v=device-access-1">
   </head>
   <body>
     <div class="app-shell">
@@ -186,6 +192,14 @@
             </div>
             <div class="notion-card" id="notionBridge"></div>
           </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Device Access</h2>
+              <span class="policy">Hard rule</span>
+            </div>
+            <div class="device-card" id="deviceAccess"></div>
+          </article>
         </section>
 
         <section class="launch-grid">
@@ -213,6 +227,6 @@
         </footer>
       </main>
     </div>
-    <script src="./app.js"></script>
+    <script src="./app.js?v=device-access-1"></script>
   </body>
 </html>

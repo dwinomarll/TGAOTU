@@ -115,6 +115,12 @@ let notionBridge = {
   requiredBeforeUpdate: [],
   dryRun: {}
 };
+let deviceAccess = {
+  hard_rule: "Maverick must work from every Edwin device through a stable device-safe URL; localhost is never the user-facing answer.",
+  primary_access: { mode: "always_on_static_https", status: "pending_public_publish_target" },
+  fallback_access: { mode: "same_wifi_lan", url_template: "http://<mac-lan-ip>:4181/" },
+  installable_app: { status: "ready_for_https_hosts" }
+};
 
 function statusLabel(status) {
   const labels = {
@@ -409,6 +415,20 @@ function renderNotionBridge() {
   `;
 }
 
+function renderDeviceAccess() {
+  const primary = deviceAccess.primary_access || {};
+  const fallback = deviceAccess.fallback_access || {};
+  const app = deviceAccess.installable_app || {};
+  document.querySelector("#deviceAccess").innerHTML = `
+    <div class="device-rule">${breakable(deviceAccess.hard_rule || "Every device needs a stable access path.")}</div>
+    <div class="device-grid">
+      <span><b>${breakable(primary.mode || "https")}</b> ${breakable(primary.status || "pending")}</span>
+      <span><b>${breakable(fallback.mode || "lan")}</b> ${breakable(fallback.url_template || "pending")}</span>
+      <span><b>PWA</b> ${breakable(app.status || "pending")}</span>
+    </div>
+  `;
+}
+
 function renderActivationChecklist() {
   const summary = activationChecklist.summary || {};
   const lanes = Array.isArray(activationChecklist.lanes) ? activationChecklist.lanes : [];
@@ -528,6 +548,7 @@ function applyDashboardData(data) {
   if (data.slackBridge && typeof data.slackBridge === "object") slackBridge = data.slackBridge;
   if (data.githubBridge && typeof data.githubBridge === "object") githubBridge = data.githubBridge;
   if (data.notionBridge && typeof data.notionBridge === "object") notionBridge = data.notionBridge;
+  if (data.deviceAccess && typeof data.deviceAccess === "object") deviceAccess = data.deviceAccess;
   if (Array.isArray(data.launchGates)) launchGates = data.launchGates;
   if (data.packageStatus && typeof data.packageStatus === "object") packageStatus = data.packageStatus;
   if (typeof data.nextDeadline === "string") nextDeadlineText = data.nextDeadline;
@@ -549,6 +570,7 @@ function renderAll() {
   renderSlackBridge();
   renderGithubBridge();
   renderNotionBridge();
+  renderDeviceAccess();
   renderActivationChecklist();
   renderLaunchGates();
 }
@@ -562,7 +584,21 @@ async function boot() {
   } catch {
     // file:// browsing and offline use keep the built-in fallback dataset.
   }
+  try {
+    const response = await fetch("./data/maverick-device-access.json", { cache: "no-store" });
+    if (response.ok) {
+      deviceAccess = await response.json();
+    }
+  } catch {
+    // Public HTTPS hosts and same-Wi-Fi fallback use cached data when offline.
+  }
   renderAll();
 }
 
 boot();
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./service-worker.js").catch(() => {
+    // Non-HTTPS LAN browsing can render the cockpit without offline install.
+  });
+}

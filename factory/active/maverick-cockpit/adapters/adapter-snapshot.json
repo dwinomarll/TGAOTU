@@ -974,15 +974,15 @@
       "candidate_branch": "codex/maverick-cockpit",
       "candidate_publish_mode": "pull_request_or_new_private_repo",
       "current_origin": "https://github.com/dwinomarll/TGAOTU.git",
-      "current_branch": null,
-      "current_commit": "3645e98",
+      "current_branch": "codex/maverick-cockpit",
+      "current_commit": "tracked_by_git_history_not_embedded",
       "confirmation_status": "pending",
       "write_gate": "github_publish"
     },
     "package_evidence": {
       "package_dir": "factory/active/maverick-cockpit/global-repo/package",
-      "assembled_file_count": 64,
-      "source_artifact_count": 62,
+      "assembled_file_count": 73,
+      "source_artifact_count": 71,
       "missing_required_artifacts": [],
       "external_mutation_allowed": false,
       "publish_status": "prepared_local_only"
@@ -1100,6 +1100,62 @@
       "gate_timestamp": "2026-06-14T16:30:35-04:00"
     },
     "external_mutation_attempted": false
+  },
+  "device_access": {
+    "generated_at": "2026-06-14T20:20:00-04:00",
+    "name": "maverick-device-access",
+    "version": 1,
+    "hard_rule": "Maverick must work from every Edwin device through a stable device-safe URL; localhost is never the user-facing answer.",
+    "primary_access": {
+      "mode": "always_on_static_https",
+      "status": "pending_public_publish_target",
+      "required": true,
+      "reason": "iPhone, iPad, Mac, and remote devices cannot depend on a Mac-only localhost session.",
+      "acceptable_hosts": [
+        "Netlify static site",
+        "Cloudflare Pages static site",
+        "GitHub Pages or equivalent HTTPS static host"
+      ],
+      "publish_gate": "github_publish"
+    },
+    "fallback_access": {
+      "mode": "same_wifi_lan",
+      "status": "available_when_mac_is_awake",
+      "required_server_bind": "0.0.0.0",
+      "port": 4181,
+      "url_template": "http://<mac-lan-ip>:4181/",
+      "start_command": "python3 factory/maverick_serve_devices.py --port 4181",
+      "limits": [
+        "Mac must be awake and on the same network.",
+        "iPhone must be on the same Wi-Fi or reachable VPN.",
+        "This is not the always-on production answer."
+      ]
+    },
+    "installable_app": {
+      "status": "ready_for_https_hosts",
+      "manifest": "factory/active/maverick-cockpit/dashboard/manifest.webmanifest",
+      "service_worker": "factory/active/maverick-cockpit/dashboard/service-worker.js",
+      "offline_cache": [
+        "./",
+        "./index.html",
+        "./styles.css",
+        "./app.js",
+        "./data/maverick-dashboard-data.json",
+        "./data/maverick-device-access.json"
+      ],
+      "notes": "Service workers require HTTPS or localhost. They activate after Maverick is on the public HTTPS host."
+    },
+    "blocked_patterns": [
+      "Do not give 127.0.0.1 as the final user device URL.",
+      "Do not depend on a single Codex browser tab for user-facing access.",
+      "Do not call a LAN URL always-on unless the Mac is managed to stay awake."
+    ],
+    "acceptance_checks": [
+      "Dashboard renders on mobile width without horizontal layout failure.",
+      "A stable HTTPS URL is recorded once the public host is confirmed.",
+      "PWA manifest and service worker are shipped with the cockpit package.",
+      "LAN fallback command is available for same-Wi-Fi testing."
+    ]
   },
   "normalized_cases": [
     {
@@ -1384,7 +1440,7 @@
       ],
       [
         "Package Files",
-        "64",
+        "73",
         "local"
       ]
     ],
@@ -1934,15 +1990,15 @@
         "candidate_branch": "codex/maverick-cockpit",
         "candidate_publish_mode": "pull_request_or_new_private_repo",
         "current_origin": "https://github.com/dwinomarll/TGAOTU.git",
-        "current_branch": null,
-        "current_commit": "3645e98",
+        "current_branch": "codex/maverick-cockpit",
+        "current_commit": "tracked_by_git_history_not_embedded",
         "confirmation_status": "pending",
         "write_gate": "github_publish"
       },
       "packageEvidence": {
         "package_dir": "factory/active/maverick-cockpit/global-repo/package",
-        "assembled_file_count": 64,
-        "source_artifact_count": 62,
+        "assembled_file_count": 73,
+        "source_artifact_count": 71,
         "missing_required_artifacts": [],
         "external_mutation_allowed": false,
         "publish_status": "prepared_local_only"
@@ -2049,6 +2105,62 @@
         "gate_timestamp": "2026-06-14T16:30:35-04:00"
       }
     },
+    "deviceAccess": {
+      "generated_at": "2026-06-14T20:20:00-04:00",
+      "name": "maverick-device-access",
+      "version": 1,
+      "hard_rule": "Maverick must work from every Edwin device through a stable device-safe URL; localhost is never the user-facing answer.",
+      "primary_access": {
+        "mode": "always_on_static_https",
+        "status": "pending_public_publish_target",
+        "required": true,
+        "reason": "iPhone, iPad, Mac, and remote devices cannot depend on a Mac-only localhost session.",
+        "acceptable_hosts": [
+          "Netlify static site",
+          "Cloudflare Pages static site",
+          "GitHub Pages or equivalent HTTPS static host"
+        ],
+        "publish_gate": "github_publish"
+      },
+      "fallback_access": {
+        "mode": "same_wifi_lan",
+        "status": "available_when_mac_is_awake",
+        "required_server_bind": "0.0.0.0",
+        "port": 4181,
+        "url_template": "http://<mac-lan-ip>:4181/",
+        "start_command": "python3 factory/maverick_serve_devices.py --port 4181",
+        "limits": [
+          "Mac must be awake and on the same network.",
+          "iPhone must be on the same Wi-Fi or reachable VPN.",
+          "This is not the always-on production answer."
+        ]
+      },
+      "installable_app": {
+        "status": "ready_for_https_hosts",
+        "manifest": "factory/active/maverick-cockpit/dashboard/manifest.webmanifest",
+        "service_worker": "factory/active/maverick-cockpit/dashboard/service-worker.js",
+        "offline_cache": [
+          "./",
+          "./index.html",
+          "./styles.css",
+          "./app.js",
+          "./data/maverick-dashboard-data.json",
+          "./data/maverick-device-access.json"
+        ],
+        "notes": "Service workers require HTTPS or localhost. They activate after Maverick is on the public HTTPS host."
+      },
+      "blocked_patterns": [
+        "Do not give 127.0.0.1 as the final user device URL.",
+        "Do not depend on a single Codex browser tab for user-facing access.",
+        "Do not call a LAN URL always-on unless the Mac is managed to stay awake."
+      ],
+      "acceptance_checks": [
+        "Dashboard renders on mobile width without horizontal layout failure.",
+        "A stable HTTPS URL is recorded once the public host is confirmed.",
+        "PWA manifest and service worker are shipped with the cockpit package.",
+        "LAN fallback command is available for same-Wi-Fi testing."
+      ]
+    },
     "launchGates": [
       {
         "id": "github_global_repo",
@@ -2101,8 +2213,8 @@
     ],
     "packageStatus": {
       "repo": "maverick-cockpit",
-      "sourceArtifacts": 62,
-      "assembledFiles": 64,
+      "sourceArtifacts": 71,
+      "assembledFiles": 73,
       "publishStatus": "prepared_local_only",
       "externalMutationAllowed": false,
       "githubOrigin": "https://github.com/dwinomarll/TGAOTU.git",
