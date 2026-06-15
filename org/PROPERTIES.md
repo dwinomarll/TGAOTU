@@ -159,10 +159,11 @@ schema, and downstream output format during the same session.
 
 ## Maverick Workplace Properties
 
-Maverick is the Shift4 Dine cockpit domain. It uses Ptah's factory rules, but
-its workplace boundary is not a single folder or repo. It is a normalized view
-across Notion, Slack, Gmail, Google Calendar, GitHub, iCloud Drive, local
-memory, and legacy Shift4 Dine source assets.
+Maverick is the Shift4 Dine workplace folder domain. It uses Ptah's factory
+rules, but its primary surface is the user-provided iCloud Drive `MAVERICK`
+folder. Normalized views across Notion, Slack, Gmail, Google Calendar, GitHub,
+iCloud Drive, local memory, and legacy Shift4 Dine source assets must point back
+to that folder instead of replacing it.
 
 | Property | Required | Type | Owner | Notes |
 |---|---:|---|---|---|
@@ -178,8 +179,8 @@ memory, and legacy Shift4 Dine source assets.
 | `timing.timezone_confidence` | yes | enum | Maverick | `high`, `medium`, `low`, `missing`, or `unknown`. |
 | `risk.risk_level` | yes | enum | Maverick | `low`, `medium`, `high`, `critical`, or `unknown`. |
 | `risk.signals` | yes | list | Maverick | Named reasons for surfacing the case. |
-| `memory.first_seen` | yes | datetime/string | Maverick | First time the cockpit saw this case. |
-| `memory.last_seen` | yes | datetime/string | Maverick | Last time the cockpit saw this case. |
+| `memory.first_seen` | yes | datetime/string | Maverick | First time Maverick saw this case. |
+| `memory.last_seen` | yes | datetime/string | Maverick | Last time Maverick saw this case. |
 | `memory.events` | yes | list | Maverick | Append-only per-case learning and delta events. |
 | `source.system` | yes | enum | Maverick | `notion`, `slack`, `gmail`, `google_calendar`, `github`, `icloud_drive`, `local`, or `omi`. |
 | `source.read_policy` | yes | enum | Maverick | `allowed`, `blocked`, or `pending_access`. |

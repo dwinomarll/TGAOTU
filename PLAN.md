@@ -46,7 +46,8 @@
 | `factory/schemas/notification-event.schema.json` | DONE - machine-readable notification event schema |
 | `org/agents/comms-1.md` | DONE - user notification manager contract |
 | `org/users/edwin.json` | DONE - repo-safe default notification preferences |
-| `docs/maverick-cockpit.md` | DONE - Shift4 Dine workplace cockpit blueprint |
+| `docs/maverick-cockpit.md` | DONE - prior Shift4 Dine dashboard blueprint; secondary to the folder-first rule |
+| `docs/maverick-workplace-folder-rule.md` | DONE - binding rule that Maverick is the iCloud workplace folder first |
 | `factory/active/maverick-cockpit/` | DONE - active factory workspace for Maverick Cockpit |
 | `factory/schemas/maverick-workplace.schema.json` | DONE - machine-readable Maverick case/workplace contract |
 | `factory/validate_maverick.py` | DONE - Phase 1 Maverick artifact validator |
@@ -90,7 +91,7 @@
 | **F4** | Escalation Gate — 3-case only Edwin contact protocol | after F3 |
 | **F5** | First live run — Edwin drops one VISION.md, Factory ships an app | after F4 |
 | **P1** | Telegram intake receptor (eva-gateway) — Factory receives commissions from phone | parallel |
-| **M1** | Maverick Cockpit — Shift4 Dine workplace bootstrap | in progress: Phase 6 write gates validated; Phase 7 live-target confirmations pending |
+| **M1** | Maverick Workplace Folder — Shift4 Dine operating folder | reset: folder-first rule established; dashboard work is secondary/supporting only |
 
 ---
 

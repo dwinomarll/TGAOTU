@@ -99,3 +99,19 @@ authority are escalations.
 
 **Violation:** Worker asks the user for action on a routine internal event ->
 Manager reroutes to COMMS-1/OPS-1 and logs the contact as a process violation.
+
+## R13 - Maverick Is Folder-First
+
+Maverick is the Shift4 Dine workplace folder first. The canonical working
+surface is the user-provided `MAVERICK` folder in iCloud Drive, with readable
+workflow, doctrine, index, and handoff files visible to Edwin and invited
+collaborators.
+
+Dashboards, app shells, repos, previews, and generated packages are secondary
+views. They may support the folder, but they may not redefine Maverick, rename
+the workplace, or become the primary product unless Edwin explicitly commissions
+that change.
+
+**Violation:** Worker treats a dashboard, preview, repo package, or code name as
+the product instead of improving the `MAVERICK` workplace folder -> Manager
+halts the lane, restores folder-first framing, and records the correction.
